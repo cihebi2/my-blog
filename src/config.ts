@@ -1,9 +1,9 @@
 export const SITE = {
-  website: "https://astro-paper.pages.dev/", // replace this with your deployed domain
-  author: "Sat Naing",
-  profile: "https://satnaing.dev/",
-  desc: "A minimal, responsive and SEO-friendly Astro blog theme.",
-  title: "AstroPaper",
+  website: "https://cihebi.top/", // 你的域名
+  author: "Ciheb", // 你的名字
+  profile: "https://cihebi.top/", // 你的个人资料链接
+  desc: "一个专注于技术分享和思考的个人博客", // 博客描述
+  title: "Ciheb's Blog", // 博客标题
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
   postPerIndex: 4,
@@ -13,10 +13,10 @@ export const SITE = {
   showBackButton: true, // show back button in post detail
   editPost: {
     enabled: true,
-    text: "Suggest Changes",
-    url: "https://github.com/satnaing/astro-paper/edit/main/",
+    text: "建议修改",
+    url: "https://github.com/your-username/your-repo/edit/main/", // 如果你想启用编辑功能，请更新为你的GitHub仓库URL
   },
   dynamicOgImage: true,
-  lang: "en", // html lang code. Set this empty and default will be "en"
-  timezone: "Asia/Bangkok", // Default global timezone (IANA format) https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  lang: "zh-CN", // 设置为中文
+  timezone: "Asia/Shanghai", // 中国时区
 } as const;
