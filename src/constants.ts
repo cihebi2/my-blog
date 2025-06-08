@@ -76,17 +76,16 @@ export const SHARE_LINKS = [
 ] as const;
 
 // Giscus评论系统配置
-// 注意：您需要访问 https://giscus.app 配置您的具体参数
 export const GISCUS: GiscusProps = {
-  repo: "cihebi2/my-blog", // 您的GitHub仓库
-  repoId: "R_kgDONZPHww", // 您需要从giscus.app获取这个ID
-  category: "General", // 讨论分类
-  categoryId: "DIC_kwDONZPHw84ClAuN", // 您需要从giscus.app获取这个ID
+  repo: "cihebi2/my-blog",
+  repoId: "R_kgDOO2gnrQ",
+  category: "Announcements",
+  categoryId: "DIC_kwDOO2gnrc4CrLTB",
   mapping: "pathname",
   strict: "0",
   reactionsEnabled: "1",
   emitMetadata: "0",
   inputPosition: "bottom",
-  lang: "zh-CN", // 设置为中文
+  lang: "zh-CN",
   loading: "lazy",
 };
