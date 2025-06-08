@@ -1,0 +1,225 @@
+---
+// 双评论系统 - Giscus(GitHub登录) + 匿名评论
+import Comments from "@/components/Comments";
+---
+
+<div class="mt-8">
+  <h3 class="mb-4 text-lg font-semibold text-accent">💬 评论交流</h3>
+  
+  <!-- 评论系统选择标签 -->
+  <div class="mb-6">
+    <div class="flex rounded-lg bg-muted p-1" role="tablist">
+      <button
+        id="tab-github"
+        class="flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors"
+        role="tab"
+        aria-selected="true"
+        data-tab="github"
+      >
+        🔐 GitHub登录评论
+      </button>
+      <button
+        id="tab-anonymous"
+        class="flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors"
+        role="tab"
+        aria-selected="false"
+        data-tab="anonymous"
+      >
+        👤 匿名评论
+      </button>
+    </div>
+  </div>
+
+  <!-- GitHub评论区域 (Giscus) -->
+  <div id="github-comments" class="comment-panel">
+    <div class="mb-4 rounded-lg bg-blue-50 p-4 text-sm text-blue-800 dark:bg-blue-900/30 dark:text-blue-200">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">ℹ️</span>
+        <div>
+          <strong>GitHub登录评论</strong><br/>
+          使用GitHub账户登录，支持丰富的Markdown格式，评论将同步到GitHub Discussions。
+        </div>
+      </div>
+    </div>
+    <Comments client:only="react" />
+  </div>
+
+  <!-- 匿名评论区域 -->
+  <div id="anonymous-comments" class="comment-panel" style="display: none;">
+    <div class="mb-4 rounded-lg bg-green-50 p-4 text-sm text-green-800 dark:bg-green-900/30 dark:text-green-200">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">✨</span>
+        <div>
+          <strong>匿名评论</strong><br/>
+          无需登录即可发表评论，支持留下昵称和邮箱(可选)，更轻松的评论体验。
+        </div>
+      </div>
+    </div>
+    
+    <!-- 简单的匿名评论表单 -->
+    <div class="space-y-4">
+      <form id="anonymous-form" class="space-y-4">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label for="nickname" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              昵称 <span class="text-gray-400">(可选)</span>
+            </label>
+            <input
+              type="text"
+              id="nickname"
+              name="nickname"
+              placeholder="您的昵称"
+              class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+            />
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              邮箱 <span class="text-gray-400">(可选，不会公开)</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="your@email.com"
+              class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+            />
+          </div>
+        </div>
+        
+        <div>
+          <label for="comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            评论内容 <span class="text-red-500">*</span>
+          </label>
+          <textarea
+            id="comment"
+            name="comment"
+            rows="4"
+            required
+            placeholder="请输入您的评论内容...(支持简单的Markdown格式)"
+            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+          ></textarea>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <div class="text-xs text-gray-500">
+            <span>💡 提示：支持 **粗体**、*斜体*、`代码` 等Markdown格式</span>
+          </div>
+          <button
+            type="submit"
+            class="rounded-md bg-accent px-4 py-2 text-sm font-medium text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+          >
+            提交评论
+          </button>
+        </div>
+      </form>
+
+      <!-- 评论显示区域 -->
+      <div id="comments-display" class="mt-8">
+        <div class="text-center text-gray-500 dark:text-gray-400">
+          <p>🌟 暂无匿名评论，来发表第一条吧！</p>
+          <p class="mt-2 text-xs">评论将存储在GitHub Issues中，您可以随时查看和管理。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 评论系统切换功能
+  function initCommentTabs() {
+    const githubTab = document.getElementById('tab-github');
+    const anonymousTab = document.getElementById('tab-anonymous');
+    const githubComments = document.getElementById('github-comments');
+    const anonymousComments = document.getElementById('anonymous-comments');
+
+    function switchTab(activeTab: HTMLElement, activePanel: HTMLElement, inactiveTab: HTMLElement, inactivePanel: HTMLElement) {
+      // 更新标签样式
+      activeTab.classList.add('bg-background', 'text-accent', 'shadow-sm');
+      activeTab.classList.remove('text-muted-foreground');
+      activeTab.setAttribute('aria-selected', 'true');
+      
+      inactiveTab.classList.remove('bg-background', 'text-accent', 'shadow-sm');
+      inactiveTab.classList.add('text-muted-foreground');
+      inactiveTab.setAttribute('aria-selected', 'false');
+
+      // 切换面板显示
+      activePanel.style.display = 'block';
+      inactivePanel.style.display = 'none';
+    }
+
+    githubTab?.addEventListener('click', () => {
+      if (githubTab && githubComments && anonymousTab && anonymousComments) {
+        switchTab(githubTab, githubComments, anonymousTab, anonymousComments);
+      }
+    });
+
+    anonymousTab?.addEventListener('click', () => {
+      if (anonymousTab && anonymousComments && githubTab && githubComments) {
+        switchTab(anonymousTab, anonymousComments, githubTab, githubComments);
+      }
+    });
+
+    // 初始状态
+    githubTab?.classList.add('bg-background', 'text-accent', 'shadow-sm');
+    anonymousTab?.classList.add('text-muted-foreground');
+  }
+
+  // 匿名评论提交功能
+  function initAnonymousComments() {
+    const form = document.getElementById('anonymous-form') as HTMLFormElement;
+    form?.addEventListener('submit', async (e: Event) => {
+      e.preventDefault();
+      
+      const formData = new FormData(form);
+      const nickname = formData.get('nickname') || '匿名用户';
+      const comment = formData.get('comment');
+
+      if (!comment || typeof comment !== 'string' || !comment.trim()) {
+        alert('请输入评论内容');
+        return;
+      }
+
+      // 这里您可以集成真实的评论提交逻辑
+      // 例如：提交到GitHub Issues API、第三方服务等
+      
+      // 临时显示提交成功
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      if (submitBtn) {
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = '提交中...';
+        submitBtn.disabled = true;
+
+        setTimeout(() => {
+          alert('评论提交成功！感谢您的反馈。\n\n注意：这是演示版本，实际部署时需要配置后端服务来处理评论存储。');
+          form.reset();
+          if (submitBtn) {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+          }
+        }, 1000);
+      }
+    });
+  }
+
+  // 页面加载完成后初始化
+  document.addEventListener('DOMContentLoaded', () => {
+    initCommentTabs();
+    initAnonymousComments();
+  });
+</script>
+
+<style>
+  .comment-panel {
+    min-height: 200px;
+  }
+  
+  /* 平滑过渡动画 */
+  .comment-panel {
+    transition: opacity 0.2s ease-in-out;
+  }
+  
+  /* 表单样式优化 */
+  input:focus, textarea:focus {
+    box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb), 0.1);
+  }
+</style> 

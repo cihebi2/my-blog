@@ -8,7 +8,7 @@ import Datetime from "@/components/Datetime.astro";
 import EditPost from "@/components/EditPost.astro";
 import ShareLinks from "@/components/ShareLinks.astro";
 import BackButton from "@/components/BackButton.astro";
-import Comments from "@/components/Comments";
+import DualComments from "@/components/DualComments.astro";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
@@ -128,8 +128,8 @@ const nextPost =
       </button>
     </div>
 
-    <!-- 评论系统 -->
-    <Comments client:only="react" />
+    <!-- 双评论系统 -->
+    <DualComments />
     
     <hr class="my-6 border-dashed" />
 
