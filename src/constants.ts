@@ -7,6 +7,7 @@ import IconFacebook from "@/assets/icons/IconFacebook.svg";
 import IconTelegram from "@/assets/icons/IconTelegram.svg";
 import IconPinterest from "@/assets/icons/IconPinterest.svg";
 import { SITE } from "@/config";
+import type { GiscusProps } from "@giscus/react";
 
 export const SOCIALS = [
   {
@@ -73,3 +74,19 @@ export const SHARE_LINKS = [
     icon: IconMail,
   },
 ] as const;
+
+// Giscus评论系统配置
+// 注意：您需要访问 https://giscus.app 配置您的具体参数
+export const GISCUS: GiscusProps = {
+  repo: "cihebi2/my-blog", // 您的GitHub仓库
+  repoId: "R_kgDONZPHww", // 您需要从giscus.app获取这个ID
+  category: "General", // 讨论分类
+  categoryId: "DIC_kwDONZPHw84ClAuN", // 您需要从giscus.app获取这个ID
+  mapping: "pathname",
+  strict: "0",
+  reactionsEnabled: "1",
+  emitMetadata: "0",
+  inputPosition: "bottom",
+  lang: "zh-CN", // 设置为中文
+  loading: "lazy",
+};
