@@ -171,7 +171,7 @@ import Comments from "@/components/Comments";
       e.preventDefault();
       
       const formData = new FormData(form);
-      const nickname = formData.get('nickname') || '匿名用户';
+      // const nickname = formData.get('nickname') || '匿名用户'; // 暂时未使用，注释以消除警告
       const comment = formData.get('comment');
 
       if (!comment || typeof comment !== 'string' || !comment.trim()) {
