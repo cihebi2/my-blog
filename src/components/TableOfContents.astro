@@ -1,0 +1,369 @@
+---
+// TableOfContents.astro - 动态目录组件
+---
+
+<!-- 移动端目录按钮 -->
+<button
+  id="toc-mobile-toggle"
+  class="toc-mobile-button"
+  title="显示/隐藏目录"
+>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M3 9h14V7H3v2zm0 4h14v-2H3v2zm0 4h14v-2H3v2zm16 0h2v-2h-2v2zm0-10v2h2V7h-2zm0 6h2v-2h-2v2z"/>
+  </svg>
+</button>
+
+<!-- 移动端目录面板 -->
+<div
+  id="toc-mobile-panel"
+  class="toc-mobile-panel"
+>
+  <div class="toc-mobile-header">
+    <h3 class="toc-mobile-title">目录</h3>
+    <button
+      id="toc-mobile-close"
+      class="toc-mobile-close"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+      </svg>
+    </button>
+  </div>
+  <ul id="toc-mobile-list" class="toc-mobile-list">
+    <!-- 移动端目录将通过 JavaScript 动态生成 -->
+  </ul>
+</div>
+
+<!-- 桌面端目录 -->
+<aside
+  id="table-of-contents"
+  class="toc-container"
+>
+  <nav class="toc-nav">
+    <h3 class="toc-title">目录</h3>
+    <ul id="toc-list" class="toc-list">
+      <!-- 目录将通过 JavaScript 动态生成 -->
+    </ul>
+  </nav>
+</aside>
+
+<style>
+  /* 桌面端目录容器 */
+  .toc-container {
+    position: fixed;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16rem;
+    max-height: 70vh;
+    overflow-y: auto;
+    display: none;
+  }
+  
+  @media (min-width: 1280px) {
+    .toc-container {
+      display: block;
+    }
+  }
+  
+  .toc-nav {
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-border);
+    background-color: rgb(from var(--color-background) r g b / 0.95);
+    padding: 1rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    backdrop-filter: blur(8px);
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-muted) transparent;
+  }
+  
+  .toc-title {
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-foreground);
+  }
+  
+  .toc-list {
+    font-size: 0.875rem;
+  }
+  
+  .toc-list li {
+    margin-bottom: 0.25rem;
+  }
+  
+  /* 移动端目录按钮 */
+  .toc-mobile-button {
+    position: fixed;
+    bottom: 5rem;
+    right: 1rem;
+    z-index: 50;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+    padding: 0.75rem;
+    color: var(--color-background);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    transition: transform 0.2s ease-in-out;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .toc-mobile-button:hover {
+    transform: scale(1.1);
+  }
+  
+  @media (min-width: 1280px) {
+    .toc-mobile-button {
+      display: none;
+    }
+  }
+  
+  /* 移动端目录面板 */
+  .toc-mobile-panel {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    top: 5rem;
+    z-index: 40;
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-border);
+    background-color: rgb(from var(--color-background) r g b / 0.95);
+    padding: 1rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    backdrop-filter: blur(8px);
+    display: none;
+  }
+  
+  .toc-mobile-panel.hidden {
+    display: none;
+  }
+  
+  @media (min-width: 1280px) {
+    .toc-mobile-panel {
+      display: none !important;
+    }
+  }
+  
+  .toc-mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  
+  .toc-mobile-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-foreground);
+  }
+  
+  .toc-mobile-close {
+    color: rgb(from var(--color-foreground) r g b / 0.5);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+  }
+  
+  .toc-mobile-close:hover {
+    color: var(--color-foreground);
+  }
+  
+  .toc-mobile-list {
+    font-size: 0.875rem;
+    max-height: 15rem;
+    overflow-y: auto;
+  }
+  
+  .toc-mobile-list li {
+    margin-bottom: 0.25rem;
+  }
+  
+  .toc-link {
+    display: block;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    color: rgb(from var(--color-foreground) r g b / 0.75);
+    transition: color 0.2s ease-in-out;
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    padding-left: 0.5rem;
+  }
+  
+  .toc-link:hover {
+    color: var(--color-accent);
+  }
+  
+  .toc-link.active {
+    color: var(--color-accent);
+    border-left-color: var(--color-accent);
+    font-weight: 500;
+  }
+  
+  .toc-link.h2 {
+    padding-left: 0.5rem;
+  }
+  
+  .toc-link.h3 {
+    padding-left: 1rem;
+    font-size: 0.75rem;
+  }
+  
+  .toc-link.h4 {
+    padding-left: 1.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .toc-link.h5,
+  .toc-link.h6 {
+    padding-left: 2rem;
+    font-size: 0.75rem;
+  }
+</style>
+
+<script is:inline data-astro-rerun>
+  function generateTableOfContents() {
+    const tocContainer = document.getElementById('table-of-contents');
+    const tocList = document.getElementById('toc-list');
+    const tocMobileList = document.getElementById('toc-mobile-list');
+    const tocMobileToggle = document.getElementById('toc-mobile-toggle');
+    const article = document.getElementById('article');
+    
+    if (!article) return;
+    
+    // 获取所有标题元素
+    const headings = article.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    
+    if (headings.length === 0) {
+      if (tocContainer) tocContainer.style.display = 'none';
+      if (tocMobileToggle) tocMobileToggle.style.display = 'none';
+      return;
+    }
+    
+    // 生成目录项的函数
+    function createTocItems(targetList) {
+      if (!targetList) return;
+      
+      targetList.innerHTML = '';
+      
+      headings.forEach((heading, index) => {
+        if (!heading.id) {
+          heading.id = `heading-${index}`;
+        }
+        
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        
+        a.href = `#${heading.id}`;
+        a.textContent = heading.textContent?.replace('#', '').trim() || '';
+        a.className = `toc-link ${heading.tagName.toLowerCase()}`;
+        
+        li.appendChild(a);
+        targetList.appendChild(li);
+      });
+    }
+    
+    // 为桌面端和移动端都生成目录
+    createTocItems(tocList);
+    createTocItems(tocMobileList);
+    
+    // 添加滚动监听，高亮当前章节
+    setupScrollSpy();
+    
+    // 设置移动端目录功能
+    setupMobileToc();
+  }
+  
+  function setupScrollSpy() {
+    const tocLinks = document.querySelectorAll('.toc-link');
+    const headings = document.querySelectorAll('#article h1, #article h2, #article h3, #article h4, #article h5, #article h6');
+    
+    if (tocLinks.length === 0 || headings.length === 0) return;
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.id;
+          const tocLinks = document.querySelectorAll(`.toc-link[href="#${id}"]`);
+          
+          if (entry.isIntersecting) {
+            // 移除所有active类
+            document.querySelectorAll('.toc-link').forEach(link => link.classList.remove('active'));
+            // 添加active类到当前链接（桌面端和移动端都要）
+            tocLinks.forEach(link => {
+              if (link) {
+                link.classList.add('active');
+              }
+            });
+          }
+        });
+      },
+      {
+        rootMargin: '-100px 0px -60% 0px',
+        threshold: 0
+      }
+    );
+    
+    headings.forEach((heading) => {
+      observer.observe(heading);
+    });
+    
+    // 点击目录链接时平滑滚动
+    const allTocLinks = document.querySelectorAll('.toc-link');
+    allTocLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href')?.substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+          
+          // 如果是移动端，关闭目录面板
+          const mobilePanel = document.getElementById('toc-mobile-panel');
+          if (mobilePanel && mobilePanel.style.display === 'block') {
+            mobilePanel.style.display = 'none';
+          }
+        }
+      });
+    });
+  }
+  
+  function setupMobileToc() {
+    const mobileToggle = document.getElementById('toc-mobile-toggle');
+    const mobilePanel = document.getElementById('toc-mobile-panel');
+    const mobileClose = document.getElementById('toc-mobile-close');
+    
+    if (!mobileToggle || !mobilePanel || !mobileClose) return;
+    
+    // 切换移动端目录面板
+    mobileToggle.addEventListener('click', () => {
+      if (mobilePanel.style.display === 'none' || mobilePanel.style.display === '') {
+        mobilePanel.style.display = 'block';
+      } else {
+        mobilePanel.style.display = 'none';
+      }
+    });
+    
+    // 关闭移动端目录面板
+    mobileClose.addEventListener('click', () => {
+      mobilePanel.style.display = 'none';
+    });
+    
+    // 点击面板外部关闭
+    document.addEventListener('click', (e) => {
+      if (!mobilePanel.contains(e.target) && !mobileToggle.contains(e.target)) {
+        mobilePanel.style.display = 'none';
+      }
+    });
+  }
+  
+  // 页面加载后生成目录
+  document.addEventListener('DOMContentLoaded', generateTableOfContents);
+  
+  // Astro page transition 后重新生成目录
+  document.addEventListener('astro:after-swap', generateTableOfContents);
+</script> 

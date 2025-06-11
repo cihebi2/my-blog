@@ -2,6 +2,7 @@
 import { ClientRouter } from "astro:transitions";
 import { SITE } from "@/config";
 import "@/styles/global.css";
+import { SpeedInsights } from "@vercel/speed-insights/astro"
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
@@ -55,6 +56,11 @@ const structuredData = {
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Google Fonts - 思源宋体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- General Meta Tags -->
@@ -131,6 +137,7 @@ const structuredData = {
   </head>
   <body>
     <slot />
+    <SpeedInsights />
   </body>
 </html>
 

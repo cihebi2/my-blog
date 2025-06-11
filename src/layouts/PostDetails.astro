@@ -9,6 +9,7 @@ import EditPost from "@/components/EditPost.astro";
 import ShareLinks from "@/components/ShareLinks.astro";
 import BackButton from "@/components/BackButton.astro";
 import DualComments from "@/components/DualComments.astro";
+import TableOfContents from "@/components/TableOfContents.astro";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
@@ -84,10 +85,11 @@ const nextPost =
 <Layout {...layoutProps}>
   <Header />
   <BackButton />
+  <TableOfContents />
   <main
     id="main-content"
     class:list={[
-      "mx-auto w-full max-w-3xl px-4 pb-12",
+      "mx-auto w-full max-w-3xl px-4 pb-12 xl:ml-auto xl:mr-auto",
       { "mt-8": !SITE.showBackButton },
     ]}
     data-pagefind-body

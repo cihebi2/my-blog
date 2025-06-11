@@ -5,11 +5,11 @@
 
 :root,
 html[data-theme="light"] {
-  --background: #fdfdfd;
-  --foreground: #282728;
+  --background: #fefbf3;
+  --foreground: #2c2c2c;
   --accent: #006cac;
-  --muted: #e6e6e6;
-  --border: #ece9e9;
+  --muted: #e8e5e0;
+  --border: #e0ddd6;
 }
 
 html[data-theme="dark"] {
@@ -26,6 +26,10 @@ html[data-theme="dark"] {
   --color-accent: var(--accent);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  
+  /* 自定义字体配置 */
+  --font-noto-serif: "Noto Serif SC", "Noto Serif CJK SC", "Source Han Serif SC", "思源宋体", serif;
+  --font-sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
 }
 
 @layer base {
@@ -38,7 +42,8 @@ html[data-theme="dark"] {
     @apply overflow-y-scroll scroll-smooth;
   }
   body {
-    @apply flex min-h-svh flex-col bg-background font-mono text-foreground selection:bg-accent/75 selection:text-background;
+    @apply flex min-h-svh flex-col bg-background text-foreground selection:bg-accent/75 selection:text-background;
+    font-family: var(--font-noto-serif);
   }
   a,
   button {
