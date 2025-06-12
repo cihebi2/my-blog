@@ -1,16 +1,21 @@
 ---
 import { slugifyStr } from "@/utils/slugify";
-import type { CollectionEntry } from "astro:content";
+import type { BlogPost } from "@/utils/getAllPosts";
 import { getPath } from "@/utils/getPath";
 import Datetime from "./Datetime.astro";
+import Tag from "./Tag.astro";
 
-export interface Props extends CollectionEntry<"blog"> {
+export interface Props {
   variant?: "h2" | "h3";
+  data: BlogPost["data"];
+  id: string;
+  filePath?: string;
+  showTags?: boolean;
 }
 
-const { variant = "h2", data, id, filePath } = Astro.props;
+const { variant = "h2", data, id, filePath, showTags = true } = Astro.props;
 
-const { title, description, pubDatetime, modDatetime, timezone } = data;
+const { title, description, pubDatetime, modDatetime, timezone, tags } = data;
 
 const headerProps = {
   style: { viewTransitionName: slugifyStr(title) },
@@ -18,7 +23,7 @@ const headerProps = {
 };
 ---
 
-<li class="my-6">
+<li class="my-6 text-center">
   <a
     href={getPath(id, filePath)}
     class="inline-block text-lg font-medium text-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
@@ -31,6 +36,23 @@ const headerProps = {
       )
     }
   </a>
-  <Datetime {pubDatetime} {modDatetime} {timezone} />
-  <p>{description}</p>
+  
+  <div class="mt-1 flex items-center justify-center gap-4 text-sm">
+    <Datetime {pubDatetime} {modDatetime} {timezone} />
+    {tags && tags.length > 0 && showTags && (
+      <div class="flex items-center gap-1">
+        <span class="text-skin-base/60">·</span>
+        <div class="flex flex-wrap gap-1 justify-center">
+          {tags.slice(0, 3).map(tag => (
+            <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />
+          ))}
+          {tags.length > 3 && (
+            <span class="text-skin-base/60 text-xs text-center">+{tags.length - 3}</span>
+          )}
+        </div>
+      </div>
+    )}
+  </div>
+  
+  <p class="mt-2 text-center">{description}</p>
 </li>

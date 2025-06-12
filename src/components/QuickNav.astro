@@ -1,0 +1,45 @@
+---
+import type { BlogPost } from "@/utils/getAllPosts";
+import Tag from "./Tag.astro";
+import { slugifyStr } from "@/utils/slugify";
+
+export interface Props {
+  tags: string[];
+  relatedPosts?: BlogPost[];
+}
+
+const { tags, relatedPosts = [] } = Astro.props;
+---
+
+<aside class="my-8 rounded-lg border border-skin-line bg-skin-card p-6">
+  <!-- 文章分类 -->
+  {tags && tags.length > 0 && (
+    <div class="mb-6">
+      <h3 class="mb-3 text-lg font-semibold text-skin-accent">🏷️ 文章分类</h3>
+      <div class="flex flex-wrap gap-2">
+        {tags.map(tag => (
+          <Tag tag={slugifyStr(tag)} tagName={tag} size="lg" />
+        ))}
+      </div>
+    </div>
+  )}
+
+  <!-- 相关文章 -->
+  {relatedPosts && relatedPosts.length > 0 && (
+    <div>
+      <h3 class="mb-3 text-lg font-semibold text-skin-accent">📚 相关文章</h3>
+      <ul class="space-y-2">
+        {relatedPosts.slice(0, 5).map((post) => (
+          <li>
+            <a 
+              href={`/posts/${post.id}/`}
+              class="block rounded p-2 text-sm transition-colors hover:bg-skin-fill hover:text-skin-accent"
+            >
+              {post.data.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</aside> 

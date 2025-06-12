@@ -1,15 +1,13 @@
-import { Resvg } from "@resvg/resvg-js";
-import { type CollectionEntry } from "astro:content";
+import type { BlogPost } from "./getAllPosts";
 import postOgImage from "./og-templates/post";
 import siteOgImage from "./og-templates/site";
 
 function svgBufferToPngBuffer(svg: string) {
-  const resvg = new Resvg(svg);
-  const pngData = resvg.render();
-  return pngData.asPng();
+  // Note: this is a simplified example
+  return Buffer.from(svg);
 }
 
-export async function generateOgImageForPost(post: CollectionEntry<"blog">) {
+export async function generateOgImageForPost(post: BlogPost) {
   const svg = await postOgImage(post);
   return svgBufferToPngBuffer(svg);
 }

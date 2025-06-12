@@ -1,18 +1,21 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { getCollection } from "astro:content";
 import Main from "@/layouts/Main.astro";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import Card from "@/components/Card.astro";
 import Pagination from "@/components/Pagination.astro";
+import Datetime from "@/components/Datetime.astro";
+import getAllPosts from "@/utils/getAllPosts";
 import getSortedPosts from "@/utils/getSortedPosts";
+import { getPath } from "@/utils/getPath";
+import { slugifyStr } from "@/utils/slugify";
 import { SITE } from "@/config";
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const posts = await getCollection("blog", ({ data }) => !data.draft);
-  return paginate(getSortedPosts(posts), { pageSize: SITE.postPerPage });
+  const posts = await getAllPosts();
+  const publishedPosts = posts.filter(({ data }) => !data.draft);
+  return paginate(getSortedPosts(publishedPosts), { pageSize: SITE.postPerPage });
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
@@ -21,12 +24,61 @@ const { page } = Astro.props;
 <Layout title={`Posts | ${SITE.title}`}>
   <Header />
   <Main pageTitle="Posts" pageDesc="All the articles I've posted.">
-    <ul>
-      {page.data.map(data => <Card {...data} />)}
-    </ul>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {page.data.map(data => (
+        <div class="bg-skin-card border border-skin-line rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] h-full flex flex-col">
+          <a
+            href={getPath(data.id, data.filePath)}
+            class="block group flex-1 flex flex-col"
+          >
+            <h3 class="text-lg font-semibold text-accent mb-3 group-hover:underline leading-tight"
+                style={{ viewTransitionName: slugifyStr(data.data.title) }}>
+              {data.data.title}
+            </h3>
+            <p class="text-skin-base/80 text-sm mb-4 flex-1 line-clamp-3">
+              {data.data.description}
+            </p>
+            <div class="mt-auto">
+              <div class="text-xs text-skin-base/60 mb-3">
+                <Datetime pubDatetime={data.data.pubDatetime} modDatetime={data.data.modDatetime} timezone={data.data.timezone} />
+              </div>
+              {data.data.tags && data.data.tags.length > 0 && (
+                <div class="flex flex-wrap gap-2">
+                  {data.data.tags.slice(0, 3).map(tag => (
+                    <span class="px-2 py-1 bg-skin-accent/10 text-accent rounded-full text-xs">
+                      {tag}
+                    </span>
+                  ))}
+                  {data.data.tags.length > 3 && (
+                    <span class="text-skin-base/60 text-xs">+{data.data.tags.length - 3}</span>
+                  )}
+                </div>
+              )}
+            </div>
+          </a>
+        </div>
+      ))}
+    </div>
   </Main>
 
   <Pagination {page} />
 
   <Footer noMarginTop={page.lastPage > 1} />
 </Layout>
+
+<style>
+  /* 网格布局样式 */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

@@ -1,32 +1,30 @@
 ---
-import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import Socials from "@/components/Socials.astro";
 import LinkButton from "@/components/LinkButton.astro";
-import Card from "@/components/Card.astro";
+import CategoryCard from "@/components/CategoryCard.astro";
 import Hr from "@/components/Hr.astro";
+import getAllPosts from "@/utils/getAllPosts";
 import getSortedPosts from "@/utils/getSortedPosts";
-import IconRss from "@/assets/icons/IconRss.svg";
+import { getPopularCategories } from "@/utils/getCategoryData";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
-import { SITE } from "@/config";
-import { SOCIALS } from "@/constants";
+import Datetime from "@/components/Datetime.astro";
+import { getPath } from "@/utils/getPath";
+import { slugifyStr } from "@/utils/slugify";
+import { SITE, HERO } from "@/config";
 import { quotes } from "@/data/quotes";
 
-const posts = await getCollection("blog");
+const posts = await getAllPosts();
 
 const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
-const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
-
-const coverImage = "https://cihebi.oss-cn-shanghai.aliyuncs.com/cover_1.jpg";
+const popularCategories = getPopularCategories(posts, 6);
 ---
 
 <Layout>
   <Header />
   <main id="main-content" data-layout="index">
-    <div class="hero-container" style={`background-image: url(${coverImage})`}>
+    <div class="hero-container" style={`background-image: url(${HERO.coverImage})`}>
       <div class="hero-overlay"></div>
       <section id="hero" class="hero-content">
         <div id="quote-container">
@@ -38,39 +36,77 @@ const coverImage = "https://cihebi.oss-cn-shanghai.aliyuncs.com/cover_1.jpg";
     <div class="main-content-wrapper">
       <Hr />
 
+      {/* 文章分类展示区域 */}
       {
-        featuredPosts.length > 0 && (
-          <>
-            <section id="featured" class="pt-12 pb-6">
-              <h2 class="text-2xl font-semibold tracking-wide">Featured</h2>
-              <ul>
-                {featuredPosts.map(data => (
-                  <Card variant="h3" {...data} />
-                ))}
-              </ul>
-            </section>
-            {recentPosts.length > 0 && <Hr />}
-          </>
+        popularCategories.length > 0 && (
+          <section id="categories" class="pt-12 pb-6">
+            <div class="flex items-center justify-between mb-8">
+              <h2 class="text-2xl font-semibold tracking-wide">📂 文章分类</h2>
+              <LinkButton href="/tags/" class="text-sm">
+                查看全部分类
+                <IconArrowRight class="inline-block" />
+              </LinkButton>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {popularCategories.map(({ tag, postCount }) => (
+                <CategoryCard tag={tag} postCount={postCount} />
+              ))}
+            </div>
+          </section>
         )
       }
 
+      <Hr />
+
       {
-        recentPosts.length > 0 && (
-          <section id="recent-posts" class="pt-12 pb-6">
-            <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
-            <ul>
-              {recentPosts.map(
+        sortedPosts.length > 0 && (
+          <section id="all-posts" class="pt-12 pb-6">
+            <h2 class="text-2xl font-semibold tracking-wide mb-8">📝 最新文章</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {sortedPosts.map(
                 (data, index) =>
-                  index < SITE.postPerIndex && <Card variant="h3" {...data} />
+                  index < SITE.postPerIndex && (
+                    <div class="bg-skin-card border border-skin-line rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] h-full flex flex-col">
+                      <a
+                        href={getPath(data.id, data.filePath)}
+                        class="block group flex-1 flex flex-col"
+                      >
+                        <h3 class="text-lg font-semibold text-accent mb-3 group-hover:underline leading-tight"
+                            style={{ viewTransitionName: slugifyStr(data.data.title) }}>
+                          {data.data.title}
+                        </h3>
+                        <p class="text-skin-base/80 text-sm mb-4 flex-1 line-clamp-3">
+                          {data.data.description}
+                        </p>
+                        <div class="mt-auto">
+                          <div class="text-xs text-skin-base/60 mb-3">
+                            <Datetime pubDatetime={data.data.pubDatetime} modDatetime={data.data.modDatetime} timezone={data.data.timezone} />
+                          </div>
+                          {data.data.tags && data.data.tags.length > 0 && (
+                            <div class="flex flex-wrap gap-2">
+                              {data.data.tags.slice(0, 3).map(tag => (
+                                <span class="px-2 py-1 bg-skin-accent/10 text-accent rounded-full text-xs">
+                                  {tag}
+                                </span>
+                              ))}
+                              {data.data.tags.length > 3 && (
+                                <span class="text-skin-base/60 text-xs">+{data.data.tags.length - 3}</span>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </a>
+                    </div>
+                  )
               )}
-            </ul>
+            </div>
           </section>
         )
       }
 
       <div class="my-8 text-center">
         <LinkButton href="/posts/">
-          All Posts
+          查看所有文章
           <IconArrowRight class="inline-block" />
         </LinkButton>
       </div>
@@ -138,17 +174,37 @@ const coverImage = "https://cihebi.oss-cn-shanghai.aliyuncs.com/cover_1.jpg";
     margin: 0 auto;
     padding: 0 1rem;
   }
+  
+  /* 网格布局样式 */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 </style>
 
-<script define:vars={{ quotes }}>
+<script
+  is:inline
+  define:vars={{
+    quotes,
+    fadeInDuration: HERO.quoteFadeInDuration,
+    displayDuration: HERO.quoteDisplayDuration,
+    fadeOutDuration: HERO.quoteFadeOutDuration,
+  }}
+>
   function fadeQuoteEffect() {
     const quoteElement = document.getElementById("quote-display");
     if (!quoteElement) return;
 
     let quoteIndex = -1;
-    const fadeInDuration = 1500;
-    const displayDuration = 5000; // 停留时间
-    const fadeOutDuration = 1500;
 
     function getRandomIndex() {
       let newIndex;

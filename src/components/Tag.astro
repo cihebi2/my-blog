@@ -12,7 +12,7 @@ const { tag, tagName, size = "sm" } = Astro.props;
 
 <li
   class:list={[
-    "group inline-block group-hover:cursor-pointer",
+    "group inline-block group-hover:cursor-pointer text-center",
     size === "sm" ? "my-1 underline-offset-4" : "mx-1 my-3 underline-offset-8",
   ]}
 >
@@ -20,7 +20,7 @@ const { tag, tagName, size = "sm" } = Astro.props;
     href={`/tags/${tag}/`}
     transition:name={tag}
     class:list={[
-      "relative pr-2 text-lg underline decoration-dashed group-hover:-top-0.5 group-hover:text-accent focus-visible:p-1",
+      "relative pr-2 text-lg underline decoration-dashed group-hover:-top-0.5 group-hover:text-accent focus-visible:p-1 text-center",
       { "text-sm": size === "sm" },
     ]}
   >

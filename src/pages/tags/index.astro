@@ -1,24 +1,104 @@
 ---
-import { getCollection } from "astro:content";
-import Main from "@/layouts/Main.astro";
 import Layout from "@/layouts/Layout.astro";
-import Tag from "@/components/Tag.astro";
+import Main from "@/layouts/Main.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import getUniqueTags from "@/utils/getUniqueTags";
+import CategoryCard from "@/components/CategoryCard.astro";
+import Tag from "@/components/Tag.astro";
+import getAllPosts from "@/utils/getAllPosts";
+import { getCategoryData, getCategoryStats } from "@/utils/getCategoryData";
 import { SITE } from "@/config";
 
-const posts = await getCollection("blog");
+const posts = await getAllPosts();
+const categoryData = getCategoryData(posts);
+const stats = getCategoryStats(posts);
 
-let tags = getUniqueTags(posts);
+// 按文章数量排序分类
+const sortedCategories = categoryData.sort((a, b) => b.postCount - a.postCount);
 ---
 
-<Layout title={`Tags | ${SITE.title}`}>
+<Layout title={`所有分类 | ${SITE.title}`}>
   <Header />
-  <Main pageTitle="Tags" pageDesc="All the tags used in posts.">
-    <ul>
-      {tags.map(({ tag, tagName }) => <Tag {tag} {tagName} size="lg" />)}
-    </ul>
+  <Main pageTitle="所有分类" pageDesc="探索博客中的所有文章分类，找到您感兴趣的内容。">
+    
+    <!-- 分类统计概览 -->
+    <div class="mb-12 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div class="rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 p-4 text-white">
+        <div class="text-2xl font-bold">{stats.totalCategories}</div>
+        <div class="text-sm opacity-90">个分类</div>
+      </div>
+      <div class="rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 p-4 text-white">
+        <div class="text-2xl font-bold">{stats.totalPosts}</div>
+        <div class="text-sm opacity-90">篇文章</div>
+      </div>
+      <div class="rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 p-4 text-white">
+        <div class="text-2xl font-bold">{stats.categoriesWithMultiplePosts}</div>
+        <div class="text-sm opacity-90">热门分类</div>
+      </div>
+      <div class="rounded-lg bg-gradient-to-br from-orange-500 to-red-600 p-4 text-white">
+        <div class="text-2xl font-bold">{stats.averagePostsPerCategory}</div>
+        <div class="text-sm opacity-90">平均文章数</div>
+      </div>
+    </div>
+
+    <!-- 卡片式分类展示 -->
+    <div class="mb-8">
+      <h2 class="mb-6 text-xl font-semibold">🏷️ 分类卡片视图</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {sortedCategories.map(({ tag, postCount }) => (
+          <CategoryCard tag={tag} postCount={postCount} />
+        ))}
+      </div>
+    </div>
+
+    <!-- 列表式分类展示 -->
+    <div class="mb-8">
+      <h2 class="mb-6 text-xl font-semibold">📋 分类列表视图</h2>
+      <ul class="flex flex-wrap gap-3">
+        {sortedCategories.map(({ tag, postCount }) => (
+          <li>
+            <Tag tag={tag.tag} tagName={`${tag.tagName} (${postCount})`} size="lg" />
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- 热门分类榜单 -->
+    {stats.categoriesWithMultiplePosts > 0 && (
+      <div class="mt-12">
+        <h2 class="mb-6 text-xl font-semibold">🔥 热门分类榜单</h2>
+        <div class="space-y-4">
+          {sortedCategories
+            .filter(cat => cat.postCount > 1)
+            .slice(0, 5)
+            .map(({ tag, postCount }, index) => (
+              <a 
+                href={`/tags/${tag.tag}/`}
+                class="block rounded-lg border border-skin-line p-4 transition-all hover:bg-skin-fill hover:shadow-md"
+              >
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <div class="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-accent to-accent/80 text-sm font-bold text-white">
+                      {index + 1}
+                    </div>
+                    <div>
+                      <h3 class="font-medium text-skin-accent">{tag.tagName}</h3>
+                      <p class="text-sm text-skin-base/70">共 {postCount} 篇文章</p>
+                    </div>
+                  </div>
+                  <div class="text-skin-base/50">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </div>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    )}
+    
   </Main>
   <Footer />
 </Layout>
