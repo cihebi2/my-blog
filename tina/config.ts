@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { defineConfig } from "tinacms";
 
 const branch =
@@ -36,7 +37,7 @@ export default defineConfig({
           // 自定义文件名
           filename: {
             readonly: false,
-            slugify: (values) => {
+            slugify: (values: any) => {
               // 使用标题生成文件名
               return `${values?.title?.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '')}`
             },

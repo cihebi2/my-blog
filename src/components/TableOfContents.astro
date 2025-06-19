@@ -383,7 +383,6 @@
     if (tocLinks.length === 0 || headings.length === 0) return;
     
     let activeSection = null;
-    let isScrolling = false;
     
     // 检查文章底部并控制目录显示
     function checkArticleVisibility() {
@@ -483,7 +482,6 @@
     allTocLinks.forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        isScrolling = true;
         
         const targetId = link.getAttribute('href')?.substring(1);
         const targetElement = document.getElementById(targetId);
@@ -498,10 +496,7 @@
             block: 'start'
           });
           
-          // 滚动结束后重置标志
-          setTimeout(() => {
-            isScrolling = false;
-          }, 1000);
+          // 平滑滚动完成
           
           // 如果是移动端，关闭目录面板
           const mobilePanel = document.getElementById('toc-mobile-panel');

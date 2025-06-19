@@ -70,7 +70,7 @@ canonicalURL: ""
 </code></pre>
         </div>
         <button 
-          onclick="copyTemplate()"
+          id="copy-template-btn"
           class="mt-4 bg-skin-accent text-skin-inverted px-4 py-2 rounded hover:bg-opacity-90 transition-colors"
         >
           📋 复制模板
@@ -115,6 +115,13 @@ canonicalURL: ""
 </Layout>
 
 <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const copyBtn = document.getElementById('copy-template-btn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', copyTemplate);
+    }
+  });
+
   function copyTemplate() {
     const template = `---
 title: "你的文章标题"

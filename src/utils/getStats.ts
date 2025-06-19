@@ -1,5 +1,4 @@
 import { getCollection } from "astro:content";
-import { SITE } from "../config";
 
 export interface SiteStats {
   totalPosts: number;
