@@ -95,6 +95,19 @@ const nextPost =
     ]}
     data-pagefind-body
   >
+    <!-- 封面图片 -->
+    {ogImageUrl && (
+      <div class="mb-8 overflow-hidden rounded-lg bg-skin-fill" id="cover-container">
+        <img 
+          src={ogImageUrl} 
+          alt={title}
+          class="h-64 w-full object-cover md:h-80"
+          loading="eager"
+          onerror="document.getElementById('cover-container').style.display='none';"
+        />
+      </div>
+    )}
+    
     <h1
       transition:name={slugifyStr(title)}
       class="inline-block text-2xl font-bold text-accent sm:text-3xl"
@@ -136,40 +149,40 @@ const nextPost =
       (prevPost || nextPost) && (
         <nav class="mt-24 flex justify-between" aria-label="Post navigation">
           {prevPost ? (
-            <a
-              href={`/posts/${prevPost.slug}`}
+          <a
+            href={`/posts/${prevPost.slug}`}
               class="group flex items-center gap-2 text-left hover:opacity-75"
-            >
+          >
               <IconChevronLeft class="size-6" />
-              <div>
+            <div>
                 <div class="text-sm opacity-75">Previous</div>
                 <div class="font-medium group-hover:text-accent">
                   {prevPost.title}
                 </div>
-              </div>
-            </a>
+            </div>
+          </a>
           ) : (
             <div />
           )}
           {nextPost ? (
-            <a
-              href={`/posts/${nextPost.slug}`}
+          <a
+            href={`/posts/${nextPost.slug}`}
               class="group flex items-center gap-2 text-right hover:opacity-75"
-            >
-              <div>
+          >
+            <div>
                 <div class="text-sm opacity-75">Next</div>
                 <div class="font-medium group-hover:text-accent">
                   {nextPost.title}
                 </div>
-              </div>
+            </div>
               <IconChevronRight class="size-6" />
-            </a>
+          </a>
           ) : (
             <div />
           )}
         </nav>
-      )
-    }
+        )
+      }
   </main>
 
   <DualComments />
@@ -200,9 +213,9 @@ const nextPost =
       copyButton.addEventListener("click", async () => {
         await navigator.clipboard.writeText(codeBlock.innerText);
         copyButton.innerHTML = "Copied";
-        setTimeout(() => {
+      setTimeout(() => {
           copyButton.innerHTML = copyButtonLabel;
-        }, 700);
+      }, 700);
       });
     }
   }

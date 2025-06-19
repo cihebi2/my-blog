@@ -51,37 +51,86 @@
   /* 桌面端目录容器 */
   .toc-container {
     position: fixed;
-    left: 1rem;
+    left: 2rem;
     top: 50%;
     transform: translateY(-50%);
-    width: 16rem;
-    max-height: 70vh;
+    width: 18rem;
+    max-height: 75vh;
     overflow-y: auto;
     display: none;
+    z-index: 30;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
-  @media (min-width: 1280px) {
+  .toc-container.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  @media (min-width: 1400px) {
     .toc-container {
       display: block;
+    }
+    
+    .toc-container.visible {
+      opacity: 1;
+      visibility: visible;
     }
   }
   
   .toc-nav {
-    border-radius: 0.5rem;
-    border: 1px solid var(--color-border);
-    background-color: rgb(from var(--color-background) r g b / 0.95);
-    padding: 1rem;
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    backdrop-filter: blur(8px);
+    border-radius: 0.75rem;
+    border: 1px solid rgba(var(--color-accent), 0.2);
+    background: linear-gradient(145deg, 
+      rgba(var(--color-card), 0.95) 0%, 
+      rgba(var(--color-card), 0.9) 100%);
+    padding: 1.25rem;
+    box-shadow: 
+      0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px) saturate(180%);
     scrollbar-width: thin;
-    scrollbar-color: var(--color-muted) transparent;
+    scrollbar-color: rgba(var(--color-accent), 0.3) transparent;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .toc-nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      rgba(var(--color-accent), 0.5) 0%, 
+      rgba(var(--color-accent), 0.8) 50%, 
+      rgba(var(--color-accent), 0.5) 100%);
+    border-radius: 0.75rem 0.75rem 0 0;
   }
   
   .toc-title {
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
     font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--color-foreground);
+    font-weight: 700;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    position: relative;
+  }
+  
+  .toc-title::after {
+    content: '';
+    position: absolute;
+    bottom: -0.25rem;
+    left: 0;
+    width: 2rem;
+    height: 2px;
+    background: rgba(var(--color-accent), 0.6);
+    border-radius: 1px;
   }
   
   .toc-list {
@@ -112,7 +161,7 @@
     transform: scale(1.1);
   }
   
-  @media (min-width: 1280px) {
+  @media (min-width: 1400px) {
     .toc-mobile-button {
       display: none;
     }
@@ -138,7 +187,7 @@
     display: none;
   }
   
-  @media (min-width: 1280px) {
+  @media (min-width: 1400px) {
     .toc-mobile-panel {
       display: none !important;
     }
@@ -181,43 +230,88 @@
   
   .toc-link {
     display: block;
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-    color: rgb(from var(--color-foreground) r g b / 0.75);
-    transition: color 0.2s ease-in-out;
+    padding: 0.5rem 0.75rem;
+    margin: 0.25rem 0;
+    color: rgba(var(--color-base), 0.8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
-    border-left: 2px solid transparent;
-    padding-left: 0.5rem;
+    border-left: 3px solid transparent;
+    border-radius: 0 0.375rem 0.375rem 0;
+    position: relative;
+    overflow: hidden;
+    line-height: 1.4;
+  }
+  
+  .toc-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      rgba(var(--color-accent), 0.1) 0%, 
+      rgba(var(--color-accent), 0.05) 100%);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
   }
   
   .toc-link:hover {
     color: var(--color-accent);
+    transform: translateX(4px);
+    border-left-color: rgba(var(--color-accent), 0.5);
+  }
+  
+  .toc-link:hover::before {
+    width: 100%;
   }
   
   .toc-link.active {
     color: var(--color-accent);
     border-left-color: var(--color-accent);
-    font-weight: 500;
+    font-weight: 600;
+    background: linear-gradient(90deg, 
+      rgba(var(--color-accent), 0.15) 0%, 
+      rgba(var(--color-accent), 0.05) 100%);
+    transform: translateX(6px);
+    box-shadow: 0 2px 4px rgba(var(--color-accent), 0.2);
+  }
+  
+  .toc-link.active::before {
+    width: 100%;
+    background: linear-gradient(90deg, 
+      rgba(var(--color-accent), 0.2) 0%, 
+      rgba(var(--color-accent), 0.1) 100%);
+  }
+  
+  .toc-link.h1 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
   }
   
   .toc-link.h2 {
-    padding-left: 0.5rem;
+    font-size: 0.85rem;
+    margin-left: 0.5rem;
   }
   
   .toc-link.h3 {
-    padding-left: 1rem;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
+    margin-left: 1rem;
+    opacity: 0.9;
   }
   
   .toc-link.h4 {
-    padding-left: 1.5rem;
     font-size: 0.75rem;
+    margin-left: 1.5rem;
+    opacity: 0.8;
   }
   
   .toc-link.h5,
   .toc-link.h6 {
-    padding-left: 2rem;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
+    margin-left: 2rem;
+    opacity: 0.7;
   }
 </style>
 
@@ -238,6 +332,14 @@
       if (tocContainer) tocContainer.style.display = 'none';
       if (tocMobileToggle) tocMobileToggle.style.display = 'none';
       return;
+    }
+    
+    // 显示目录容器并添加可见性
+    if (tocContainer) {
+      tocContainer.style.display = 'block';
+      setTimeout(() => {
+        tocContainer.classList.add('visible');
+      }, 100);
     }
     
     // 生成目录项的函数
@@ -280,47 +382,126 @@
     
     if (tocLinks.length === 0 || headings.length === 0) return;
     
+    let activeSection = null;
+    let isScrolling = false;
+    
+    // 检查文章底部并控制目录显示
+    function checkArticleVisibility() {
+      const article = document.getElementById('article');
+      const tocContainer = document.getElementById('table-of-contents');
+      
+      if (!article || !tocContainer) return;
+      
+      const articleRect = article.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // 如果文章底部超出视窗底部，隐藏目录
+      if (articleRect.bottom < windowHeight * 0.3) {
+        tocContainer.classList.remove('visible');
+      } else {
+        tocContainer.classList.add('visible');
+      }
+    }
+    
+    // 更精确的滚动监听
     const observer = new IntersectionObserver(
       (entries) => {
+        // 找到当前可见的最上面的标题
+        let topEntry = null;
+        let topY = Infinity;
+        
         entries.forEach((entry) => {
-          const id = entry.target.id;
-          const tocLinks = document.querySelectorAll(`.toc-link[href="#${id}"]`);
-          
           if (entry.isIntersecting) {
-            // 移除所有active类
-            document.querySelectorAll('.toc-link').forEach(link => link.classList.remove('active'));
-            // 添加active类到当前链接（桌面端和移动端都要）
-            tocLinks.forEach(link => {
-              if (link) {
-                link.classList.add('active');
-              }
-            });
+            const rect = entry.boundingRect;
+            if (rect.top >= 0 && rect.top < topY) {
+              topY = rect.top;
+              topEntry = entry;
+            }
           }
         });
+        
+        if (topEntry && topEntry.target.id !== activeSection) {
+          activeSection = topEntry.target.id;
+          updateActiveLink(activeSection);
+        }
       },
       {
-        rootMargin: '-100px 0px -60% 0px',
-        threshold: 0
+        rootMargin: '-20% 0px -70% 0px',
+        threshold: [0, 0.25, 0.5, 0.75, 1]
       }
     );
+    
+    // 监听滚动事件来控制目录显示
+    let scrollTimer = null;
+    window.addEventListener('scroll', () => {
+      if (scrollTimer) clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(checkArticleVisibility, 50);
+    });
+    
+    // 更新激活链接的函数
+    function updateActiveLink(activeId) {
+      // 移除所有active类
+      document.querySelectorAll('.toc-link').forEach(link => {
+        link.classList.remove('active');
+      });
+      
+      // 添加active类到当前链接
+      const activeLinks = document.querySelectorAll(`.toc-link[href="#${activeId}"]`);
+      activeLinks.forEach(link => {
+        if (link) {
+          link.classList.add('active');
+          
+          // 滚动到可见区域（仅桌面端目录）
+          const tocContainer = document.getElementById('table-of-contents');
+          if (tocContainer && tocContainer.contains(link)) {
+            const tocNav = tocContainer.querySelector('.toc-nav');
+            if (tocNav) {
+              const linkRect = link.getBoundingClientRect();
+              const navRect = tocNav.getBoundingClientRect();
+              
+              if (linkRect.top < navRect.top || linkRect.bottom > navRect.bottom) {
+                link.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'center'
+                });
+              }
+            }
+          }
+        }
+      });
+    }
     
     headings.forEach((heading) => {
       observer.observe(heading);
     });
+    
+    // 初始检查文章可见性
+    checkArticleVisibility();
     
     // 点击目录链接时平滑滚动
     const allTocLinks = document.querySelectorAll('.toc-link');
     allTocLinks.forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
+        isScrolling = true;
+        
         const targetId = link.getAttribute('href')?.substring(1);
         const targetElement = document.getElementById(targetId);
         
         if (targetElement) {
+          // 立即更新活跃状态
+          updateActiveLink(targetId);
+          
+          // 平滑滚动到目标
           targetElement.scrollIntoView({
             behavior: 'smooth',
             block: 'start'
           });
+          
+          // 滚动结束后重置标志
+          setTimeout(() => {
+            isScrolling = false;
+          }, 1000);
           
           // 如果是移动端，关闭目录面板
           const mobilePanel = document.getElementById('toc-mobile-panel');

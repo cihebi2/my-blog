@@ -15,7 +15,15 @@ export interface Props {
 
 const { variant = "h2", data, id, filePath, showTags = true } = Astro.props;
 
-const { title, description, pubDatetime, modDatetime, timezone, tags } = data;
+const { title, description, pubDatetime, modDatetime, timezone, tags, ogImage } = data;
+
+// 处理封面图片
+let coverImageUrl: string | undefined;
+if (typeof ogImage === "string") {
+  coverImageUrl = ogImage; // 远程图片 URL
+} else if (ogImage?.src) {
+  coverImageUrl = ogImage.src; // 本地图片资源
+}
 
 const headerProps = {
   style: { viewTransitionName: slugifyStr(title) },
@@ -23,36 +31,64 @@ const headerProps = {
 };
 ---
 
-<li class="my-6 text-center">
-  <a
-    href={getPath(id, filePath)}
-    class="inline-block text-lg font-medium text-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
-  >
-    {
-      variant === "h2" ? (
-        <h2 {...headerProps}>{title}</h2>
-      ) : (
-        <h3 {...headerProps}>{title}</h3>
-      )
-    }
-  </a>
-  
-  <div class="mt-1 flex items-center justify-center gap-4 text-sm">
-    <Datetime {pubDatetime} {modDatetime} {timezone} />
-    {tags && tags.length > 0 && showTags && (
-      <div class="flex items-center gap-1">
-        <span class="text-skin-base/60">·</span>
-        <div class="flex flex-wrap gap-1 justify-center">
-          {tags.slice(0, 3).map(tag => (
-            <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />
-          ))}
-          {tags.length > 3 && (
-            <span class="text-skin-base/60 text-xs text-center">+{tags.length - 3}</span>
+<li class="my-6">
+  <article class="group overflow-hidden rounded-lg border border-skin-line bg-skin-card transition-all duration-300 hover:shadow-lg hover:shadow-skin-line/20">
+    <a href={getPath(id, filePath)} class="block">
+      {coverImageUrl && (
+        <div class="aspect-video overflow-hidden bg-skin-fill">
+          <img 
+            src={coverImageUrl} 
+            alt={title}
+            class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+            onerror="this.style.display='none'; this.parentElement.style.display='none';"
+          />
+        </div>
+      )}
+      
+      <div class={`p-6 ${coverImageUrl ? '' : 'text-center'}`}>
+        {
+          variant === "h2" ? (
+            <h2 {...headerProps} class={`${headerProps.class} ${coverImageUrl ? 'text-left' : 'text-center'}`}>
+              {title}
+            </h2>
+          ) : (
+            <h3 {...headerProps} class={`${headerProps.class} ${coverImageUrl ? 'text-left' : 'text-center'}`}>
+              {title}
+            </h3>
+          )
+        }
+        
+        <div class={`mt-3 flex items-center gap-4 text-sm ${coverImageUrl ? 'justify-start' : 'justify-center'}`}>
+          <Datetime {pubDatetime} {modDatetime} {timezone} />
+          {tags && tags.length > 0 && showTags && (
+            <div class="flex items-center gap-1">
+              <span class="text-skin-base/60">·</span>
+              <div class="flex flex-wrap gap-1">
+                {tags.slice(0, 3).map(tag => (
+                  <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />
+                ))}
+                {tags.length > 3 && (
+                  <span class="text-skin-base/60 text-xs">+{tags.length - 3}</span>
+                )}
+              </div>
+            </div>
           )}
         </div>
+        
+        <p class={`mt-3 text-skin-base/80 line-clamp-3 ${coverImageUrl ? 'text-left' : 'text-center'}`}>
+          {description}
+        </p>
       </div>
-    )}
-  </div>
-  
-  <p class="mt-2 text-center">{description}</p>
+    </a>
+  </article>
 </li>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

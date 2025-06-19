@@ -6,15 +6,16 @@ export const SITE = {
   title: "Cihebi's Blog", // 博客标题
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
-  postPerIndex: 4,
+  postPerIndex: 10,
   postPerPage: 20,
   scheduledPostMargin: 15 * 60 * 1000, // 15 minutes
   showArchives: true,
   showBackButton: true, // show back button in post detail
   editPost: {
     enabled: true,
-    text: "建议修改",
-    url: "https://github.com/your-username/your-repo/edit/main/", // 如果你想启用编辑功能，请更新为你的GitHub仓库URL
+    text: "✏️ 编辑文章",
+    url: "https://github.dev/cihebi2/my-blog/blob/main/", // VS Code Web 编辑器
+    githubUrl: "https://github.com/cihebi2/my-blog/edit/main/", // GitHub 编辑器备选
   },
   dynamicOgImage: true,
   lang: "zh-CN", // 设置为中文

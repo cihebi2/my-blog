@@ -9,6 +9,7 @@ tags:
   - 介绍
   - 博客
 description: 欢迎来到我的个人博客！这里是我分享技术思考、学习心得和生活感悟的地方。
+ogImage: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
 ---
 
 欢迎来到我的个人博客！我是Ciheb，很高兴你能访问我的网站。

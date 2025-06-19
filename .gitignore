@@ -93,3 +93,7 @@ temp/
 
 # Astro specific
 .astro
+
+# TinaCMS
+tina/__generated__
+.tina

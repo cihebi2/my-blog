@@ -50,9 +50,9 @@ const popularCategories = getPopularCategories(posts, 6);
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {popularCategories.map(({ tag, postCount }) => (
                 <CategoryCard tag={tag} postCount={postCount} />
-              ))}
+                ))}
             </div>
-          </section>
+            </section>
         )
       }
 

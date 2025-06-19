@@ -1,0 +1,155 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE } from "../config";
+
+const pageTitle = "博客管理 - " + SITE.title;
+---
+
+<Layout title={pageTitle}>
+  <Header />
+  <main id="main-content">
+    <section class="mx-auto max-w-4xl px-4 pb-12 pt-8">
+      <h1 class="text-3xl font-bold mb-8">📝 博客管理</h1>
+      
+      <!-- 快速操作区 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-skin-card p-6 rounded-lg border border-skin-line">
+          <h2 class="text-xl font-semibold mb-4">✏️ 编辑文章</h2>
+          <p class="text-skin-base mb-4">使用VS Code Web在线编辑器，功能强大</p>
+          <a 
+            href="https://github.dev/cihebi2/my-blog/tree/main/src/data/blog"
+            target="_blank"
+            class="inline-block bg-skin-accent text-skin-inverted px-4 py-2 rounded hover:bg-opacity-90 transition-colors"
+          >
+            打开 VS Code Web
+          </a>
+        </div>
+        
+        <div class="bg-skin-card p-6 rounded-lg border border-skin-line">
+          <h2 class="text-xl font-semibold mb-4">🌐 GitHub 编辑</h2>
+          <p class="text-skin-base mb-4">直接在GitHub网页上快速编辑</p>
+          <a 
+            href="https://github.com/cihebi2/my-blog/tree/main/src/data/blog"
+            target="_blank"
+            class="inline-block bg-skin-accent text-skin-inverted px-4 py-2 rounded hover:bg-opacity-90 transition-colors"
+          >
+            GitHub 文件管理
+          </a>
+        </div>
+      </div>
+
+      <!-- 新建文章模板 -->
+      <div class="bg-skin-card p-6 rounded-lg border border-skin-line mb-8">
+        <h2 class="text-xl font-semibold mb-4">📄 新建文章模板</h2>
+        <p class="text-skin-base mb-4">复制以下模板创建新文章：</p>
+        <div class="bg-skin-fill p-4 rounded border overflow-x-auto">
+          <pre class="text-sm"><code>---
+title: "你的文章标题"
+description: "文章简介"
+pubDatetime: 2025-06-19T12:00:00Z
+author: "Ciheb"
+slug: "your-article-slug"
+featured: false
+draft: false
+tags:
+  - "标签1"
+  - "标签2"
+ogImage: "https://example.com/cover.jpg"  # 封面图片URL
+canonicalURL: ""
+---
+
+## 文章正文
+
+在这里写你的文章内容...
+
+### 子标题
+
+更多内容...
+</code></pre>
+        </div>
+        <button 
+          onclick="copyTemplate()"
+          class="mt-4 bg-skin-accent text-skin-inverted px-4 py-2 rounded hover:bg-opacity-90 transition-colors"
+        >
+          📋 复制模板
+        </button>
+      </div>
+
+      <!-- 使用指南 -->
+      <div class="bg-skin-card p-6 rounded-lg border border-skin-line">
+        <h2 class="text-xl font-semibold mb-4">📚 使用指南</h2>
+        <div class="space-y-4 text-skin-base">
+          <div>
+            <h3 class="font-semibold">🎯 VS Code Web（推荐）</h3>
+            <p>• 在GitHub仓库页面按 <kbd class="bg-skin-fill px-2 py-1 rounded">.</kbd> 键快速打开</p>
+            <p>• 支持语法高亮、文件树导航、实时预览</p>
+            <p>• 编辑完成后使用左侧Source Control提交</p>
+          </div>
+          
+          <div>
+            <h3 class="font-semibold">🌐 GitHub Web</h3>
+            <p>• 适合快速修改和简单编辑</p>
+            <p>• 点击文件后选择✏️编辑按钮</p>
+            <p>• 支持预览功能</p>
+          </div>
+          
+          <div>
+            <h3 class="font-semibold">📱 移动设备</h3>
+            <p>• 使用GitHub移动应用</p>
+            <p>• 或直接访问GitHub网页版</p>
+          </div>
+          
+          <div>
+            <h3 class="font-semibold">🖼️ 添加封面图片</h3>
+            <p>• 在文章的 frontmatter 中添加 <code class="bg-skin-fill px-1 rounded">ogImage</code> 字段</p>
+            <p>• 支持远程URL和本地图片路径</p>
+            <p>• 推荐尺寸：800x450px (16:9比例)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  function copyTemplate() {
+    const template = `---
+title: "你的文章标题"
+description: "文章简介"
+pubDatetime: ${new Date().toISOString()}
+author: "Ciheb"
+slug: "your-article-slug"
+featured: false
+draft: false
+tags:
+  - "标签1"
+  - "标签2"
+ogImage: "https://example.com/cover.jpg"  # 封面图片URL
+canonicalURL: ""
+---
+
+## 文章正文
+
+在这里写你的文章内容...
+
+### 子标题
+
+更多内容...`;
+
+    navigator.clipboard.writeText(template).then(() => {
+      alert('📋 模板已复制到剪贴板！');
+    }).catch(() => {
+      alert('复制失败，请手动复制模板内容');
+    });
+  }
+</script>
+
+<style>
+  kbd {
+    font-family: monospace;
+    font-size: 0.875rem;
+  }
+</style>
