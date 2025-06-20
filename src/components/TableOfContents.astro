@@ -64,19 +64,63 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
-  .toc-container.visible {
-    opacity: 1;
+  /* 收起状态 */
+  .toc-container.collapsed {
+    left: -16rem;
+    opacity: 0.9;
     visibility: visible;
   }
   
-  @media (min-width: 1400px) {
+  .toc-container.collapsed:hover {
+    left: 2rem;
+    opacity: 1;
+  }
+  
+  /* 展开状态 */
+  .toc-container.visible {
+    opacity: 1;
+    visibility: visible;
+    left: 2rem;
+  }
+  
+  /* 收起时的提示标签 */
+  .toc-container.collapsed::after {
+    content: '📋';
+    position: absolute;
+    right: -3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.5rem;
+    height: 2.5rem;
+    background: rgba(var(--color-card), 0.95);
+    border: 1px solid rgba(var(--color-accent), 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+  }
+  
+  .toc-container.collapsed:hover::after {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* 屏幕宽度检测 */
+  @media (min-width: 1200px) and (max-width: 1499px) {
     .toc-container {
       display: block;
+      /* 中等屏幕默认收起 */
     }
-    
-    .toc-container.visible {
-      opacity: 1;
-      visibility: visible;
+  }
+  
+  @media (min-width: 1500px) {
+    .toc-container {
+      display: block;
+      /* 大屏幕自动展开 */
     }
   }
   
@@ -161,7 +205,7 @@
     transform: scale(1.1);
   }
   
-  @media (min-width: 1400px) {
+  @media (min-width: 1200px) {
     .toc-mobile-button {
       display: none;
     }
@@ -187,7 +231,7 @@
     display: none;
   }
   
-  @media (min-width: 1400px) {
+  @media (min-width: 1200px) {
     .toc-mobile-panel {
       display: none !important;
     }
@@ -334,11 +378,11 @@
       return;
     }
     
-    // 显示目录容器并添加可见性
+    // 显示目录容器并根据屏幕宽度设置状态
     if (tocContainer) {
       tocContainer.style.display = 'block';
       setTimeout(() => {
-        tocContainer.classList.add('visible');
+        updateTocVisibilityByScreenSize();
       }, 100);
     }
     
@@ -374,6 +418,79 @@
     
     // 设置移动端目录功能
     setupMobileToc();
+    
+    // 设置智能显示控制
+    setupSmartVisibility();
+  }
+  
+  // 智能显示控制
+  function updateTocVisibilityByScreenSize() {
+    const tocContainer = document.getElementById('table-of-contents');
+    if (!tocContainer) return;
+    
+    const screenWidth = window.innerWidth;
+    
+    // 移除所有状态类
+    tocContainer.classList.remove('visible', 'collapsed');
+    
+    if (screenWidth >= 1500) {
+      // 大屏幕：自动展开
+      tocContainer.classList.add('visible');
+    } else if (screenWidth >= 1200) {
+      // 中等屏幕：默认收起，可悬停展开
+      tocContainer.classList.add('collapsed');
+    }
+    // 小屏幕：完全隐藏，使用移动端按钮
+  }
+  
+  function setupSmartVisibility() {
+    const tocContainer = document.getElementById('table-of-contents');
+    if (!tocContainer) return;
+    
+    // 监听窗口大小变化
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        updateTocVisibilityByScreenSize();
+      }, 150);
+    });
+    
+    // 添加点击切换功能（用于中等屏幕）
+    let isManuallyExpanded = false;
+    
+    tocContainer.addEventListener('click', (e) => {
+      const screenWidth = window.innerWidth;
+      
+      // 只在中等屏幕启用点击切换
+      if (screenWidth >= 1200 && screenWidth < 1500) {
+        if (tocContainer.classList.contains('collapsed')) {
+          tocContainer.classList.remove('collapsed');
+          tocContainer.classList.add('visible');
+          isManuallyExpanded = true;
+        } else if (isManuallyExpanded) {
+          tocContainer.classList.remove('visible');
+          tocContainer.classList.add('collapsed');
+          isManuallyExpanded = false;
+        }
+      }
+    });
+    
+    // 点击外部区域收起（仅中等屏幕手动展开时）
+    document.addEventListener('click', (e) => {
+      const screenWidth = window.innerWidth;
+      
+      if (screenWidth >= 1200 && screenWidth < 1500 && isManuallyExpanded) {
+        if (!tocContainer.contains(e.target)) {
+          tocContainer.classList.remove('visible');
+          tocContainer.classList.add('collapsed');
+          isManuallyExpanded = false;
+        }
+      }
+    });
+    
+    // 初始设置
+    updateTocVisibilityByScreenSize();
   }
   
   function setupScrollSpy() {
