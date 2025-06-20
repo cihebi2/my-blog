@@ -1,0 +1,218 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Main from "@/layouts/Main.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { SITE } from "@/config";
+
+const pageTitle = "创意编程";
+const pageDesc = "探索数学艺术与创意编程的美妙世界，包含互动演示、学习资源和灵感作品。";
+---
+
+<Layout title={`${pageTitle} | ${SITE.title}`} description={pageDesc}>
+  <Header />
+  <Main pageTitle={pageTitle} pageDesc={pageDesc}>
+    
+    <!-- 作品展示区 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+        🎨 数学艺术作品
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- 数学艺术动画 -->
+        <div class="bg-skin-card p-6 rounded-lg border border-skin-line">
+          <h3 class="text-lg font-semibold mb-3">数学艺术动画</h3>
+          <p class="text-skin-base mb-4">基于复杂数学公式的动态生成艺术，使用三角函数创造流动的几何图案。</p>
+          <div class="flex gap-3">
+            <a 
+              href="/math-art.html"
+              target="_blank"
+              class="inline-block bg-skin-accent text-skin-inverted px-4 py-2 rounded text-sm hover:bg-opacity-90 transition-colors"
+            >
+              查看演示
+            </a>
+            <a 
+              href="/math-art-compact.html"
+              target="_blank"
+              class="inline-block border border-skin-line px-4 py-2 rounded text-sm hover:bg-skin-fill transition-colors"
+            >
+              紧凑版本
+            </a>
+          </div>
+        </div>
+
+        <!-- 占位卡片，为将来的作品预留 -->
+        <div class="bg-skin-card p-6 rounded-lg border border-skin-line opacity-60">
+          <h3 class="text-lg font-semibold mb-3">更多作品即将到来</h3>
+          <p class="text-skin-base mb-4">我们正在开发更多有趣的数学艺术和创意编程作品。</p>
+          <div class="text-sm text-skin-muted">
+            敬请期待...
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 学习资源区 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+        📚 学习资源
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- 社区平台 -->
+        <div class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-4 rounded-lg">
+          <h3 class="font-semibold mb-2">🌐 创意编程社区</h3>
+          <ul class="text-sm space-y-1 opacity-90">
+            <li>• OpenProcessing</li>
+            <li>• Shadertoy</li>
+            <li>• CodePen</li>
+          </ul>
+        </div>
+        
+        <!-- 学习平台 -->
+        <div class="bg-gradient-to-br from-green-500 to-emerald-600 text-white p-4 rounded-lg">
+          <h3 class="font-semibold mb-2">🎓 学习平台</h3>
+          <ul class="text-sm space-y-1 opacity-90">
+            <li>• p5.js 官方教程</li>
+            <li>• Coding Train</li>
+            <li>• Processing 基础</li>
+          </ul>
+        </div>
+        
+        <!-- 灵感来源 -->
+        <div class="bg-gradient-to-br from-purple-500 to-pink-600 text-white p-4 rounded-lg">
+          <h3 class="font-semibold mb-2">✨ 灵感来源</h3>
+          <ul class="text-sm space-y-1 opacity-90">
+            <li>• GitHub 项目</li>
+            <li>• 艺术家作品</li>
+            <li>• 数学可视化</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 详细资源列表 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6">🔗 推荐资源</h2>
+      
+      <div class="space-y-6">
+        <!-- 专业社区 -->
+        <div class="bg-skin-card p-6 rounded-lg border border-skin-line">
+          <h3 class="text-lg font-semibold mb-4 text-skin-accent">专业创意编程社区</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <h4 class="font-medium mb-2">🎨 OpenProcessing</h4>
+              <p class="text-sm text-skin-base mb-2">世界最大的 Processing/p5.js 创意编程社区，有大量免费示例代码。</p>
+              <a href="https://openprocessing.org/" target="_blank" class="text-skin-accent text-sm hover:underline">openprocessing.org →</a>
+            </div>
+            <div>
+              <h4 class="font-medium mb-2">🌟 Shadertoy</h4>
+              <p class="text-sm text-skin-base mb-2">专注于 GLSL 着色器的数学艺术平台，实时渲染效果惊艳。</p>
+              <a href="https://www.shadertoy.com/" target="_blank" class="text-skin-accent text-sm hover:underline">shadertoy.com →</a>
+            </div>
+            <div>
+              <h4 class="font-medium mb-2">💻 CodePen</h4>
+              <p class="text-sm text-skin-base mb-2">前端开发者分享创意代码的平台，搜索生成艺术相关内容。</p>
+              <a href="https://codepen.io/" target="_blank" class="text-skin-accent text-sm hover:underline">codepen.io →</a>
+            </div>
+            <div>
+              <h4 class="font-medium mb-2">📊 Observable</h4>
+              <p class="text-sm text-skin-base mb-2">数据可视化和数学艺术的高质量平台，支持互动式演示。</p>
+              <a href="https://observablehq.com/" target="_blank" class="text-skin-accent text-sm hover:underline">observablehq.com →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 学习资源 -->
+        <div class="bg-skin-card p-6 rounded-lg border border-skin-line">
+          <h3 class="text-lg font-semibold mb-4 text-skin-accent">学习教程</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <h4 class="font-medium mb-2">🎯 p5.js 官方教程</h4>
+              <p class="text-sm text-skin-base mb-2">JavaScript 创意编程库的官方学习资源。</p>
+              <a href="https://p5js.org/examples/" target="_blank" class="text-skin-accent text-sm hover:underline">p5js.org/examples →</a>
+            </div>
+            <div>
+              <h4 class="font-medium mb-2">🚂 Coding Train</h4>
+              <p class="text-sm text-skin-base mb-2">Dan Shiffman 的创意编程视频教程，生动有趣。</p>
+              <a href="https://thecodingtrain.com/" target="_blank" class="text-skin-accent text-sm hover:underline">thecodingtrain.com →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- GitHub 资源 -->
+        <div class="bg-skin-card p-6 rounded-lg border border-skin-line">
+          <h3 class="text-lg font-semibold mb-4 text-skin-accent">GitHub 精选</h3>
+          <div class="space-y-3">
+            <div>
+              <h4 class="font-medium">🌟 Awesome Creative Coding</h4>
+              <p class="text-sm text-skin-base mb-1">创意编程资源大全，包含工具、库、教程和艺术家作品。</p>
+              <a href="https://github.com/terkelg/awesome-creative-coding" target="_blank" class="text-skin-accent text-sm hover:underline">github.com/terkelg/awesome-creative-coding →</a>
+            </div>
+            <div>
+              <h4 class="font-medium">🎨 Awesome Generative Art</h4>
+              <p class="text-sm text-skin-base mb-1">生成艺术相关的工具、资源和灵感作品集合。</p>
+              <a href="https://github.com/kosmos/awesome-generative-art" target="_blank" class="text-skin-accent text-sm hover:underline">github.com/kosmos/awesome-generative-art →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 搜索关键词提示 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6">🔍 搜索关键词</h2>
+      
+      <div class="bg-skin-card p-6 rounded-lg border border-skin-line">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-semibold mb-3">英文关键词</h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-skin-fill px-3 py-1 rounded-full text-sm">generative art</span>
+              <span class="bg-skin-fill px-3 py-1 rounded-full text-sm">creative coding</span>
+              <span class="bg-skin-fill px-3 py-1 rounded-full text-sm">algorithmic art</span>
+              <span class="bg-skin-fill px-3 py-1 rounded-full text-sm">math art</span>
+              <span class="bg-skin-fill px-3 py-1 rounded-full text-sm">procedural art</span>
+            </div>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-3">中文关键词</h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-skin-fill px-3 py-1 rounded-full text-sm">生成艺术</span>
+              <span class="bg-skin-fill px-3 py-1 rounded-full text-sm">创意编程</span>
+              <span class="bg-skin-fill px-3 py-1 rounded-full text-sm">数学艺术</span>
+              <span class="bg-skin-fill px-3 py-1 rounded-full text-sm">算法艺术</span>
+              <span class="bg-skin-fill px-3 py-1 rounded-full text-sm">程序艺术</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 参与贡献 -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-6 rounded-lg border border-skin-line">
+        <h2 class="text-xl font-bold mb-4">🚀 参与贡献</h2>
+        <p class="text-skin-base mb-4">如果您有有趣的数学艺术作品或想要分享创意编程资源，欢迎参与贡献！</p>
+        <div class="flex flex-wrap gap-3">
+          <a 
+            href="https://github.com/cihebi2/my-blog/issues"
+            target="_blank"
+            class="inline-block bg-skin-accent text-skin-inverted px-4 py-2 rounded hover:bg-opacity-90 transition-colors"
+          >
+            提交建议
+          </a>
+          <a 
+            href="mailto:contact@cihebi.top"
+            class="inline-block border border-skin-line px-4 py-2 rounded hover:bg-skin-fill transition-colors"
+          >
+            联系我们
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </Main>
+  <Footer />
+</Layout> 

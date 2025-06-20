@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数学艺术 - 紧凑版</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #000;
+            color: white;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .code {
+            background-color: #222;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 12px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        #canvas-container {
+            margin: 20px 0;
+        }
+        
+        /* 代码分析区样式 */
+        .code-analysis {
+            margin: 30px 0;
+            max-width: 800px;
+        }
+        
+        .code-analysis h2 {
+            color: #fff;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        
+        .analysis-section {
+            margin: 25px 0;
+            padding: 20px;
+            background: #1a1a1a;
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+        
+        .analysis-section h3 {
+            color: #4CAF50;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        
+        .technique-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        
+        .technique-item {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #FF9800;
+        }
+        
+        .technique-item h4 {
+            margin: 0 0 8px 0;
+            color: #FF9800;
+            font-size: 14px;
+        }
+        
+        .technique-item code {
+            background: #0d1117;
+            color: #ffd700;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+        
+        .technique-item p {
+            margin: 5px 0;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        
+        .beauty-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .beauty-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .beauty-item .icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .beauty-item h4 {
+            margin: 0 0 6px 0;
+            color: #E91E63;
+            font-size: 14px;
+        }
+        
+        .beauty-item p {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        
+        .optimization-list {
+            margin-left: 20px;
+        }
+        
+        .optimization-list li {
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+        
+        .optimization-list strong {
+            color: #2196F3;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .code-analysis {
+                margin: 20px 10px;
+            }
+            
+            .technique-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .beauty-points {
+                grid-template-columns: 1fr;
+            }
+            
+            .technique-item,
+            .beauty-item {
+                padding: 12px;
+            }
+            
+            .analysis-section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>数学艺术 - 原始代码风格</h2>
+    <div class="code">
+        原始代码：a=(x,y,d=mag(k=(4+sin(y*2-t)*3)*cos(x/29),e=y/8-13))=>point((q=3*sin(k*2)+.3/k+sin(y/25)*k*(9+4*sin(e*9-d*3+t*2)))+30*cos(c=d-t)+200,q*sin(c)+d*39-220) t=0,draw=$=>{t||createCanvas(w=400,w);background(9).stroke(w,96);for(t+=PI/240,i=1e4;i--;)a(i,i/235)}
+    </div>
+    <div id="canvas-container"></div>
+    
+    <!-- 代码分析区 -->
+    <div class="code-analysis">
+        <h2>🔬 代码分析</h2>
+        
+        <div class="analysis-section">
+            <h3>代码高尔夫技巧</h3>
+            <div class="technique-grid">
+                <div class="technique-item">
+                    <h4>箭头函数</h4>
+                    <p><code>a=(x,y,...)=>...</code></p>
+                    <p>简化函数定义语法</p>
+                </div>
+                <div class="technique-item">
+                    <h4>参数默认值</h4>
+                    <p><code>d=mag(k=...)</code></p>
+                    <p>在参数中直接赋值计算</p>
+                </div>
+                <div class="technique-item">
+                    <h4>逗号操作符</h4>
+                    <p><code>t=0,draw=$=>{...}</code></p>
+                    <p>在一行中执行多个操作</p>
+                </div>
+                <div class="technique-item">
+                    <h4>科学记数法</h4>
+                    <p><code>1e4</code> = <code>10000</code></p>
+                    <p>节省字符数</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="analysis-section">
+            <h3>数学美学</h3>
+            <div class="beauty-points">
+                <div class="beauty-item">
+                    <span class="icon">🌀</span>
+                    <div>
+                        <h4>螺旋模式</h4>
+                        <p>sin/cos函数创造旋转和波动效果</p>
+                    </div>
+                </div>
+                <div class="beauty-item">
+                    <span class="icon">⚡</span>
+                    <div>
+                        <h4>动态变化</h4>
+                        <p>时间变量t让静态公式变成动画</p>
+                    </div>
+                </div>
+                <div class="beauty-item">
+                    <span class="icon">🎭</span>
+                    <div>
+                        <h4>复杂度层次</h4>
+                        <p>函数嵌套产生意想不到的图案</p>
+                    </div>
+                </div>
+                <div class="beauty-item">
+                    <span class="icon">✨</span>
+                    <div>
+                        <h4>半透明效果</h4>
+                        <p>重叠区域自然形成明暗渐变</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="analysis-section">
+            <h3>性能优化</h3>
+            <ul class="optimization-list">
+                <li><strong>点绘制</strong>：使用point()而非复杂图形，渲染速度快</li>
+                <li><strong>固定画布</strong>：400x400尺寸平衡质量与性能</li>
+                <li><strong>帧率控制</strong>：PI/240的时间增量保证流畅动画</li>
+                <li><strong>内存友好</strong>：不存储历史帧，实时计算</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // 您的原始代码，最小修改以适配 p5.js
+        let a = (x, y, d = mag(k = (4 + sin(y * 2 - t) * 3) * cos(x / 29), e = y / 8 - 13)) => 
+            point((q = 3 * sin(k * 2) + .3 / k + sin(y / 25) * k * (9 + 4 * sin(e * 9 - d * 3 + t * 2))) + 30 * cos(c = d - t) + 200, q * sin(c) + d * 39 - 220);
+        
+        let t = 0;
+        let w = 400;
+        
+        function setup() {
+            let canvas = createCanvas(w, w);
+            canvas.parent('canvas-container');
+        }
+        
+        function draw() {
+            if (!t) {
+                // 初始化只执行一次的部分已经在 setup 中处理
+            }
+            background(9);
+            stroke(w, 96);
+            t += PI / 240;
+            for (let i = 1e4; i--;) {
+                a(i, i / 235);
+            }
+        }
+    </script>
+</body>
+</html> 

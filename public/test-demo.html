@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>演示测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #111;
+            color: white;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 10px;
+            background: #1a1a1a;
+        }
+        .success {
+            border-color: #4CAF50;
+            background: #1b2e1b;
+        }
+        pre {
+            background: #0d1117;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .tab-demo {
+            margin: 20px 0;
+        }
+        .tab-btn {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #333;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .tab-btn.active {
+            background: #007bff;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background: #1a1a1a;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 功能测试页面</h1>
+    
+    <div class="test-section success">
+        <h2>✅ 页面创建成功</h2>
+        <p>如果您看到这个页面，说明HTML文件创建和访问正常。</p>
+    </div>
+    
+    <div class="test-section">
+        <h2>🎨 CSS样式测试</h2>
+        <p>这段文字应该是白色的，背景应该是深色的。</p>
+        <pre><code>// 这是一个代码块
+function test() {
+    console.log("代码高亮测试");
+}</code></pre>
+    </div>
+    
+    <div class="test-section">
+        <h2>⚡ JavaScript功能测试</h2>
+        <div class="tab-demo">
+            <button class="tab-btn active" onclick="showTabTest('tab1')">标签1</button>
+            <button class="tab-btn" onclick="showTabTest('tab2')">标签2</button>
+            <button class="tab-btn" onclick="showTabTest('tab3')">标签3</button>
+            
+            <div id="tab1" class="tab-content active">
+                <h3>标签1内容</h3>
+                <p>这是第一个标签的内容。如果您能看到这个并且能切换标签，说明JavaScript正常工作。</p>
+            </div>
+            
+            <div id="tab2" class="tab-content">
+                <h3>标签2内容</h3>
+                <p>这是第二个标签的内容。标签切换功能正常！</p>
+            </div>
+            
+            <div id="tab3" class="tab-content">
+                <h3>标签3内容</h3>
+                <p>这是第三个标签的内容。所有功能都运行正常！</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔗 链接测试</h2>
+        <p>测试链接功能：</p>
+        <ul>
+            <li><a href="/math-art.html" target="_blank" style="color: #007bff;">数学艺术动画（标准版）</a></li>
+            <li><a href="/math-art-compact.html" target="_blank" style="color: #007bff;">数学艺术动画（紧凑版）</a></li>
+            <li><a href="/creative-coding" target="_blank" style="color: #007bff;">创意编程页面</a></li>
+        </ul>
+    </div>
+
+    <script>
+        function showTabTest(tabName) {
+            // 隐藏所有标签内容
+            const allContents = document.querySelectorAll('.tab-content');
+            allContents.forEach(content => content.classList.remove('active'));
+            
+            // 移除所有按钮的活跃状态
+            const allButtons = document.querySelectorAll('.tab-btn');
+            allButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // 显示选中的内容
+            document.getElementById(tabName).classList.add('active');
+            
+            // 激活对应的按钮
+            event.target.classList.add('active');
+        }
+        
+        // 页面加载完成时显示状态
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ 测试页面加载完成！');
+            console.log('📍 当前时间:', new Date().toLocaleString());
+            
+            // 测试p5.js是否可用
+            if (typeof p5 !== 'undefined') {
+                console.log('✅ p5.js 已加载');
+            } else {
+                console.log('ℹ️ p5.js 未在此页面加载（这是正常的）');
+            }
+        });
+    </script>
+</body>
+</html> 

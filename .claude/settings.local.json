@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(timeout 600 npm install @tinacms/cli tinacms)",
+      "Bash(rm:*)",
+      "Bash(npx:*)",
+      "WebFetch(domain:app.tina.io)",
+      "WebFetch(domain:tina.io)",
+      "Bash(cp:*)",
+      "Bash(npm run dev:*)",
+      "Bash(ls:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git tag:*)",
+      "Bash(git push:*)",
+      "Bash(git merge:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": []
+  }
+}

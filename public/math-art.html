@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数学艺术动画</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        #canvas-container {
+            border: 2px solid #333;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .info {
+            margin-top: 20px;
+            text-align: center;
+            color: #ccc;
+        }
+        
+        /* 代码展示区样式 */
+        .code-section {
+            margin: 40px 0;
+            width: 100%;
+            max-width: 900px;
+        }
+        
+        .code-section h2 {
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        .code-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 10px 20px;
+            background: #333;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn:hover {
+            background: #444;
+            color: #fff;
+        }
+        
+        .tab-btn.active {
+            background: #007bff;
+            color: #fff;
+        }
+        
+        .code-content {
+            display: none;
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #333;
+        }
+        
+        .code-content.active {
+            display: block;
+        }
+        
+        .code-content h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #007bff;
+        }
+        
+        .code-content pre {
+            background: #0d1117;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #30363d;
+            margin: 15px 0;
+        }
+        
+        .code-content code {
+            color: #e6edf3;
+            font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .explanation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .formula-box {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .formula-box h4 {
+            margin: 0 0 10px 0;
+            color: #007bff;
+            font-size: 16px;
+        }
+        
+        .formula-box p {
+            margin: 5px 0;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .formula-box strong {
+            color: #ffd700;
+            font-family: 'Fira Code', monospace;
+            background: #0d1117;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+        
+        .code-content ul {
+            margin-left: 20px;
+        }
+        
+        .code-content li {
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .code-section {
+                margin: 20px 10px;
+            }
+            
+            .code-tabs {
+                justify-content: center;
+            }
+            
+            .tab-btn {
+                flex: 1;
+                min-width: 100px;
+                font-size: 14px;
+            }
+            
+            .explanation-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .code-content pre {
+                font-size: 12px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>数学艺术动画</h1>
+    <div id="canvas-container"></div>
+    
+    <!-- 代码展示区 -->
+    <div class="code-section">
+        <h2>📜 源代码解析</h2>
+        
+        <div class="code-tabs">
+            <button class="tab-btn active" onclick="showTab('original')">原始代码</button>
+            <button class="tab-btn" onclick="showTab('formatted')">格式化版本</button>
+            <button class="tab-btn" onclick="showTab('explanation')">代码解释</button>
+        </div>
+        
+        <!-- 原始代码 -->
+        <div id="original" class="code-content active">
+            <h3>原始紧凑代码</h3>
+            <pre><code>a=(x,y,d=mag(k=(4+sin(y*2-t)*3)*cos(x/29),e=y/8-13))=>point((q=3*sin(k*2)+.3/k+sin(y/25)*k*(9+4*sin(e*9-d*3+t*2)))+30*cos(c=d-t)+200,q*sin(c)+d*39-220) t=0,draw=$=>{t||createCanvas(w=400,w);background(9).stroke(w,96);for(t+=PI/240,i=1e4;i--;)a(i,i/235)}</code></pre>
+            <p>这是一个极简的"代码高尔夫"作品，用最少的代码创造最大的视觉效果。</p>
+        </div>
+        
+        <!-- 格式化版本 -->
+        <div id="formatted" class="code-content">
+            <h3>格式化后的代码</h3>
+            <pre><code>// 主要的艺术函数
+function a(x, y) {
+    // 计算复杂的数学表达式
+    let k = (4 + sin(y * 2 - t) * 3) * cos(x / 29);
+    let e = y / 8 - 13;
+    let d = mag(k, e);
+    
+    // 计算点的位置
+    let q = 3 * sin(k * 2) + 0.3 / k + sin(y / 25) * k * (9 + 4 * sin(e * 9 - d * 3 + t * 2));
+    let c = d - t;
+    
+    // 绘制点
+    point(
+        q + 30 * cos(c) + 200,
+        q * sin(c) + d * 39 - 220
+    );
+}
+
+function draw() {
+    background(9);      // 深色背景
+    stroke(255, 96);    // 半透明白色描边
+    t += PI / 240;      // 时间增量
+    
+    // 绘制10000个点
+    for (let i = 0; i < 10000; i++) {
+        a(i, i / 235);
+    }
+}</code></pre>
+        </div>
+        
+        <!-- 代码解释 -->
+        <div id="explanation" class="code-content">
+            <h3>数学原理解释</h3>
+            <div class="explanation-grid">
+                <div class="formula-box">
+                    <h4>核心变换</h4>
+                    <p><strong>k = (4 + sin(y*2-t)*3) * cos(x/29)</strong></p>
+                    <p>创建基于位置和时间的波动系数</p>
+                </div>
+                
+                <div class="formula-box">
+                    <h4>距离计算</h4>
+                    <p><strong>d = mag(k, e)</strong></p>
+                    <p>计算向量(k,e)的模长，e = y/8-13</p>
+                </div>
+                
+                <div class="formula-box">
+                    <h4>复合函数</h4>
+                    <p><strong>q = 3*sin(k*2) + 0.3/k + sin(y/25)*k*(...)</strong></p>
+                    <p>多层三角函数嵌套，创造复杂图案</p>
+                </div>
+                
+                <div class="formula-box">
+                    <h4>坐标映射</h4>
+                    <p><strong>x = q + 30*cos(d-t) + 200</strong></p>
+                    <p><strong>y = q*sin(d-t) + d*39 - 220</strong></p>
+                    <p>将计算结果映射到画布坐标</p>
+                </div>
+            </div>
+            
+            <h4>视觉效果说明</h4>
+            <ul>
+                <li><strong>时间变量 t</strong>：让图案随时间流动变化</li>
+                <li><strong>多层嵌套</strong>：sin/cos函数嵌套产生复杂几何形状</li>
+                <li><strong>大量采样</strong>：10000个点形成连续的视觉效果</li>
+                <li><strong>半透明描边</strong>：重叠区域产生明暗层次</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="info">
+        <p>这是一个基于数学公式的动态艺术作品</p>
+        <p>使用三角函数和复杂的数学表达式生成美丽的图案</p>
+    </div>
+
+    <script>
+        // 原始代码，稍作格式化以便理解
+        let t = 0;
+        let w = 400;
+        
+        // 主要的艺术函数
+        function a(x, y) {
+            // 计算复杂的数学表达式
+            let k = (4 + sin(y * 2 - t) * 3) * cos(x / 29);
+            let e = y / 8 - 13;
+            let d = mag(k, e);
+            
+            // 计算点的位置
+            let q = 3 * sin(k * 2) + 0.3 / k + sin(y / 25) * k * (9 + 4 * sin(e * 9 - d * 3 + t * 2));
+            let c = d - t;
+            
+            // 绘制点
+            point(
+                q + 30 * cos(c) + 200,
+                q * sin(c) + d * 39 - 220
+            );
+        }
+        
+        function setup() {
+            // 创建画布并设置在容器中
+            let canvas = createCanvas(w, w);
+            canvas.parent('canvas-container');
+        }
+        
+        function draw() {
+            // 设置背景和描边
+            background(9);
+            stroke(255, 96);
+            
+            // 增加时间
+            t += PI / 240;
+            
+            // 绘制大量的点来创建图案
+            for (let i = 0; i < 10000; i++) {
+                a(i, i / 235);
+            }
+        }
+        
+        // 标签页切换功能
+        function showTab(tabName) {
+            // 隐藏所有内容
+            const allContents = document.querySelectorAll('.code-content');
+            allContents.forEach(content => content.classList.remove('active'));
+            
+            // 移除所有按钮的活跃状态
+            const allButtons = document.querySelectorAll('.tab-btn');
+            allButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // 显示选中的内容
+            document.getElementById(tabName).classList.add('active');
+            
+            // 激活对应的按钮
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html> 
