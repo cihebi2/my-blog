@@ -4,7 +4,7 @@ import { SITE } from "@/config";
 import "@/styles/global.css";
 import SpeedInsights from "@vercel/speed-insights/astro"
 
-const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || "google3f7d6bf470e0d8d7";
 
 export interface Props {
   title?: string;
