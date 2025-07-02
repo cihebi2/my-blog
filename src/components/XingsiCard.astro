@@ -1,399 +1,465 @@
 ---
 import type { XingsiRecord } from "@/types/xingsi";
 
-interface Props {
+export interface Props {
   record: XingsiRecord;
 }
 
 const { record } = Astro.props;
 
-// 格式化日期
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    weekday: 'long'
-  });
+// 解析日期
+const date = new Date(record.datetime);
+const formattedDate = date.toLocaleDateString('zh-CN', {
+  month: 'long',
+  day: 'numeric'
+});
+const formattedTime = date.toLocaleTimeString('zh-CN', {
+  hour: '2-digit',
+  minute: '2-digit'
+});
+
+// 提取今日小计的摘要（前80字符）
+const getSummary = (text: string) => {
+  const cleanText = text.replace(/\*\*/g, '').replace(/\n+/g, ' ').trim();
+  return cleanText.length > 80 ? cleanText.substring(0, 80) + '...' : cleanText;
 };
 
-// 格式化时间
-const formatTime = (dateString: string) => {
-  const date = new Date(dateString);
-  return date.toLocaleTimeString('zh-CN', {
-    hour: '2-digit',
-    minute: '2-digit'
-  });
+// 获取主题色调
+const getThemeColor = (theme: string) => {
+  const themes: Record<string, string> = {
+    '精力节律优化': 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
+    '情绪管理': 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300', 
+    '时间管理': 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
+    '学习效率': 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
+    '人际关系': 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300',
+    '健康管理': 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+  };
+  return themes[theme] || 'bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-300';
 };
 
-// 截取今日小计的前100个字符作为预览
-const getDailySummaryPreview = (summary: string) => {
-  // 移除markdown标记和多余的换行
-  const cleaned = summary
-    .replace(/\*\*/g, '')
-    .replace(/\n\n+/g, '\n')
-    .replace(/^\*\*?\n*今日小计\n*/g, '')
-    .trim();
-  
-  return cleaned.length > 150 ? cleaned.substring(0, 150) + '...' : cleaned;
+// 获取心情图标
+const getMoodIcon = (feeling: string) => {
+  if (feeling.includes('平静') || feeling.includes('自在')) return '😌';
+  if (feeling.includes('疲惫') || feeling.includes('累')) return '😴';
+  if (feeling.includes('失望') || feeling.includes('沮丧')) return '😞';
+  if (feeling.includes('焦虑') || feeling.includes('烦躁')) return '😰';
+  if (feeling.includes('满足') || feeling.includes('开心')) return '😊';
+  if (feeling.includes('困惑') || feeling.includes('迷茫')) return '🤔';
+  return '🙂';
 };
 
-// 获取洞察的关键词
-const getInsightKeywords = (insight: string) => {
-  const keywords = insight.match(/\*\*(.*?)\*\*/g);
-  return keywords ? keywords.map(k => k.replace(/\*\*/g, '')) : [];
-};
+// 生成唯一ID
+const cardId = `card-${record.datetime.replace(/[^0-9]/g, '')}`;
 ---
 
-<div class="xingsi-card">
-  <div class="card-header">
-    <div class="date-info">
-      <h3 class="date">{formatDate(record.datetime)}</h3>
-      <span class="time">{formatTime(record.datetime)}</span>
+<article class="xingsi-card" data-id={cardId}>
+  <!-- 卡片头部 -->
+  <header class="card-header">
+    <div class="date-section">
+      <time class="date-text">{formattedDate}</time>
+      <span class="time-text">{formattedTime}</span>
     </div>
-    {record.主题行动复盘.title && (
-      <div class="theme-title">
-        <span class="theme-label">主题</span>
-        <span class="theme-text">{record.主题行动复盘.title}</span>
-      </div>
-    )}
-  </div>
+    <div class="mood-section">
+      <span class="mood-icon">{getMoodIcon(record.察觉与洞察.感受)}</span>
+    </div>
+  </header>
 
-  {record.image_url && (
-    <div class="card-image">
-      <img src={record.image_url} alt="行思录配图" loading="lazy" />
+  <!-- 主题标签 -->
+  {record.主题行动复盘.details.本周主题 && (
+    <div class="theme-row">
+      <span class={`theme-tag ${getThemeColor(record.主题行动复盘.details.本周主题)}`}>
+        {record.主题行动复盘.details.本周主题}
+      </span>
     </div>
   )}
 
-  <div class="card-content">
-    <!-- 今日小计预览 -->
-    <div class="section daily-summary">
-      <h4 class="section-title">📝 今日小计</h4>
-      <p class="summary-preview">{getDailySummaryPreview(record.今日小计)}</p>
-    </div>
-
-    <!-- 主题行动复盘 -->
-    <div class="section theme-review">
-      <h4 class="section-title">🎯 主题行动复盘</h4>
-      <div class="theme-content">
-        <div class="theme-item">
-          <span class="label">本周主题：</span>
-          <span class="value">{record.主题行动复盘.details.本周主题}</span>
-        </div>
-        <div class="theme-item">
-          <span class="label">今日实验：</span>
-          <span class="value">{record.主题行动复盘.details.今日实验}</span>
-        </div>
+  <!-- 内容预览 -->
+  <div class="content-preview">
+    <p class="summary-text">
+      {getSummary(record.今日小计)}
+    </p>
+    
+    {record.察觉与洞察.洞察 && (
+      <div class="insight-preview">
+        <span class="insight-label">💡</span>
+        <span class="insight-text">
+          {record.察觉与洞察.洞察.length > 60 
+            ? record.察觉与洞察.洞察.substring(0, 60) + '...'
+            : record.察觉与洞察.洞察
+          }
+        </span>
       </div>
-    </div>
-
-    <!-- 察觉与洞察 -->
-    <div class="section insights">
-      <h4 class="section-title">💡 察觉与洞察</h4>
-      <div class="insights-content">
-        <div class="feeling">
-          <span class="feeling-label">感受：</span>
-          <span class="feeling-text">{record.察觉与洞察.感受}</span>
-        </div>
-        <div class="insight">
-          <span class="insight-label">洞察：</span>
-          <p class="insight-text" set:html={record.察觉与洞察.洞察.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}></p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 明日计划 -->
-    <div class="section tomorrow-plan">
-      <h4 class="section-title">📅 明日计划</h4>
-      <p class="plan-text" set:html={record.明日计划.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}></p>
-    </div>
+    )}
   </div>
 
-  <div class="card-footer">
-    <div class="tags">
-      <span class="tag">{record.主题行动复盘.details.本周主题}</span>
-      <span class="tag feeling-tag">{record.察觉与洞察.感受}</span>
+  <!-- 点击展开按钮 -->
+  <button class="expand-button" onclick={`toggleDetail('${cardId}')`}>
+    <span class="expand-text">查看详情</span>
+    <span class="expand-icon">▼</span>
+  </button>
+</article>
+
+<!-- 详情模态框 -->
+<div id={`detail-${cardId}`} class="detail-modal hidden">
+  <div class="modal-overlay" onclick={`toggleDetail('${cardId}')`}></div>
+  <div class="modal-content">
+    <!-- 模态框头部 -->
+    <header class="modal-header">
+      <div>
+        <h2 class="modal-title">行思录详情</h2>
+        <p class="modal-date">{formattedDate} {formattedTime}</p>
+      </div>
+      <button class="close-btn" onclick={`toggleDetail('${cardId}')`}>✕</button>
+    </header>
+
+    <!-- 模态框内容 -->
+    <div class="modal-body">
+      <!-- 今日小计 -->
+      <section class="detail-section">
+        <h3 class="section-title">📝 今日小计</h3>
+        <div class="section-content">
+          <p class="text-content">{record.今日小计.replace(/\*\*/g, '').replace(/\n/g, '<br>')}</p>
+        </div>
+      </section>
+
+      <!-- 主题行动复盘 -->
+      {record.主题行动复盘.title && (
+        <section class="detail-section">
+          <h3 class="section-title">🔄 主题行动复盘</h3>
+          <div class="section-content">
+            <h4 class="subsection-title">"{record.主题行动复盘.title}"</h4>
+            <div class="details-grid">
+              <div class="detail-item">
+                <strong>本周主题：</strong>
+                <span>{record.主题行动复盘.details.本周主题}</span>
+              </div>
+              {record.主题行动复盘.details.今日实验 && (
+                <div class="detail-item">
+                  <strong>今日实验：</strong>
+                  <span>{record.主题行动复盘.details.今日实验}</span>
+                </div>
+              )}
+              {record.主题行动复盘.details.行动与观察 && (
+                <div class="detail-item">
+                  <strong>行动与观察：</strong>
+                  <span>{record.主题行动复盘.details.行动与观察}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <!-- 察觉与洞察 -->
+      <section class="detail-section">
+        <h3 class="section-title">💡 察觉与洞察</h3>
+        <div class="section-content">
+          <div class="insight-details">
+            <div class="detail-item">
+              <strong>感受：</strong>
+              <span class="feeling-text">{record.察觉与洞察.感受}</span>
+            </div>
+            <div class="detail-item">
+              <strong>洞察：</strong>
+              <div class="insight-content">
+                {record.察觉与洞察.洞察}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 明日计划 -->
+      {record.明日计划 && (
+        <section class="detail-section">
+          <h3 class="section-title">🎯 明日计划</h3>
+          <div class="section-content">
+            <p class="plan-content">{record.明日计划}</p>
+          </div>
+        </section>
+      )}
+
+      <!-- 配图 -->
+      {record.image_url && (
+        <section class="detail-section">
+          <h3 class="section-title">🖼️ 配图</h3>
+          <div class="section-content">
+            <img 
+              src={record.image_url} 
+              alt="行思录配图"
+              class="detail-image"
+              loading="lazy"
+            />
+          </div>
+        </section>
+      )}
     </div>
-    {record.flomo_link && (
-      <a href={record.flomo_link} class="flomo-link" target="_blank" rel="noopener">
-        查看原始记录 →
-      </a>
-    )}
+
+    <!-- 模态框底部 -->
+    <footer class="modal-footer">
+      {record.flomo_link && (
+        <a href={record.flomo_link} class="flomo-link" target="_blank" rel="noopener">
+          📱 查看原文
+        </a>
+      )}
+      <button class="close-btn-secondary" onclick={`toggleDetail('${cardId}')`}>
+        关闭
+      </button>
+    </footer>
   </div>
 </div>
 
 <style>
+  /* 卡片主体样式 - 更紧凑 */
   .xingsi-card {
-    background: var(--color-card-muted);
-    border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 24px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s ease;
-    border: 1px solid rgba(var(--color-border), 0.1);
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300;
+    @apply border border-gray-200 dark:border-gray-700 cursor-pointer;
+    @apply transform hover:-translate-y-1 hover:scale-105;
+    @apply p-3; /* 减少内边距 */
   }
 
-  .xingsi-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  }
-
+  /* 卡片头部 */
   .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    gap: 12px;
+    @apply flex justify-between items-center mb-2;
   }
 
-  .date-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  .date-section {
+    @apply flex flex-col;
   }
 
-  .date {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: rgb(var(--color-text-base));
-    margin: 0;
+  .date-text {
+    @apply text-sm font-medium text-gray-700 dark:text-gray-300;
   }
 
-  .time {
-    font-size: 0.875rem;
-    color: rgb(var(--color-text-muted));
-    opacity: 0.8;
+  .time-text {
+    @apply text-xs text-gray-500 dark:text-gray-400;
   }
 
-  .theme-title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(var(--color-accent), 0.1);
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.875rem;
+  .mood-section {
+    @apply flex items-center;
   }
 
-  .theme-label {
-    color: rgb(var(--color-accent));
-    font-weight: 500;
+  .mood-icon {
+    @apply text-lg;
   }
 
-  .theme-text {
-    color: rgb(var(--color-text-base));
-    font-weight: 500;
+  /* 主题标签 */
+  .theme-row {
+    @apply mb-2;
   }
 
-  .card-image {
-    margin-bottom: 20px;
-    border-radius: 12px;
-    overflow: hidden;
+  .theme-tag {
+    @apply text-xs px-2 py-1 rounded-full font-medium;
   }
 
-  .card-image img {
-    width: 100%;
-    height: auto;
-    max-height: 300px;
-    object-fit: cover;
+  /* 内容预览 - 更紧凑 */
+  .content-preview {
+    @apply space-y-2 mb-3;
   }
 
-  .section {
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(var(--color-border), 0.1);
+  .summary-text {
+    @apply text-sm text-gray-700 dark:text-gray-300 leading-relaxed;
+    @apply line-clamp-2; /* 限制为2行 */
   }
 
-  .section:last-child {
-    margin-bottom: 0;
-    padding-bottom: 0;
-    border-bottom: none;
-  }
-
-  .section-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: rgb(var(--color-text-base));
-    margin: 0 0 12px 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .summary-preview {
-    color: rgb(var(--color-text-muted));
-    line-height: 1.6;
-    margin: 0;
-  }
-
-  .theme-content {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .theme-item {
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-  }
-
-  .label {
-    color: rgb(var(--color-text-muted));
-    font-weight: 500;
-    min-width: 80px;
-    font-size: 0.875rem;
-  }
-
-  .value {
-    color: rgb(var(--color-text-base));
-    flex: 1;
-    font-size: 0.875rem;
-    line-height: 1.5;
-  }
-
-  .insights-content {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .feeling {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .feeling-label {
-    color: rgb(var(--color-text-muted));
-    font-weight: 500;
-    font-size: 0.875rem;
-  }
-
-  .feeling-text {
-    background: linear-gradient(135deg, rgba(var(--color-accent), 0.2), rgba(var(--color-accent), 0.1));
-    padding: 4px 12px;
-    border-radius: 16px;
-    font-size: 0.875rem;
-    color: rgb(var(--color-text-base));
-    font-weight: 500;
-  }
-
-  .insight {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+  .insight-preview {
+    @apply flex items-start gap-1 p-2 bg-blue-50 dark:bg-blue-900/20 rounded;
   }
 
   .insight-label {
-    color: rgb(var(--color-text-muted));
-    font-weight: 500;
-    font-size: 0.875rem;
+    @apply text-sm flex-shrink-0;
   }
 
   .insight-text {
-    color: rgb(var(--color-text-base));
-    line-height: 1.6;
-    margin: 0;
-    font-size: 0.925rem;
+    @apply text-xs text-gray-600 dark:text-gray-400 italic;
+    @apply line-clamp-2; /* 限制为2行 */
   }
 
-  .insight-text strong {
-    color: rgb(var(--color-accent));
-    font-weight: 600;
+  /* 展开按钮 */
+  .expand-button {
+    @apply w-full flex justify-between items-center p-2 text-sm;
+    @apply text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300;
+    @apply bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 dark:hover:bg-blue-900/30;
+    @apply rounded transition-colors;
   }
 
-  .plan-text {
-    color: rgb(var(--color-text-base));
-    line-height: 1.6;
-    margin: 0;
-    font-size: 0.925rem;
+  .expand-text {
+    @apply font-medium;
   }
 
-  .plan-text strong {
-    color: rgb(var(--color-accent));
-    font-weight: 600;
+  .expand-icon {
+    @apply text-xs transition-transform duration-200;
   }
 
-  .card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(var(--color-border), 0.1);
-    flex-wrap: wrap;
-    gap: 12px;
+  .expand-button:hover .expand-icon {
+    @apply transform rotate-180;
   }
 
-  .tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+  /* 模态框样式 */
+  .detail-modal {
+    @apply fixed inset-0 z-50 flex items-center justify-center p-4;
   }
 
-  .tag {
-    background: rgba(var(--color-text-muted), 0.1);
-    color: rgb(var(--color-text-muted));
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 500;
+  .modal-overlay {
+    @apply absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm;
   }
 
-  .feeling-tag {
-    background: rgba(var(--color-accent), 0.15);
-    color: rgb(var(--color-accent));
+  .modal-content {
+    @apply relative bg-white dark:bg-gray-800 rounded-lg shadow-xl;
+    @apply w-full max-w-4xl max-h-[90vh] overflow-hidden;
+    @apply border border-gray-200 dark:border-gray-700;
+  }
+
+  /* 模态框头部 */
+  .modal-header {
+    @apply flex justify-between items-start p-4 border-b border-gray-200 dark:border-gray-700;
+    @apply bg-gray-50 dark:bg-gray-750;
+  }
+
+  .modal-title {
+    @apply text-lg font-semibold text-gray-900 dark:text-white;
+  }
+
+  .modal-date {
+    @apply text-sm text-gray-600 dark:text-gray-400;
+  }
+
+  .close-btn {
+    @apply text-gray-400 hover:text-gray-600 dark:hover:text-gray-300;
+    @apply text-xl font-bold cursor-pointer;
+  }
+
+  /* 模态框内容 */
+  .modal-body {
+    @apply p-4 overflow-y-auto max-h-[calc(90vh-120px)];
+    @apply space-y-6;
+  }
+
+  .detail-section {
+    @apply border-b border-gray-100 dark:border-gray-700 pb-4 last:border-b-0;
+  }
+
+  .section-title {
+    @apply text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3;
+  }
+
+  .section-content {
+    @apply space-y-3;
+  }
+
+  .subsection-title {
+    @apply text-base font-medium text-purple-700 dark:text-purple-300;
+    @apply bg-purple-50 dark:bg-purple-900/20 p-2 rounded;
+  }
+
+  .details-grid {
+    @apply space-y-2;
+  }
+
+  .detail-item {
+    @apply flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-2;
+  }
+
+  .detail-item strong {
+    @apply text-gray-700 dark:text-gray-300 min-w-24;
+  }
+
+  .detail-item span {
+    @apply text-gray-600 dark:text-gray-400;
+  }
+
+  .text-content {
+    @apply text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line;
+  }
+
+  .feeling-text {
+    @apply text-orange-600 dark:text-orange-400 font-medium;
+  }
+
+  .insight-content {
+    @apply text-gray-700 dark:text-gray-300 leading-relaxed;
+    @apply bg-blue-50 dark:bg-blue-900/20 p-3 rounded border-l-4 border-blue-400;
+    @apply italic;
+  }
+
+  .plan-content {
+    @apply text-gray-700 dark:text-gray-300 leading-relaxed;
+    @apply bg-green-50 dark:bg-green-900/20 p-3 rounded;
+  }
+
+  .detail-image {
+    @apply w-full max-w-md mx-auto rounded-lg shadow-md;
+  }
+
+  /* 模态框底部 */
+  .modal-footer {
+    @apply flex justify-between items-center p-4 border-t border-gray-200 dark:border-gray-700;
+    @apply bg-gray-50 dark:bg-gray-750;
   }
 
   .flomo-link {
-    color: rgb(var(--color-accent));
-    text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: opacity 0.2s ease;
+    @apply text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300;
+    @apply text-sm transition-colors;
   }
 
-  .flomo-link:hover {
-    opacity: 0.8;
+  .close-btn-secondary {
+    @apply px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded;
+    @apply transition-colors;
   }
 
-  /* 响应式设计 */
-  @media (max-width: 768px) {
-    .xingsi-card {
-      padding: 16px;
-      margin-bottom: 16px;
-    }
+  /* 隐藏类 */
+  .hidden {
+    @apply invisible opacity-0 pointer-events-none;
+  }
 
-    .card-header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+  /* 行截断 */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 
-    .date {
-      font-size: 1.125rem;
+  /* 响应式 */
+  @media (max-width: 640px) {
+    .modal-content {
+      @apply max-w-full m-2;
     }
-
-    .theme-item {
-      flex-direction: column;
-      gap: 4px;
+    
+    .detail-item {
+      @apply flex-col;
     }
-
-    .label {
-      min-width: auto;
-    }
-
-    .feeling {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 6px;
-    }
-
-    .card-footer {
-      flex-direction: column;
-      align-items: flex-start;
+    
+    .modal-footer {
+      @apply flex-col gap-2;
     }
   }
 </style>
+
+<script>
+  // 切换详情显示的全局函数
+  window.toggleDetail = function(cardId: string) {
+    const modal = document.getElementById(`detail-${cardId}`);
+    if (modal) {
+      modal.classList.toggle('hidden');
+      
+      // 防止背景滚动
+      if (!modal.classList.contains('hidden')) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
+  };
+
+  // ESC键关闭模态框
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const openModals = document.querySelectorAll('.detail-modal:not(.hidden)');
+      openModals.forEach(modal => {
+        modal.classList.add('hidden');
+      });
+      document.body.style.overflow = '';
+    }
+  });
+</script>
