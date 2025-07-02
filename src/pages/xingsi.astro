@@ -1,0 +1,322 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import XingsiCard from "@/components/XingsiCard.astro";
+import { SITE } from "@/config";
+
+// 导入行思录数据
+import xingsiData from "@/data/xingsi.json";
+import type { XingsiRecord } from "@/types/xingsi";
+
+// 类型转换和数据处理
+const records: XingsiRecord[] = xingsiData as XingsiRecord[];
+
+// 按日期排序（最新的在前面）
+const sortedRecords = records.sort((a, b) => {
+  return new Date(b.datetime).getTime() - new Date(a.datetime).getTime();
+});
+
+// 获取统计信息
+const totalRecords = records.length;
+const dateRange = {
+  start: new Date(Math.min(...records.map(r => new Date(r.datetime).getTime()))),
+  end: new Date(Math.max(...records.map(r => new Date(r.datetime).getTime())))
+};
+
+// 主题统计
+const themeStats = records.reduce((acc, record) => {
+  const theme = record.主题行动复盘.details.本周主题;
+  acc[theme] = (acc[theme] || 0) + 1;
+  return acc;
+}, {} as Record<string, number>);
+
+const topThemes = Object.entries(themeStats)
+  .sort(([,a], [,b]) => b - a)
+  .slice(0, 5);
+
+// 感受统计
+const feelingStats = records.reduce((acc, record) => {
+  const feelings = record.察觉与洞察.感受.split(/[、，,]/).map(f => f.trim()).filter(f => f);
+  feelings.forEach(feeling => {
+    acc[feeling] = (acc[feeling] || 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+const topFeelings = Object.entries(feelingStats)
+  .sort(([,a], [,b]) => b - a)
+  .slice(0, 8);
+---
+
+<Layout 
+  title="行思录 | Cihebi's Blog"
+  description="个人成长与反思记录，记录每日的思考、感受和洞察"
+>
+  <Header />
+  
+  <main id="main-content">
+    <div class="container">
+      <!-- 页面头部 -->
+      <div class="page-header">
+        <div class="title-section">
+          <h1 class="page-title">📔 行思录</h1>
+          <p class="page-description">
+            记录日常思考与感悟，追踪个人成长轨迹。这里是我的反思空间，记录着每天的实验、洞察和计划。
+          </p>
+        </div>
+        
+        <!-- 统计信息 -->
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number">{totalRecords}</div>
+            <div class="stat-label">记录总数</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">{Math.ceil((dateRange.end.getTime() - dateRange.start.getTime()) / (1000 * 60 * 60 * 24))}</div>
+            <div class="stat-label">记录天数</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">{Object.keys(themeStats).length}</div>
+            <div class="stat-label">主题数量</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">{records.filter(r => r.image_url).length}</div>
+            <div class="stat-label">有图记录</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 主题和感受标签云 -->
+      <div class="insights-overview">
+        <div class="insight-section">
+          <h3>🎯 主要主题</h3>
+          <div class="tag-cloud">
+            {topThemes.map(([theme, count]) => (
+              <span class="theme-tag" style={`font-size: ${Math.min(1.2, 0.8 + count * 0.1)}rem`}>
+                {theme} ({count})
+              </span>
+            ))}
+          </div>
+        </div>
+        
+        <div class="insight-section">
+          <h3>💭 情感记录</h3>
+          <div class="tag-cloud">
+            {topFeelings.map(([feeling, count]) => (
+              <span class="feeling-tag" style={`font-size: ${Math.min(1.1, 0.75 + count * 0.05)}rem`}>
+                {feeling} ({count})
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- 记录列表 -->
+      <div class="records-section">
+        <h2 class="section-title">📋 记录时光</h2>
+        <div class="records-grid">
+          {sortedRecords.map((record) => (
+            <XingsiCard record={record} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <Footer />
+</Layout>
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .page-header {
+    margin: 40px 0 60px 0;
+    text-align: center;
+  }
+
+  .title-section {
+    margin-bottom: 40px;
+  }
+
+  .page-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: rgb(var(--color-text-base));
+    margin: 0 0 16px 0;
+    background: linear-gradient(135deg, rgb(var(--color-accent)), rgb(var(--color-accent)) 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .page-description {
+    font-size: 1.125rem;
+    color: rgb(var(--color-text-muted));
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 24px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .stat-item {
+    background: var(--color-card-muted);
+    padding: 24px 16px;
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid rgba(var(--color-border), 0.1);
+    transition: transform 0.2s ease;
+  }
+
+  .stat-item:hover {
+    transform: translateY(-2px);
+  }
+
+  .stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgb(var(--color-accent));
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    color: rgb(var(--color-text-muted));
+    font-weight: 500;
+  }
+
+  .insights-overview {
+    margin-bottom: 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .insight-section {
+    background: var(--color-card-muted);
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid rgba(var(--color-border), 0.1);
+  }
+
+  .insight-section h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: rgb(var(--color-text-base));
+    margin: 0 0 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .theme-tag, .feeling-tag {
+    background: rgba(var(--color-accent), 0.1);
+    color: rgb(var(--color-accent));
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: default;
+  }
+
+  .feeling-tag {
+    background: rgba(var(--color-text-muted), 0.1);
+    color: rgb(var(--color-text-muted));
+  }
+
+  .theme-tag:hover, .feeling-tag:hover {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+
+  .records-section {
+    margin-bottom: 60px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: rgb(var(--color-text-base));
+    margin: 0 0 32px 0;
+    text-align: center;
+  }
+
+  .records-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .container {
+      padding: 0 16px;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+    }
+
+    .page-description {
+      font-size: 1rem;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .stat-item {
+      padding: 16px 12px;
+    }
+
+    .stat-number {
+      font-size: 1.5rem;
+    }
+
+    .insights-overview {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .insight-section {
+      padding: 20px;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-title {
+      font-size: 2rem;
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .tag-cloud {
+      justify-content: center;
+    }
+  }
+</style>

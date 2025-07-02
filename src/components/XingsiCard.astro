@@ -1,0 +1,399 @@
+---
+import type { XingsiRecord } from "@/types/xingsi";
+
+interface Props {
+  record: XingsiRecord;
+}
+
+const { record } = Astro.props;
+
+// 格式化日期
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('zh-CN', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    weekday: 'long'
+  });
+};
+
+// 格式化时间
+const formatTime = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleTimeString('zh-CN', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+};
+
+// 截取今日小计的前100个字符作为预览
+const getDailySummaryPreview = (summary: string) => {
+  // 移除markdown标记和多余的换行
+  const cleaned = summary
+    .replace(/\*\*/g, '')
+    .replace(/\n\n+/g, '\n')
+    .replace(/^\*\*?\n*今日小计\n*/g, '')
+    .trim();
+  
+  return cleaned.length > 150 ? cleaned.substring(0, 150) + '...' : cleaned;
+};
+
+// 获取洞察的关键词
+const getInsightKeywords = (insight: string) => {
+  const keywords = insight.match(/\*\*(.*?)\*\*/g);
+  return keywords ? keywords.map(k => k.replace(/\*\*/g, '')) : [];
+};
+---
+
+<div class="xingsi-card">
+  <div class="card-header">
+    <div class="date-info">
+      <h3 class="date">{formatDate(record.datetime)}</h3>
+      <span class="time">{formatTime(record.datetime)}</span>
+    </div>
+    {record.主题行动复盘.title && (
+      <div class="theme-title">
+        <span class="theme-label">主题</span>
+        <span class="theme-text">{record.主题行动复盘.title}</span>
+      </div>
+    )}
+  </div>
+
+  {record.image_url && (
+    <div class="card-image">
+      <img src={record.image_url} alt="行思录配图" loading="lazy" />
+    </div>
+  )}
+
+  <div class="card-content">
+    <!-- 今日小计预览 -->
+    <div class="section daily-summary">
+      <h4 class="section-title">📝 今日小计</h4>
+      <p class="summary-preview">{getDailySummaryPreview(record.今日小计)}</p>
+    </div>
+
+    <!-- 主题行动复盘 -->
+    <div class="section theme-review">
+      <h4 class="section-title">🎯 主题行动复盘</h4>
+      <div class="theme-content">
+        <div class="theme-item">
+          <span class="label">本周主题：</span>
+          <span class="value">{record.主题行动复盘.details.本周主题}</span>
+        </div>
+        <div class="theme-item">
+          <span class="label">今日实验：</span>
+          <span class="value">{record.主题行动复盘.details.今日实验}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 察觉与洞察 -->
+    <div class="section insights">
+      <h4 class="section-title">💡 察觉与洞察</h4>
+      <div class="insights-content">
+        <div class="feeling">
+          <span class="feeling-label">感受：</span>
+          <span class="feeling-text">{record.察觉与洞察.感受}</span>
+        </div>
+        <div class="insight">
+          <span class="insight-label">洞察：</span>
+          <p class="insight-text" set:html={record.察觉与洞察.洞察.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 明日计划 -->
+    <div class="section tomorrow-plan">
+      <h4 class="section-title">📅 明日计划</h4>
+      <p class="plan-text" set:html={record.明日计划.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}></p>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <div class="tags">
+      <span class="tag">{record.主题行动复盘.details.本周主题}</span>
+      <span class="tag feeling-tag">{record.察觉与洞察.感受}</span>
+    </div>
+    {record.flomo_link && (
+      <a href={record.flomo_link} class="flomo-link" target="_blank" rel="noopener">
+        查看原始记录 →
+      </a>
+    )}
+  </div>
+</div>
+
+<style>
+  .xingsi-card {
+    background: var(--color-card-muted);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(var(--color-border), 0.1);
+  }
+
+  .xingsi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .date-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .date {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: rgb(var(--color-text-base));
+    margin: 0;
+  }
+
+  .time {
+    font-size: 0.875rem;
+    color: rgb(var(--color-text-muted));
+    opacity: 0.8;
+  }
+
+  .theme-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(var(--color-accent), 0.1);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+  }
+
+  .theme-label {
+    color: rgb(var(--color-accent));
+    font-weight: 500;
+  }
+
+  .theme-text {
+    color: rgb(var(--color-text-base));
+    font-weight: 500;
+  }
+
+  .card-image {
+    margin-bottom: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .card-image img {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+  }
+
+  .section {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(var(--color-border), 0.1);
+  }
+
+  .section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgb(var(--color-text-base));
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .summary-preview {
+    color: rgb(var(--color-text-muted));
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .theme-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .theme-item {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .label {
+    color: rgb(var(--color-text-muted));
+    font-weight: 500;
+    min-width: 80px;
+    font-size: 0.875rem;
+  }
+
+  .value {
+    color: rgb(var(--color-text-base));
+    flex: 1;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .insights-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .feeling {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .feeling-label {
+    color: rgb(var(--color-text-muted));
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+
+  .feeling-text {
+    background: linear-gradient(135deg, rgba(var(--color-accent), 0.2), rgba(var(--color-accent), 0.1));
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.875rem;
+    color: rgb(var(--color-text-base));
+    font-weight: 500;
+  }
+
+  .insight {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .insight-label {
+    color: rgb(var(--color-text-muted));
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+
+  .insight-text {
+    color: rgb(var(--color-text-base));
+    line-height: 1.6;
+    margin: 0;
+    font-size: 0.925rem;
+  }
+
+  .insight-text strong {
+    color: rgb(var(--color-accent));
+    font-weight: 600;
+  }
+
+  .plan-text {
+    color: rgb(var(--color-text-base));
+    line-height: 1.6;
+    margin: 0;
+    font-size: 0.925rem;
+  }
+
+  .plan-text strong {
+    color: rgb(var(--color-accent));
+    font-weight: 600;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(var(--color-border), 0.1);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    background: rgba(var(--color-text-muted), 0.1);
+    color: rgb(var(--color-text-muted));
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .feeling-tag {
+    background: rgba(var(--color-accent), 0.15);
+    color: rgb(var(--color-accent));
+  }
+
+  .flomo-link {
+    color: rgb(var(--color-accent));
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: opacity 0.2s ease;
+  }
+
+  .flomo-link:hover {
+    opacity: 0.8;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .xingsi-card {
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .card-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .date {
+      font-size: 1.125rem;
+    }
+
+    .theme-item {
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .label {
+      min-width: auto;
+    }
+
+    .feeling {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .card-footer {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
