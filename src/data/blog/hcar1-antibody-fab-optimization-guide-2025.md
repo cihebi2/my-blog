@@ -1,9 +1,8 @@
 ---
 title: 'HCAR1抗体Fab优化实施指南2025：基于Boltz-1的革命性设计流程'
 description: '详细解析最新的HCAR1抗体Fab片段优化方法，深入探讨Boltz-1开源结构预测工具、INDI数据库工作流程和GPU加速策略，提供12天内实现高选择性、高表达抗体设计的完整实施方案。'
-pubDate: 'Jan 04 2025'
-heroImage: '/blog-placeholder-2.jpg'
-category: '生物计算'
+pubDatetime: 2025-01-04T00:00:00.000Z
+ogImage: '/blog-placeholder-2.jpg'
 tags: ['HCAR1', 'Fab优化', 'Boltz-1', '抗体工程', 'GPU加速', '结构预测', '蛋白质设计']
 ---
 

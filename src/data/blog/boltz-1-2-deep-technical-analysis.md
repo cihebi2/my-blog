@@ -1,9 +1,8 @@
 ---
 title: 'Boltz-1与Boltz-2深度解析：开源AI重新定义生物分子建模的未来'
 description: '深入分析MIT开发的突破性开源AI系统Boltz-1和Boltz-2，探讨其在蛋白质结构预测、分子对接和药物发现中的技术创新与应用前景，以及如何通过1000倍速度提升改变整个制药行业。'
-pubDate: 'Jan 03 2025'
-heroImage: '/blog-placeholder-4.jpg'
-category: '生物计算'
+pubDatetime: 2025-01-03T00:00:00.000Z
+ogImage: '/blog-placeholder-4.jpg'
 tags: ['Boltz', '蛋白质预测', '分子对接', '开源AI', 'MIT', '药物发现', '生物分子建模']
 ---
 

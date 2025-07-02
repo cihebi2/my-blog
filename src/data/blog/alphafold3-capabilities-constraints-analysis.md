@@ -1,11 +1,10 @@
 ---
 title: "AlphaFold3结构预测能力全面解析：革命性突破与关键限制"
 description: "深度分析AlphaFold3在生物分子结构预测领域的革命性进展，详解其76.4%蛋白质-配体相互作用准确率背后的技术架构，以及在动态系统、膜蛋白和无序区域预测中的关键限制"
-publishDate: "2025-01-11"
+pubDatetime: 2025-01-11T00:00:00.000Z
 tags: ["AlphaFold3", "结构生物学", "人工智能", "蛋白质预测", "生物信息学", "计算生物学", "药物发现"]
 draft: false
-heroImage: "/images/alphafold3-analysis.webp"
-category: "生物信息学"
+ogImage: "/images/alphafold3-analysis.webp"
 ---
 
 # AlphaFold3结构预测能力全面解析：革命性突破与关键限制

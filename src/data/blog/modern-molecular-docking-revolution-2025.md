@@ -1,9 +1,8 @@
 ---
 title: '现代分子对接革命：GPU加速与AI融合的突破性进展'
 description: '深入解析2024-2025年分子对接领域的重大技术变革，探讨GPU加速、AI整合以及传统方法的演进，为药物发现带来前所未有的计算能力。'
-pubDate: 'Dec 30 2024'
-heroImage: '/blog-placeholder-3.jpg'
-category: '生物计算'
+pubDatetime: 2024-12-30T00:00:00.000Z
+ogImage: '/blog-placeholder-3.jpg'
 tags: ['分子对接', 'GPU加速', '人工智能', '药物发现', '计算生物学', '生物信息学']
 ---
 
