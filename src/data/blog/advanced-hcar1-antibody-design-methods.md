@@ -2,7 +2,7 @@
 title: 'HCAR1抗体设计前沿方法：AI驱动的竞赛级抗体开发策略'
 description: '深入解析2023-2025年抗体计算设计领域的革命性进展，探讨ESM-2、BALM等AI模型在HCAR1靶向抗体开发中的应用，以及如何通过RTX 4090硬件配置实现160倍亲和力提升的突破性设计方法。'
 pubDatetime: 2025-01-04T00:00:00.000Z
-ogImage: '/blog-placeholder-1.jpg'
+# ogImage: '/blog-placeholder-1.jpg'
 tags: ['抗体设计', 'HCAR1', 'AI药物发现', '蛋白质语言模型', 'GPCR', '竞赛策略']
 ---
 

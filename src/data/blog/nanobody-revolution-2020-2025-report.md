@@ -2,7 +2,7 @@
 title: '纳米抗体革命：2020-2025年技术突破与未来展望'
 description: '全面解析2020-2025年纳米抗体领域的革命性进展，从首个商业化药物到AI驱动的设计，探讨其在治疗、诊断和结构生物学中的应用，展望2030年后的市场格局。'
 pubDatetime: 2025-01-05T00:00:00.000Z
-ogImage: '/blog-placeholder-2.jpg'
+# ogImage: '/blog-placeholder-2.jpg'
 tags: ['纳米抗体', 'AI药物发现', '结构生物学', 'AlphaFold3', 'COVID-19', '胿瘤治疗']
 ---
 

@@ -4,7 +4,7 @@ description: "深度分析AlphaFold3在生物分子结构预测领域的革命�
 pubDatetime: 2025-01-11T00:00:00.000Z
 tags: ["AlphaFold3", "结构生物学", "人工智能", "蛋白质预测", "生物信息学", "计算生物学", "药物发现"]
 draft: false
-ogImage: "/images/alphafold3-analysis.webp"
+# ogImage: "/images/alphafold3-analysis.webp"
 ---
 
 # AlphaFold3结构预测能力全面解析：革命性突破与关键限制

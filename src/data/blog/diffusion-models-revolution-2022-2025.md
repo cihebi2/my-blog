@@ -2,7 +2,7 @@
 title: '扩散模型革命：从Stable Diffusion到FLUX的三年跨越式发展'
 description: '深度解析2022-2025年扩散模型的技术突破、商业竞争与未来趋势，探讨从U-Net到DiT架构演进、从闭源到开源的民主化浪潮，以及AI图像生成对创意产业的深远影响。'
 pubDatetime: 2025-01-02T00:00:00.000Z
-ogImage: '/blog-placeholder-2.jpg'
+# ogImage: '/blog-placeholder-2.jpg'
 tags: ['扩散模型', 'AI图像生成', 'Stable Diffusion', 'FLUX', '生成式AI', '深度学习']
 ---
 
