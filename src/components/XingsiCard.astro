@@ -584,7 +584,7 @@ const cardId = `card-${record.datetime.replace(/[^0-9]/g, '')}`;
 
 <script>
   // 切换详情显示的全局函数
-  window.toggleDetail = function(cardId: string) {
+  (window as any).toggleDetail = function(cardId: string) {
     const modal = document.getElementById(`detail-${cardId}`);
     if (modal) {
       modal.classList.toggle('hidden');

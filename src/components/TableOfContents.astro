@@ -459,7 +459,7 @@
     // 添加点击切换功能（用于中等屏幕）
     let isManuallyExpanded = false;
     
-    tocContainer.addEventListener('click', (e) => {
+    tocContainer.addEventListener('click', (_e) => {
       const screenWidth = window.innerWidth;
       
       // 只在中等屏幕启用点击切换
