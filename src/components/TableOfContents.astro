@@ -54,7 +54,7 @@
     left: 2rem;
     top: 50%;
     transform: translateY(-50%);
-    width: 18rem;
+    width: 16rem;
     max-height: 75vh;
     overflow-y: auto;
     display: none;
@@ -62,25 +62,25 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
   }
   
   /* 收起状态 */
   .toc-container.collapsed {
-    left: -16rem;
+    left: -14rem;
     opacity: 0.9;
     visibility: visible;
+    pointer-events: auto;
   }
   
-  .toc-container.collapsed:hover {
-    left: 2rem;
-    opacity: 1;
-  }
+  /* 移除悬停展开功能，避免干扰阅读 */
   
   /* 展开状态 */
   .toc-container.visible {
     opacity: 1;
     visibility: visible;
     left: 2rem;
+    pointer-events: auto;
   }
   
   /* 收起时的提示标签 */
@@ -102,22 +102,24 @@
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.2s ease;
+    z-index: 35;
   }
   
-  .toc-container.collapsed:hover::after {
+  .toc-container.collapsed::after:hover {
     transform: translateY(-50%) scale(1.1);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
   }
   
   /* 屏幕宽度检测 */
-  @media (min-width: 1200px) and (max-width: 1499px) {
+  @media (min-width: 1280px) and (max-width: 1679px) {
     .toc-container {
       display: block;
       /* 中等屏幕默认收起 */
     }
   }
   
-  @media (min-width: 1500px) {
+  @media (min-width: 1680px) {
     .toc-container {
       display: block;
       /* 大屏幕自动展开 */
@@ -205,7 +207,7 @@
     transform: scale(1.1);
   }
   
-  @media (min-width: 1200px) {
+  @media (min-width: 1280px) {
     .toc-mobile-button {
       display: none;
     }
@@ -231,7 +233,7 @@
     display: none;
   }
   
-  @media (min-width: 1200px) {
+  @media (min-width: 1280px) {
     .toc-mobile-panel {
       display: none !important;
     }
@@ -360,6 +362,10 @@
 </style>
 
 <script is:inline data-astro-rerun>
+  // 全局状态变量
+  let isManuallyExpanded = false;
+  let isManuallyCollapsed = false;
+
   function generateTableOfContents() {
     const tocContainer = document.getElementById('table-of-contents');
     const tocList = document.getElementById('toc-list');
@@ -430,17 +436,20 @@
     
     const screenWidth = window.innerWidth;
     
-    // 移除所有状态类
-    tocContainer.classList.remove('visible', 'collapsed');
-    
-    if (screenWidth >= 1500) {
-      // 大屏幕：自动展开
+    if (screenWidth >= 1680) {
+      // 大屏幕：自动展开（移除collapsed，添加visible）
+      tocContainer.classList.remove('collapsed');
       tocContainer.classList.add('visible');
-    } else if (screenWidth >= 1200) {
-      // 中等屏幕：默认收起，可悬停展开
-      tocContainer.classList.add('collapsed');
+    } else if (screenWidth >= 1280) {
+      // 中等屏幕：只有在没有手动操作时才设置默认状态
+      if (!isManuallyExpanded && !isManuallyCollapsed) {
+        tocContainer.classList.remove('visible');
+        tocContainer.classList.add('collapsed');
+      }
+    } else {
+      // 小屏幕：完全隐藏，使用移动端按钮
+      tocContainer.classList.remove('visible', 'collapsed');
     }
-    // 小屏幕：完全隐藏，使用移动端按钮
   }
   
   function setupSmartVisibility() {
@@ -457,21 +466,22 @@
     });
     
     // 添加点击切换功能（用于中等屏幕）
-    let isManuallyExpanded = false;
     
-    tocContainer.addEventListener('click', (_e) => {
+    tocContainer.addEventListener('click', (e) => {
       const screenWidth = window.innerWidth;
       
       // 只在中等屏幕启用点击切换
-      if (screenWidth >= 1200 && screenWidth < 1500) {
+      if (screenWidth >= 1280 && screenWidth < 1680) {
         if (tocContainer.classList.contains('collapsed')) {
           tocContainer.classList.remove('collapsed');
           tocContainer.classList.add('visible');
           isManuallyExpanded = true;
+          isManuallyCollapsed = false;
         } else if (isManuallyExpanded) {
           tocContainer.classList.remove('visible');
           tocContainer.classList.add('collapsed');
           isManuallyExpanded = false;
+          isManuallyCollapsed = true;
         }
       }
     });
@@ -480,11 +490,12 @@
     document.addEventListener('click', (e) => {
       const screenWidth = window.innerWidth;
       
-      if (screenWidth >= 1200 && screenWidth < 1500 && isManuallyExpanded) {
+      if (screenWidth >= 1280 && screenWidth < 1680 && isManuallyExpanded) {
         if (!tocContainer.contains(e.target)) {
           tocContainer.classList.remove('visible');
           tocContainer.classList.add('collapsed');
           isManuallyExpanded = false;
+          isManuallyCollapsed = true;
         }
       }
     });
@@ -501,21 +512,26 @@
     
     let activeSection = null;
     
-    // 检查文章底部并控制目录显示
+    // 检查文章底部并控制目录显示（仅在大屏幕自动展开时生效）
     function checkArticleVisibility() {
       const article = document.getElementById('article');
       const tocContainer = document.getElementById('table-of-contents');
       
       if (!article || !tocContainer) return;
       
-      const articleRect = article.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
+      const screenWidth = window.innerWidth;
       
-      // 如果文章底部超出视窗底部，隐藏目录
-      if (articleRect.bottom < windowHeight * 0.3) {
-        tocContainer.classList.remove('visible');
-      } else {
-        tocContainer.classList.add('visible');
+      // 只在大屏幕（1680px+）自动控制目录显示，中等屏幕不自动控制
+      if (screenWidth >= 1680) {
+        const articleRect = article.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        // 如果文章底部超出视窗底部，隐藏目录
+        if (articleRect.bottom < windowHeight * 0.3) {
+          tocContainer.classList.remove('visible');
+        } else {
+          tocContainer.classList.add('visible');
+        }
       }
     }
     

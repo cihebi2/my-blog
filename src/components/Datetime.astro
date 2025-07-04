@@ -27,7 +27,11 @@ const {
 /* ========== Formatted Datetime ========== */
 const latestDatetime =
   modDatetime && modDatetime > pubDatetime ? modDatetime : pubDatetime;
-const datetime = dayjs(latestDatetime).tz(postTimezone || SITE.timezone);
+
+// 根据配置决定是否转换时区
+const datetime = (postTimezone || (SITE.autoTimezoneConvert && SITE.timezone))
+  ? dayjs(latestDatetime).tz(postTimezone || SITE.timezone)
+  : dayjs(latestDatetime);
 
 const date = datetime.format("D MMM, YYYY"); // e.g., '22 Mar, 2025'
 const time = datetime.format("hh:mm A"); // e.g., '08:30 PM'

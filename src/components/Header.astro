@@ -98,20 +98,39 @@ const isActive = (path: string) => {
               About
             </a>
           </li>
-          <li class="col-span-2">
-            <a href="/creative-coding" class:list={{ "active-nav": isActive("/creative-coding") }}>
-              🎨 创意编程
-            </a>
-          </li>
-          <li class="col-span-2">
-            <a href="/xingsi" class:list={{ "active-nav": isActive("/xingsi") }}>
-              📔 行思录
-            </a>
-          </li>
-          <li class="col-span-2">
-            <a href="/admin" class:list={{ "active-nav": isActive("/admin") }}>
-              ⚙️ 管理
-            </a>
+          <!-- 折叠菜单 -->
+          <li class="col-span-2 relative dropdown-container">
+            <button 
+              id="more-menu-btn"
+              class="dropdown-trigger w-full px-4 py-3 text-center font-medium hover:text-accent sm:px-2 sm:py-1 flex items-center justify-center gap-1"
+              aria-expanded="false"
+              aria-haspopup="true"
+            >
+              More
+              <svg class="dropdown-arrow w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <ul 
+              id="more-menu-items"
+              class="dropdown-menu absolute top-full left-0 w-full rounded-lg shadow-lg hidden z-50 overflow-hidden"
+            >
+              <li>
+                <a href="/creative-coding" class="dropdown-link block px-4 py-3 hover:bg-card hover:text-accent transition-colors" class:list={{ "active-nav": isActive("/creative-coding") }}>
+                  🎨 创意编程
+                </a>
+              </li>
+              <li>
+                <a href="/xingsi" class="dropdown-link block px-4 py-3 hover:bg-card hover:text-accent transition-colors" class:list={{ "active-nav": isActive("/xingsi") }}>
+                  📔 行思录
+                </a>
+              </li>
+              <li>
+                <a href="/admin" class="dropdown-link block px-4 py-3 hover:bg-card hover:text-accent transition-colors" class:list={{ "active-nav": isActive("/admin") }}>
+                  ⚙️ 管理
+                </a>
+              </li>
+            </ul>
           </li>
           {
             SITE.showArchives && (
@@ -183,6 +202,82 @@ const isActive = (path: string) => {
     stroke: var(--color-accent);
     stroke-width: 2;
   }
+
+  /* 折叠菜单样式 */
+  .dropdown-container {
+    position: relative;
+  }
+  
+  .dropdown-trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .dropdown-trigger:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  
+  .dropdown-menu {
+    transform: translateY(-10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease-in-out;
+    min-width: 160px;
+    backdrop-filter: blur(8px);
+    background: rgb(var(--color-background) / 0.95);
+    border: 1px solid rgb(var(--color-card) / 0.8);
+  }
+  
+  .dropdown-menu.show {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .dropdown-arrow {
+    transition: transform 0.2s ease;
+  }
+  
+  .dropdown-trigger[aria-expanded="true"] .dropdown-arrow {
+    transform: rotate(180deg);
+  }
+  
+  .dropdown-link {
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgb(var(--color-card) / 0.3);
+  }
+  
+  .dropdown-link:last-child {
+    border-bottom: none;
+  }
+  
+  .dropdown-link.active-nav {
+    color: var(--color-accent);
+    background-color: rgb(var(--color-accent) / 0.1);
+  }
+
+  /* 桌面端样式 */
+  @media (min-width: 640px) {
+    .dropdown-container {
+      position: relative;
+    }
+    
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-10px);
+      width: max-content;
+      min-width: 180px;
+    }
+    
+    .dropdown-menu.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  }
 </style>
 
 <script>
@@ -208,6 +303,63 @@ const isActive = (path: string) => {
 
   toggleNav();
 
+  function setupDropdownMenu() {
+    const dropdownBtn = document.querySelector("#more-menu-btn");
+    const dropdownMenu = document.querySelector("#more-menu-items");
+    
+    if (!dropdownBtn || !dropdownMenu) return;
+
+    // 切换下拉菜单
+    dropdownBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isExpanded = dropdownBtn.getAttribute("aria-expanded") === "true";
+      
+      dropdownBtn.setAttribute("aria-expanded", (!isExpanded).toString());
+      dropdownMenu.classList.toggle("show");
+      
+      if (!isExpanded) {
+        dropdownMenu.style.display = "block";
+      }
+    });
+
+    // 点击外部关闭菜单
+    document.addEventListener("click", (e) => {
+      if (!dropdownBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownBtn.setAttribute("aria-expanded", "false");
+        dropdownMenu.classList.remove("show");
+        
+        // 延迟隐藏菜单，让动画完成
+        setTimeout(() => {
+          if (!dropdownMenu.classList.contains("show")) {
+            dropdownMenu.style.display = "none";
+          }
+        }, 200);
+      }
+    });
+
+    // 键盘支持
+    dropdownBtn.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        dropdownBtn.click();
+      }
+      if (e.key === "Escape") {
+        dropdownBtn.setAttribute("aria-expanded", "false");
+        dropdownMenu.classList.remove("show");
+        setTimeout(() => {
+          if (!dropdownMenu.classList.contains("show")) {
+            dropdownMenu.style.display = "none";
+          }
+        }, 200);
+      }
+    });
+  }
+
+  setupDropdownMenu();
+
   // Runs on view transitions navigation
-  document.addEventListener("astro:after-swap", toggleNav);
+  document.addEventListener("astro:after-swap", () => {
+    toggleNav();
+    setupDropdownMenu();
+  });
 </script>

@@ -20,6 +20,7 @@ export const SITE = {
   dynamicOgImage: true,
   lang: "zh-CN", // 设置为中文
   timezone: "Asia/Shanghai", // 中国时区
+  autoTimezoneConvert: false, // 是否自动转换时区，false表示直接显示原始时间
 } as const;
 
 export const HERO = {

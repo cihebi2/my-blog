@@ -1,15 +1,15 @@
 @import "tailwindcss";
 @import "./typography.css";
 
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
-
 :root,
 html[data-theme="light"] {
-  --background: #fefbf3;
-  --foreground: #2c2c2c;
+  --background: #F8F8F8;
+  --foreground: #444444;
   --accent: #006cac;
-  --muted: #e8e5e0;
-  --border: #e0ddd6;
+  --muted: #EEEEEE;
+  --border: #E0E0E0;
+  --card: #FFFFFF;
+  --card-muted: #F0F0F0;
 }
 
 html[data-theme="dark"] {
@@ -18,6 +18,8 @@ html[data-theme="dark"] {
   --accent: #ff6b01;
   --muted: #343f60bf;
   --border: #ab4b08;
+  --card: #2a3441;
+  --card-muted: #323b48;
 }
 
 @theme inline {
@@ -26,6 +28,8 @@ html[data-theme="dark"] {
   --color-accent: var(--accent);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  --color-card: var(--card);
+  --color-card-muted: var(--card-muted);
   
   /* 自定义字体配置 */
   --font-noto-serif: "Noto Serif SC", "Noto Serif CJK SC", "Source Han Serif SC", "思源宋体", serif;
