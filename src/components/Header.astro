@@ -339,12 +339,13 @@ const isActive = (path: string) => {
     });
 
     // 键盘支持
-    dropdownBtn.addEventListener("keydown", (e: KeyboardEvent) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
+    dropdownBtn.addEventListener("keydown", (e) => {
+      const keyEvent = e as KeyboardEvent;
+      if (keyEvent.key === "Enter" || keyEvent.key === " ") {
+        keyEvent.preventDefault();
         (dropdownBtn as HTMLElement).click();
       }
-      if (e.key === "Escape") {
+      if (keyEvent.key === "Escape") {
         dropdownBtn.setAttribute("aria-expanded", "false");
         dropdownMenu.classList.remove("show");
         setTimeout(() => {
