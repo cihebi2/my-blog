@@ -318,37 +318,38 @@ const isActive = (path: string) => {
       dropdownMenu.classList.toggle("show");
       
       if (!isExpanded) {
-        dropdownMenu.style.display = "block";
+        (dropdownMenu as HTMLElement).style.display = "block";
       }
     });
 
     // 点击外部关闭菜单
     document.addEventListener("click", (e) => {
-      if (!dropdownBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+      const target = e.target as Node;
+      if (!dropdownBtn.contains(target) && !dropdownMenu.contains(target)) {
         dropdownBtn.setAttribute("aria-expanded", "false");
         dropdownMenu.classList.remove("show");
         
         // 延迟隐藏菜单，让动画完成
         setTimeout(() => {
           if (!dropdownMenu.classList.contains("show")) {
-            dropdownMenu.style.display = "none";
+            (dropdownMenu as HTMLElement).style.display = "none";
           }
         }, 200);
       }
     });
 
     // 键盘支持
-    dropdownBtn.addEventListener("keydown", (e) => {
+    dropdownBtn.addEventListener("keydown", (e: KeyboardEvent) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        dropdownBtn.click();
+        (dropdownBtn as HTMLElement).click();
       }
       if (e.key === "Escape") {
         dropdownBtn.setAttribute("aria-expanded", "false");
         dropdownMenu.classList.remove("show");
         setTimeout(() => {
           if (!dropdownMenu.classList.contains("show")) {
-            dropdownMenu.style.display = "none";
+            (dropdownMenu as HTMLElement).style.display = "none";
           }
         }, 200);
       }
