@@ -7,7 +7,7 @@ import CategoryCard from "@/components/CategoryCard.astro";
 import Tag from "@/components/Tag.astro";
 import getAllPosts from "@/utils/getAllPosts";
 import { getCategoryData, getCategoryStats } from "@/utils/getCategoryData";
-import { SITE } from "@/config";
+import { SITE, getPageBackground } from "@/config";
 
 const posts = await getAllPosts();
 const categoryData = getCategoryData(posts);
@@ -18,24 +18,27 @@ const sortedCategories = categoryData.sort((a, b) => b.postCount - a.postCount);
 ---
 
 <Layout title={`所有分类 | ${SITE.title}`}>
+  <div class="hero-background" style={`background-image: url(${getPageBackground('tags')})`}>
+    <div class="hero-overlay"></div>
+  </div>
   <Header />
   <Main pageTitle="所有分类" pageDesc="探索博客中的所有文章分类，找到您感兴趣的内容。">
     
     <!-- 分类统计概览 -->
     <div class="mb-12 grid grid-cols-2 gap-4 sm:grid-cols-4">
-      <div class="rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 p-4 text-white">
+      <div class="rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 p-4 text-white glass-stats-card">
         <div class="text-2xl font-bold">{stats.totalCategories}</div>
         <div class="text-sm opacity-90">个分类</div>
       </div>
-      <div class="rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 p-4 text-white">
+      <div class="rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 p-4 text-white glass-stats-card">
         <div class="text-2xl font-bold">{stats.totalPosts}</div>
         <div class="text-sm opacity-90">篇文章</div>
       </div>
-      <div class="rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 p-4 text-white">
+      <div class="rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 p-4 text-white glass-stats-card">
         <div class="text-2xl font-bold">{stats.categoriesWithMultiplePosts}</div>
         <div class="text-sm opacity-90">热门分类</div>
       </div>
-      <div class="rounded-lg bg-gradient-to-br from-orange-500 to-red-600 p-4 text-white">
+      <div class="rounded-lg bg-gradient-to-br from-orange-500 to-red-600 p-4 text-white glass-stats-card">
         <div class="text-2xl font-bold">{stats.averagePostsPerCategory}</div>
         <div class="text-sm opacity-90">平均文章数</div>
       </div>
@@ -74,7 +77,7 @@ const sortedCategories = categoryData.sort((a, b) => b.postCount - a.postCount);
             .map(({ tag, postCount }, index) => (
               <a 
                 href={`/tags/${tag.tag}/`}
-                class="block rounded-lg border border-skin-line p-4 transition-all hover:bg-skin-fill hover:shadow-md"
+                class="block rounded-lg border border-skin-line p-4 transition-all hover:bg-skin-fill hover:shadow-md glass-list-item"
               >
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-3">
@@ -102,3 +105,60 @@ const sortedCategories = categoryData.sort((a, b) => b.postCount - a.postCount);
   </Main>
   <Footer />
 </Layout>
+
+<style>
+  /* 背景封面样式 */
+  .hero-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: -1;
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+  
+  /* 毛玻璃统计卡片效果 */
+  .glass-stats-card {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.1) 0%, 
+      rgba(255, 255, 255, 0.05) 100%
+    ), var(--tw-gradient-from), var(--tw-gradient-to);
+  }
+  
+  /* 毛玻璃列表项效果 */
+  .glass-list-item {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  /* 深色主题下的毛玻璃效果 */
+  html[data-theme="dark"] .glass-list-item {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  html[data-theme="dark"] .glass-stats-card {
+    background: linear-gradient(135deg, 
+      rgba(0, 0, 0, 0.2) 0%, 
+      rgba(0, 0, 0, 0.1) 100%
+    ), var(--tw-gradient-from), var(--tw-gradient-to);
+  }
+</style>

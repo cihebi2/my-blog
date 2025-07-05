@@ -29,3 +29,21 @@ export const HERO = {
   quoteDisplayDuration: 8000,
   quoteFadeOutDuration: 1500,
 };
+
+// 页面背景配置
+export const PAGE_BACKGROUNDS = {
+  home: "https://cihebi.oss-cn-shanghai.aliyuncs.com/cover_1.jpg",
+  posts: "https://cihebi.oss-cn-shanghai.aliyuncs.com/cover_1.jpg", 
+  tags: "https://cihebi.oss-cn-shanghai.aliyuncs.com/cover_1.jpg",
+  search: "https://cihebi.oss-cn-shanghai.aliyuncs.com/cover_1.jpg",
+  archives: "https://cihebi.oss-cn-shanghai.aliyuncs.com/cover_1.jpg",
+  // 你可以为不同页面设置不同的背景图片
+  // 例如：
+  // posts: "https://cihebi.oss-cn-shanghai.aliyuncs.com/posts_bg.jpg",
+  // tags: "https://cihebi.oss-cn-shanghai.aliyuncs.com/tags_bg.jpg",
+} as const;
+
+// 获取页面背景的辅助函数
+export function getPageBackground(page: keyof typeof PAGE_BACKGROUNDS): string {
+  return PAGE_BACKGROUNDS[page] || PAGE_BACKGROUNDS.home;
+}

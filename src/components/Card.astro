@@ -32,7 +32,7 @@ const headerProps = {
 ---
 
 <li class="my-6">
-  <article class="group overflow-hidden rounded-lg border border-skin-line bg-skin-card transition-all duration-300 hover:shadow-lg hover:shadow-skin-line/20">
+  <article class="group overflow-hidden rounded-lg border border-skin-line glass-card transition-all duration-300 hover:shadow-lg hover:shadow-skin-line/20">
     <a href={getPath(id, filePath)} class="block">
       {coverImageUrl && (
         <div class="aspect-video overflow-hidden bg-skin-fill">
@@ -90,5 +90,19 @@ const headerProps = {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  
+  /* 毛玻璃卡片效果 */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  /* 深色主题下的毛玻璃卡片 */
+  html[data-theme="dark"] .glass-card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 </style>

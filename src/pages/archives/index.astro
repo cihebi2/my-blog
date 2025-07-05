@@ -6,7 +6,7 @@ import Footer from "@/components/Footer.astro";
 import Card from "@/components/Card.astro";
 import getAllPosts from "@/utils/getAllPosts";
 import getPostsByGroupCondition from "@/utils/getPostsByGroupCondition";
-import { SITE } from "@/config";
+import { SITE, getPageBackground } from "@/config";
 
 // Redirect to 404 page if `showArchives` config is false
 if (!SITE.showArchives) {
@@ -33,6 +33,9 @@ const months = [
 ---
 
 <Layout title={`Archives | ${SITE.title}`}>
+  <div class="hero-background" style={`background-image: url(${getPageBackground('archives')})`}>
+    <div class="hero-overlay"></div>
+  </div>
   <Header />
   <Main pageTitle="Archives" pageDesc="All the articles I've archived.">
     {
@@ -82,3 +85,28 @@ const months = [
   </Main>
   <Footer />
 </Layout>
+
+<style>
+  /* 背景封面样式 */
+  .hero-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: -1;
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+</style>

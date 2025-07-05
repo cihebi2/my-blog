@@ -11,7 +11,7 @@ import getUniqueTags from "@/utils/getUniqueTags";
 import getPostsByTag from "@/utils/getPostsByTag";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
-import { SITE } from "@/config";
+import { SITE, getPageBackground } from "@/config";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
   const posts = await getAllPosts();
@@ -34,16 +34,19 @@ const { page, tagName } = Astro.props;
 ---
 
 <Layout title={`Tag: ${tagName} | ${SITE.title}`}>
+  <div class="hero-background" style={`background-image: url(${getPageBackground('tags')})`}>
+    <div class="hero-overlay"></div>
+  </div>
   <Header />
   <Main
     pageTitle={[`Tag:`, `${tagName}`]}
     titleTransition={tag}
     pageDesc={`All the articles with the tag "${tagName}".`}
   >
-    <h1 slot="title" transition:name={tag}>{`Tag:${tag}`}</h1>
+    <h1 slot="title" transition:name={tag}>{`Tag: ${tag}`}</h1>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {page.data.map(data => (
-        <div class="bg-skin-card border border-skin-line rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] h-full flex flex-col">
+        <div class="glass-card border border-skin-line rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] h-full flex flex-col">
           <a
             href={getPath(data.id, data.filePath)}
             class="block group flex-1 flex flex-col"
@@ -84,6 +87,43 @@ const { page, tagName } = Astro.props;
 </Layout>
 
 <style>
+  /* 背景封面样式 */
+  .hero-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: -1;
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+  
+  /* 毛玻璃卡片效果 */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  /* 深色主题下的毛玻璃卡片 */
+  html[data-theme="dark"] .glass-card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
   /* 网格布局样式 */
   .line-clamp-2 {
     display: -webkit-box;

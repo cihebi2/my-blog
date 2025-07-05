@@ -12,7 +12,7 @@ import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import Datetime from "@/components/Datetime.astro";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
-import { SITE, HERO } from "@/config";
+import { SITE, HERO, getPageBackground } from "@/config";
 import { quotes } from "@/data/quotes";
 
 const posts = await getAllPosts();
@@ -24,14 +24,15 @@ const popularCategories = getPopularCategories(posts, 6);
 <Layout>
   <Header />
   <main id="main-content" data-layout="index">
-    <div class="hero-container" style={`background-image: url(${HERO.coverImage})`}>
+    <div class="hero-container" style={`background-image: url(${getPageBackground('home')})`}>
       <div class="hero-overlay"></div>
-      <section id="hero" class="hero-content">
-        <div id="quote-container">
-          <p id="quote-display" class="quote-text"></p>
-        </div>
-      </section>
     </div>
+
+    <section id="hero" class="hero-content">
+      <div id="quote-container">
+        <p id="quote-display" class="quote-text"></p>
+      </div>
+    </section>
 
     <div class="main-content-wrapper">
       <Hr />
@@ -66,7 +67,7 @@ const popularCategories = getPopularCategories(posts, 6);
               {sortedPosts.map(
                 (data, index) =>
                   index < SITE.postPerIndex && (
-                    <div class="bg-skin-card border border-skin-line rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] h-full flex flex-col">
+                    <div class="glass-card border border-skin-line rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] h-full flex flex-col">
                       <a
                         href={getPath(data.id, data.filePath)}
                         class="block group flex-1 flex flex-col"
@@ -117,16 +118,16 @@ const popularCategories = getPopularCategories(posts, 6);
 
 <style>
   .hero-container {
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 50vh; 
-    min-height: 300px;
+    height: 100vh;
     background-size: cover;
     background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-attachment: fixed;
     color: white;
+    z-index: -1;
   }
 
   .hero-overlay {
@@ -141,10 +142,16 @@ const popularCategories = getPopularCategories(posts, 6);
 
   .hero-content {
     position: relative;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 2;
     text-align: center;
     padding: 2rem;
     max-width: var(--max-w-3xl);
+    width: 100%;
+    margin: 0 auto;
   }
 
   #quote-container {
@@ -173,6 +180,22 @@ const popularCategories = getPopularCategories(posts, 6);
     max-width: var(--max-w-3xl);
     margin: 0 auto;
     padding: 0 1rem;
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* 毛玻璃卡片效果 */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  /* 深色主题下的毛玻璃卡片 */
+  html[data-theme="dark"] .glass-card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   /* 网格布局样式 */
