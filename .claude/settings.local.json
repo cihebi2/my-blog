@@ -27,7 +27,8 @@
       "Bash(pkill:*)",
       "Bash(kill:*)",
       "Bash(true)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(timeout 30 npm run build:*)"
     ],
     "deny": []
   }

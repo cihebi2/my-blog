@@ -1,13 +1,12 @@
 ---
 title: "扩散模型革命性突破：将蛋白质设计从艺术转变为可编程科学"
 author: "Ciheb"
-pubDatetime: 2024-07-06T12:01:47Z
+pubDatetime: 2025-07-06T12:01:47Z
 description: "深度解析六种突破性扩散模型方法如何实现原子级精度蛋白质设计，实验成功率达95%以上，为药物发现和治疗开发开启全新可能"
 tags: ["AI for Science", "扩散模型", "蛋白质设计", "药物发现", "生物计算", "深度学习"]
 featured: true
 draft: false
 ---
-
 扩散模型在蛋白质生成领域取得了革命性突破，实现了原子级精度，条件设计的实验成功率达到95%，专业应用成功率高达97.8%。**六种突破性方法——RFdiffusion、FoldingDiff、TopoDiff、PLAID、Chroma和ProT-Diff——代表了不同的算法创新**，已将蛋白质设计从一门艺术转变为可编程的科学。这些方法展现了卓越的实验验证能力，通过冷冻电镜和X射线晶体学确认设计结构达到亚埃级精度，同时生成功能性蛋白质用于药物发现应用，从皮摩尔级结合剂到新型抗菌肽。
 
 这些成就的意义超越了计算成果本身：**RFdiffusion产生了首个具有原子级精度的计算设计抗体**，Chroma实现了可通过自然语言提示的可编程蛋白质设计，ProT-Diff生成的抗菌肽对耐药细菌的实验成功率达97.8%。这些进展在传统方法难以应对"不可成药"靶点和抗生素耐药性的关键时期到来，为治疗开发提供了前所未有的机遇。
@@ -111,7 +110,7 @@ ProT-Diff结合**预训练蛋白质语言模型与扩散模型**，实现快速�
 ## 参考资料
 
 - Watson, J.L. et al. De novo design of protein structure and function with RFdiffusion. *Nature* **620**, 1089–1100 (2023)
-- Wu, K.E. et al. Protein structure generation via folding diffusion. *Nat. Commun.* **15**, 1059 (2024)  
+- Wu, K.E. et al. Protein structure generation via folding diffusion. *Nat. Commun.* **15**, 1059 (2024)
 - Alamdari, S. et al. Protein generation with evolutionary diffusion. *bioRxiv* (2024)
 - Melnyk, T. et al. Conditioning protein diffusion models on multimodal signals. *bioRxiv* (2024)
 - Ingraham, J. et al. Illuminating protein space with a programmable generative model. *bioRxiv* (2023)
