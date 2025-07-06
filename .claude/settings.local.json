@@ -25,7 +25,8 @@
       "Bash(pgrep:*)",
       "Bash(rg:*)",
       "Bash(pkill:*)",
-      "Bash(kill:*)"
+      "Bash(kill:*)",
+      "Bash(true)"
     ],
     "deny": []
   }

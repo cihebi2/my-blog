@@ -29,9 +29,15 @@ const latestDatetime =
   modDatetime && modDatetime > pubDatetime ? modDatetime : pubDatetime;
 
 // 根据配置决定是否转换时区
-const datetime = SITE.autoTimezoneConvert
-  ? dayjs(latestDatetime).tz(postTimezone || SITE.timezone)
-  : dayjs(latestDatetime);
+// 只有当 autoTimezoneConvert 为 true 时才进行时区转换
+let datetime;
+if (SITE.autoTimezoneConvert) {
+  // 自动转换时区：优先使用文章指定的时区，否则使用站点默认时区
+  datetime = dayjs(latestDatetime).tz(postTimezone || SITE.timezone);
+} else {
+  // 不转换时区：直接使用原始时间
+  datetime = dayjs(latestDatetime);
+}
 
 const date = datetime.format("D MMM, YYYY"); // e.g., '22 Mar, 2025'
 const time = datetime.format("hh:mm A"); // e.g., '08:30 PM'
