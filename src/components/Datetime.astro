@@ -29,7 +29,7 @@ const latestDatetime =
   modDatetime && modDatetime > pubDatetime ? modDatetime : pubDatetime;
 
 // 根据配置决定是否转换时区
-const datetime = (postTimezone || (SITE.autoTimezoneConvert && SITE.timezone))
+const datetime = SITE.autoTimezoneConvert
   ? dayjs(latestDatetime).tz(postTimezone || SITE.timezone)
   : dayjs(latestDatetime);
 
