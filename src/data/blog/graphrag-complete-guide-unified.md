@@ -1,7 +1,7 @@
 ---
 title: "GraphRAG 完整入门指南：从基础概念到实战应用"
 author: "Ciheb"
-pubDatetime: 2025-07-04T10:24:22Z
+pubDatetime: 2024-07-04T10:24:22Z
 description: "深入解析Microsoft GraphRAG技术的完整指南，涵盖基础概念、核心技术、工具框架和实际应用，帮助深度学习从业者快速掌握这一前沿技术"
 tags: ["GraphRAG", "知识图谱", "RAG", "深度学习", "人工智能", "Neo4j", "LangChain", "技术教程"]
 featured: true

@@ -1,7 +1,7 @@
 ---
 title: "GraphRAG 完整入门指南（二）：核心技术深度解析"
 author: "Ciheb"
-pubDatetime: 2025-07-04T10:24:22Z
+pubDatetime: 2024-07-04T10:24:22Z
 description: "深入解析GraphRAG的核心技术实现，包括实体关系抽取、图构建策略、多跳推理机制和混合检索技术"
 tags: ["GraphRAG", "实体关系抽取", "图构建", "多跳推理", "技术实现", "深度学习"]
 featured: true

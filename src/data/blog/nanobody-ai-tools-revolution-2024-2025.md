@@ -1,7 +1,7 @@
 ---
 title: "AI驱动的纳米抗体革命：2024-2025年最新计算设计工具全面解析"
 author: "Ciheb"
-pubDatetime: 2025-07-02T20:00:00Z
+pubDatetime: 2024-07-02T20:00:00Z
 description: "深入分析2024-2025年发布的最新AI纳米抗体设计工具，包括DeepNano、ABodyBuilder3和IgGM等，并提供详细的性能比较、部署方案和实战工作流建议。"
 tags: ["AI", "生物计算", "纳米抗体", "蛋白质设计", "技术前沿"]
 featured: true

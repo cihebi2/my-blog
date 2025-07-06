@@ -1,7 +1,7 @@
 ---
 title: "GraphRAG 完整入门指南（一）：基础概念与核心优势"
 author: "Ciheb"
-pubDatetime: 2025-07-04T10:24:22Z
+pubDatetime: 2024-07-04T10:24:22Z
 description: "深入解析Microsoft GraphRAG技术的核心概念，从知识图谱到社区检测，全面理解这一检索增强生成技术的重大突破"
 tags: ["GraphRAG", "知识图谱", "RAG", "深度学习", "人工智能", "技术教程"]
 featured: true

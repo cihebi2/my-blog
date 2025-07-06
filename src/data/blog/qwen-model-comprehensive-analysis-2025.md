@@ -1,7 +1,7 @@
 ---
 title: "Qwen模型全景分析：从初创到领先的开源AI生态系统"
 author: "Ciheb"
-pubDatetime: 2025-07-04T15:55:28Z
+pubDatetime: 2024-07-04T15:55:28Z
 description: "深度解析Qwen模型从2023年初创到2025年成为全球领先开源AI生态系统的发展历程，涵盖技术架构演进、性能突破和生态建设的全面分析"
 tags: ["Qwen", "大语言模型", "开源AI", "阿里巴巴云", "混合专家模型", "多模态AI", "技术分析"]
 featured: true

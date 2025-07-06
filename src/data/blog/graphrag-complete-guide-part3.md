@@ -1,7 +1,7 @@
 ---
 title: "GraphRAG 完整入门指南（三）：工具框架深度分析"
 author: "Ciheb"
-pubDatetime: 2025-07-04T10:24:22Z
+pubDatetime: 2024-07-04T10:24:22Z
 description: "详细分析Neo4j、LangChain和Microsoft GraphRAG等主流工具框架的特点、使用方法和最佳实践"
 tags: ["GraphRAG", "Neo4j", "LangChain", "Microsoft GraphRAG", "工具框架", "技术选型"]
 featured: true

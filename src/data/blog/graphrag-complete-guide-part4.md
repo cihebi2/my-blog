@@ -1,7 +1,7 @@
 ---
 title: "GraphRAG 完整入门指南（四）：应用实践与学习路径"
 author: "Ciheb"
-pubDatetime: 2025-07-04T10:24:22Z
+pubDatetime: 2024-07-04T10:24:22Z
 description: "通过具体的应用案例和系统性的学习计划，掌握GraphRAG在问答系统、金融分析、医疗诊断等领域的实际应用"
 tags: ["GraphRAG", "应用实践", "学习路径", "案例分析", "深度学习", "实战指南"]
 featured: true

@@ -1,7 +1,7 @@
 ---
 title: "CASP16技术分析：获胜团队与革命性方法学深度解析"
 author: "Ciheb"
-pubDatetime: 2025-07-06T14:51:23Z
+pubDatetime: 2024-07-06T14:51:23Z
 description: "深入分析CASP16大赛中Yang实验室团队、Kozakov/Vajda团队和MULTICOM系列的突破性技术创新，以及AlphaFold3扩散模型架构的革命性进展"
 tags: ["CASP16", "蛋白质结构预测", "AlphaFold3", "机器学习", "生物计算", "AI for Science"]
 featured: true

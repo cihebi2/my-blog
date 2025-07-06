@@ -1,7 +1,7 @@
 ---
 title: "扩散模型驱动的蛋白质预测革命：2024-2025年技术全景"
 author: "Ciheb"
-pubDatetime: 2025-07-02T11:00:00Z
+pubDatetime: 2024-07-02T11:00:00Z
 description: "2024-2025年，扩散模型与线性复杂度架构（如Mamba、RWKV）正引发蛋白质科学的革命。本文全面解析其在蛋白质稳定性、功能预测及结构生成等领域的突破性应用，展望AI驱动的蛋白质设计未来。"
 tags: ["扩散模型", "蛋白质预测", "AlphaFold 3", "Mamba", "RWKV", "AI药物发现", "计算生物学"]
 featured: true

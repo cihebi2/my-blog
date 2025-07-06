@@ -1,7 +1,7 @@
 ---
 title: "大模型微调全景：2024年技术突破与实践指南"
 author: "Ciheb"
-pubDatetime: 2025-07-03T16:20:32Z
+pubDatetime: 2024-07-03T16:20:32Z
 description: "2024年大模型微调技术迎来突破性发展，本文全面解析参数高效微调（PEFT）的技术革命、主流平台生态、跨领域应用，并提供从数据准备到部署的完整实践指南。"
 tags: ["大模型微调", "PEFT", "QLoRA", "LLM", "技术指南"]
 featured: true
