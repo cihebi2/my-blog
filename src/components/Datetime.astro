@@ -35,8 +35,8 @@ if (SITE.autoTimezoneConvert) {
   // 自动转换时区：优先使用文章指定的时区，否则使用站点默认时区
   datetime = dayjs(latestDatetime).tz(postTimezone || SITE.timezone);
 } else {
-  // 不转换时区：直接使用原始时间
-  datetime = dayjs(latestDatetime);
+  // 不转换时区：直接使用原始时间，保持UTC
+  datetime = dayjs.utc(latestDatetime);
 }
 
 const date = datetime.format("D MMM, YYYY"); // e.g., '22 Mar, 2025'
