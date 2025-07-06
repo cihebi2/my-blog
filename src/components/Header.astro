@@ -405,15 +405,15 @@ const isActive = (path: string) => {
 
           // 如果向下滚动超过50px，隐藏导航栏
           if (scrollDifference > 0 && currentScrollY > 100) {
-            header.style.transform = "translateY(-100%)";
+            if (header) header.style.transform = "translateY(-100%)";
           }
           // 如果向上滚动，显示导航栏
           else if (scrollDifference < 0) {
-            header.style.transform = "translateY(0)";
+            if (header) header.style.transform = "translateY(0)";
           }
           // 如果在页面顶部，始终显示导航栏
           else if (currentScrollY <= 50) {
-            header.style.transform = "translateY(0)";
+            if (header) header.style.transform = "translateY(0)";
           }
 
           lastScrollY = currentScrollY;
@@ -424,7 +424,7 @@ const isActive = (path: string) => {
     }
 
     // 防抖滚动事件
-    let scrollTimeout: number;
+    let scrollTimeout: ReturnType<typeof setTimeout>;
     function throttledScroll() {
       if (scrollTimeout) {
         clearTimeout(scrollTimeout);
@@ -436,7 +436,7 @@ const isActive = (path: string) => {
 
     // 鼠标移到顶部时显示导航栏
     document.addEventListener("mousemove", (e) => {
-      if (e.clientY <= 50) {
+      if (e.clientY <= 50 && header) {
         header.style.transform = "translateY(0)";
       }
     });
