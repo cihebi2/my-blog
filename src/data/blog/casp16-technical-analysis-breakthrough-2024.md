@@ -1,13 +1,12 @@
 ---
 title: "CASP16技术分析：获胜团队与革命性方法学深度解析"
 author: "Ciheb"
-pubDatetime: 2024-07-06T14:51:23Z
+pubDatetime: 2025-07-06T10:51:23Z
 description: "深入分析CASP16大赛中Yang实验室团队、Kozakov/Vajda团队和MULTICOM系列的突破性技术创新，以及AlphaFold3扩散模型架构的革命性进展"
 tags: ["CASP16", "蛋白质结构预测", "AlphaFold3", "机器学习", "生物计算", "AI for Science"]
 featured: true
 draft: false
 ---
-
 **Yang实验室团队在110个小组中荣获蛋白质结构域预测第一名，Kozakov/Vajda团队在抗体-抗原复合物预测中成功率超过60%，MULTICOM系列通过集成学习框架在多个类别中占据主导地位。** 本文深入分析了CASP16大赛中推动突破性性能的复杂算法创新、计算工作流程和技术实现方案，代表了当前蛋白质结构预测领域的最高水平。
 
 ## Yang实验室团队：混合架构卓越表现
