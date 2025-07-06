@@ -3,7 +3,7 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
 import Layout from "./Layout.astro";
-import { SITE } from "@/config";
+import { SITE, getPageBackground } from "@/config";
 
 export interface Props {
   frontmatter: {
@@ -16,13 +16,106 @@ const { frontmatter } = Astro.props;
 ---
 
 <Layout title={`${frontmatter.title} | ${SITE.title}`}>
+  <div class="hero-background" style={`background-image: url(${getPageBackground('home')})`}>
+    <div class="hero-overlay"></div>
+  </div>
   <Header />
   <Breadcrumb />
   <main id="main-content">
-    <section id="about" class="prose mb-28 max-w-3xl prose-img:border-0">
-      <h1 class="text-2xl tracking-wider sm:text-3xl">{frontmatter.title}</h1>
-      <slot />
+    <section id="about" class="about-content mb-28 max-w-4xl mx-auto px-4">
+      <div class="glass-main-card">
+        <div class="about-header">
+          <h1 class="text-3xl md:text-4xl font-bold tracking-wider text-center mb-2">{frontmatter.title}</h1>
+          <div class="header-decoration"></div>
+        </div>
+        <div class="about-body">
+          <slot />
+        </div>
+      </div>
     </section>
   </main>
   <Footer />
 </Layout>
+
+<style>
+  /* 背景封面样式 */
+  .hero-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: -1;
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+  
+  /* 关于页面专用样式 */
+  .about-content {
+    padding-top: 2rem;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .glass-main-card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 1.5rem;
+    padding: 3rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .glass-main-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+  }
+  
+  html[data-theme="dark"] .glass-main-card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+  
+  html[data-theme="dark"] .glass-main-card:hover {
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+  }
+  
+  .about-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  
+  .header-decoration {
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+    margin: 1rem auto;
+    border-radius: 2px;
+  }
+  
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .glass-main-card {
+      padding: 2rem;
+      margin: 1rem;
+    }
+    
+    .about-content {
+      padding-top: 1rem;
+    }
+  }
+</style>
