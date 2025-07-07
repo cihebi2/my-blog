@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>背景固定测试</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .hero-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: white;
+            z-index: -1;
+            transform: none !important;
+        }
+        
+        .hero-content {
+            position: relative;
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+            background: transparent;
+            opacity: 1 !important;
+        }
+        
+        .main-content-wrapper {
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                transparent 40%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.1) 60%,
+                rgba(255, 255, 255, 0.3) 70%,
+                rgba(255, 255, 255, 0.6) 80%,
+                rgba(255, 255, 255, 0.9) 90%,
+                rgb(255, 255, 255) 100%
+            );
+            margin-top: 0;
+            padding-top: 60vh;
+            min-height: 200vh;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+        
+        .content-section {
+            padding: 2rem;
+            margin: 2rem 0;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <div>滚动位置: <span id="scrollPos">0</span>px</div>
+        <div>背景状态: <span id="bgStatus">固定</span></div>
+    </div>
+    
+    <div class="hero-container"></div>
+    
+    <div class="hero-content">
+        <div>
+            <h1>背景固定测试</h1>
+            <p>这是测试页面，背景应该始终保持固定可见</p>
+        </div>
+    </div>
+    
+    <div class="main-content-wrapper">
+        <div class="content-section">
+            <h2>第一部分内容</h2>
+            <p>在这里滚动测试背景是否保持固定可见。背景应该在整个滚动过程中都保持可见。</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+        
+        <div class="content-section">
+            <h2>第二部分内容</h2>
+            <p>继续滚动，背景仍然应该保持可见。</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+        
+        <div class="content-section">
+            <h2>第三部分内容</h2>
+            <p>即使在这里，背景也应该完全可见。</p>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        </div>
+        
+        <div class="content-section">
+            <h2>第四部分内容</h2>
+            <p>最后的测试部分，背景应该持续可见。</p>
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+        
+        <div class="content-section">
+            <h2>测试结论</h2>
+            <p>如果您能在整个滚动过程中看到背景，那么修复成功！</p>
+        </div>
+    </div>
+    
+    <script>
+        // 显示滚动位置
+        function updateScrollInfo() {
+            const scrollPos = window.pageYOffset;
+            document.getElementById('scrollPos').textContent = scrollPos;
+            
+            const heroContainer = document.querySelector('.hero-container');
+            const computedStyle = window.getComputedStyle(heroContainer);
+            const transform = computedStyle.transform;
+            
+            if (transform === 'none') {
+                document.getElementById('bgStatus').textContent = '固定 ✓';
+                document.getElementById('bgStatus').style.color = '#4CAF50';
+            } else {
+                document.getElementById('bgStatus').textContent = '移动 ✗';
+                document.getElementById('bgStatus').style.color = '#f44336';
+            }
+        }
+        
+        window.addEventListener('scroll', updateScrollInfo, { passive: true });
+        updateScrollInfo();
+        
+        // 确保背景始终固定
+        function ensureFixedBackground() {
+            const heroContainer = document.querySelector('.hero-container');
+            if (heroContainer) {
+                heroContainer.style.transform = 'none';
+                heroContainer.style.filter = 'none';
+            }
+        }
+        
+        // 定期检查背景状态
+        setInterval(ensureFixedBackground, 1000);
+        ensureFixedBackground();
+    </script>
+</body>
+</html>

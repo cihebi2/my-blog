@@ -66,7 +66,7 @@ const isActive = (path: string) => {
       >
         <button
           id="menu-btn"
-          class="focus-outline self-end p-2 sm:hidden"
+          class="focus-outline self-end p-2 sm:hidden clickable"
           aria-label="Open Menu"
           aria-expanded="false"
           aria-controls="menu-items"
@@ -102,7 +102,7 @@ const isActive = (path: string) => {
           <li class="col-span-2 relative dropdown-container">
             <button 
               id="more-menu-btn"
-              class="dropdown-trigger w-full px-4 py-3 text-center font-medium hover:text-accent sm:px-2 sm:py-1 flex items-center justify-center gap-1"
+              class="dropdown-trigger w-full px-4 py-3 text-center font-medium hover:text-accent sm:px-2 sm:py-1 flex items-center justify-center gap-1 clickable"
               aria-expanded="false"
               aria-haspopup="true"
             >
@@ -171,7 +171,7 @@ const isActive = (path: string) => {
               <li class="col-span-1 flex items-center justify-center">
                 <button
                   id="theme-btn"
-                  class="focus-outline relative size-12 p-4 sm:size-8 hover:[&>svg]:stroke-accent"
+                  class="focus-outline relative size-12 p-4 sm:size-8 hover:[&>svg]:stroke-accent clickable"
                   title="Toggles light & dark"
                   aria-label="auto"
                   aria-live="polite"

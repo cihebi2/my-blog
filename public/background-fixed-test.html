@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>背景完全固定测试</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+        
+        /* 主内容区域 - 带有背景 */
+        #main-content {
+            min-height: 200vh;
+            background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed !important;
+            background-size: cover !important;
+            background-position: center center !important;
+            background-repeat: no-repeat !important;
+        }
+        
+        /* Hero容器 */
+        .hero-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: white;
+            z-index: -1;
+            transform: none !important;
+            will-change: auto;
+        }
+        
+        /* Hero内容 */
+        .hero-content {
+            position: relative;
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+            background: transparent;
+            opacity: 1 !important;
+            transform: none !important;
+        }
+        
+        /* 主要内容包装器 */
+        .main-content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 40%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0.5) 60%,
+                rgba(255, 255, 255, 0.7) 70%,
+                rgba(255, 255, 255, 0.85) 80%,
+                rgba(255, 255, 255, 0.95) 90%,
+                rgb(255, 255, 255) 100%
+            );
+            margin-top: 0;
+            padding-top: 50vh;
+            min-height: 150vh;
+        }
+        
+        .content-section {
+            padding: 2rem;
+            margin: 2rem 0;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .test-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 1000;
+            max-width: 200px;
+        }
+        
+        .test-info div {
+            margin: 5px 0;
+        }
+        
+        /* 确保在移动设备上也固定 */
+        @media (max-width: 768px) {
+            .hero-container {
+                background-attachment: fixed;
+            }
+            
+            #main-content {
+                background-attachment: fixed !important;
+            }
+            
+            .main-content-wrapper {
+                padding-top: 40vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <div><strong>背景固定测试</strong></div>
+        <div>滚动位置: <span id="scrollPos">0</span>px</div>
+        <div>Hero背景: <span id="heroStatus">检查中...</span></div>
+        <div>Main背景: <span id="mainStatus">检查中...</span></div>
+        <div><strong>说明:</strong> 背景应该在整个滚动过程中保持固定不动</div>
+    </div>
+    
+    <main id="main-content">
+        <div class="hero-container"></div>
+        
+        <div class="hero-content">
+            <div>
+                <h1>🎯 背景完全固定测试</h1>
+                <p>滚动页面，背景应该始终保持固定不动</p>
+                <p>无论滚动到哪里，背景都应该可见</p>
+            </div>
+        </div>
+        
+        <div class="main-content-wrapper">
+            <div class="content-section">
+                <h2>📍 测试点 1 - 开始滚动</h2>
+                <p>现在开始向下滚动，观察背景是否保持固定。</p>
+                <p>✅ 背景应该保持可见</p>
+                <p>✅ 背景不应该随滚动移动</p>
+                <p>✅ 背景应该始终覆盖整个屏幕</p>
+            </div>
+            
+            <div class="content-section">
+                <h2>📍 测试点 2 - 继续滚动</h2>
+                <p>继续滚动，背景仍然应该完全可见。</p>
+                <p>如果你看到背景消失或向上移动，说明还有问题需要修复。</p>
+                <p>当前应该能看到渐变背景从紫色到蓝色。</p>
+            </div>
+            
+            <div class="content-section">
+                <h2>📍 测试点 3 - 深度滚动</h2>
+                <p>即使滚动到这里，背景也应该保持固定。</p>
+                <p>检查右上角的状态信息确认背景状态。</p>
+                <p>如果显示"固定 ✓"，说明修复成功！</p>
+            </div>
+            
+            <div class="content-section">
+                <h2>📍 测试点 4 - 最大滚动</h2>
+                <p>这是页面的最底部区域。</p>
+                <p>背景仍然应该在这里保持可见和固定。</p>
+                <p><strong>测试结论:</strong> 如果在整个滚动过程中都能看到背景，修复成功！</p>
+            </div>
+            
+            <div class="content-section">
+                <h2>✅ 成功标准</h2>
+                <ul>
+                    <li>背景在整个页面滚动中保持可见</li>
+                    <li>背景不会随着滚动向上移动</li>
+                    <li>背景始终覆盖整个视口</li>
+                    <li>状态显示"固定 ✓"</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        function updateTestInfo() {
+            const scrollPos = window.pageYOffset;
+            document.getElementById('scrollPos').textContent = Math.round(scrollPos);
+            
+            // 检查hero容器
+            const heroContainer = document.querySelector('.hero-container');
+            const heroStyle = window.getComputedStyle(heroContainer);
+            const heroTransform = heroStyle.transform;
+            const heroAttachment = heroStyle.backgroundAttachment;
+            
+            if (heroTransform === 'none' && heroAttachment === 'fixed') {
+                document.getElementById('heroStatus').innerHTML = '<span style="color: #4CAF50;">固定 ✓</span>';
+            } else {
+                document.getElementById('heroStatus').innerHTML = '<span style="color: #f44336;">异常 ✗</span>';
+            }
+            
+            // 检查主内容
+            const mainContent = document.querySelector('#main-content');
+            const mainStyle = window.getComputedStyle(mainContent);
+            const mainAttachment = mainStyle.backgroundAttachment;
+            
+            if (mainAttachment === 'fixed') {
+                document.getElementById('mainStatus').innerHTML = '<span style="color: #4CAF50;">固定 ✓</span>';
+            } else {
+                document.getElementById('mainStatus').innerHTML = '<span style="color: #f44336;">异常 ✗</span>';
+            }
+        }
+        
+        // 强制确保背景固定
+        function enforceFixedBackground() {
+            const heroContainer = document.querySelector('.hero-container');
+            const mainContent = document.querySelector('#main-content');
+            
+            if (heroContainer) {
+                heroContainer.style.cssText += `
+                    transform: none !important;
+                    filter: none !important;
+                    background-attachment: fixed !important;
+                    position: fixed !important;
+                `;
+            }
+            
+            if (mainContent) {
+                mainContent.style.cssText += `
+                    background-attachment: fixed !important;
+                    background-size: cover !important;
+                    background-position: center !important;
+                    background-repeat: no-repeat !important;
+                `;
+            }
+        }
+        
+        // 事件监听
+        window.addEventListener('scroll', updateTestInfo, { passive: true });
+        window.addEventListener('resize', updateTestInfo);
+        
+        // 定期检查和修复
+        setInterval(() => {
+            enforceFixedBackground();
+            updateTestInfo();
+        }, 1000);
+        
+        // 初始化
+        enforceFixedBackground();
+        updateTestInfo();
+        
+        console.log('背景固定测试页面已加载');
+    </script>
+</body>
+</html>

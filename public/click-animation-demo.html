@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鼠标点击动画演示</title>
+    <style>
+        :root {
+            --color-accent: 0, 108, 172;
+            --color-background: 248, 248, 248;
+            --color-card: 255, 255, 255;
+        }
+
+        [data-theme="dark"] {
+            --color-accent: 255, 107, 1;
+            --color-background: 33, 39, 55;
+            --color-card: 42, 52, 65;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: rgb(var(--color-background));
+            color: #333;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] body {
+            color: #eee;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: rgb(var(--color-accent));
+        }
+
+        .demo-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgb(var(--color-card));
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* 按钮样式 */
+        .demo-button {
+            padding: 12px 24px;
+            background: rgb(var(--color-accent));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-button:hover {
+            background: rgba(var(--color-accent), 0.9);
+            transform: translateY(-2px);
+        }
+
+        /* 卡片样式 */
+        .demo-card {
+            padding: 1.5rem;
+            background: rgba(var(--color-accent), 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(var(--color-accent), 0.2);
+        }
+
+        .demo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 链接样式 */
+        .demo-link {
+            color: rgb(var(--color-accent));
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-link:hover {
+            background: rgba(var(--color-accent), 0.1);
+        }
+
+        /* 主题切换按钮 */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            background: rgb(var(--color-card));
+            border: 2px solid rgb(var(--color-accent));
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 点击动画样式 */
+        @keyframes click-ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        @keyframes click-pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .click-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(var(--color-accent), 0.4);
+            pointer-events: none;
+            animation: click-ripple 0.6s ease-out;
+            z-index: 1000;
+        }
+
+        .click-pulse {
+            animation: click-pulse 0.3s ease-out;
+        }
+
+        .demo-card .click-ripple {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        button .click-ripple {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        [data-theme="dark"] .click-ripple {
+            background: rgba(var(--color-accent), 0.6);
+        }
+
+        [data-theme="dark"] .demo-card .click-ripple {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .info-box {
+            background: rgba(var(--color-accent), 0.1);
+            border-left: 4px solid rgb(var(--color-accent));
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .controls button {
+            margin: 0 0.5rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 600px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle clickable" onclick="toggleTheme()">🌓</button>
+    
+    <div class="container">
+        <h1>🎯 鼠标点击动画演示</h1>
+        
+        <div class="info-box">
+            <strong>演示说明：</strong> 点击下面的任何元素，都会产生漂亮的波纹动画效果。动画会根据元素类型和主题自动调整颜色。
+        </div>
+        
+        <div class="controls">
+            <button class="demo-button clickable">重置演示</button>
+            <button class="demo-button clickable" onclick="toggleAnimations()">切换动画</button>
+        </div>
+        
+        <div class="demo-section">
+            <h2>🔘 按钮点击效果</h2>
+            <div class="demo-grid">
+                <button class="demo-button clickable">主要按钮</button>
+                <button class="demo-button clickable">次要按钮</button>
+                <button class="demo-button clickable">确认操作</button>
+                <button class="demo-button clickable">取消操作</button>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>🃏 卡片点击效果</h2>
+            <div class="demo-grid">
+                <div class="demo-card clickable">
+                    <h3>文章卡片</h3>
+                    <p>点击这个卡片查看波纹效果</p>
+                </div>
+                <div class="demo-card clickable">
+                    <h3>分类卡片</h3>
+                    <p>每个卡片都有独特的点击动画</p>
+                </div>
+                <div class="demo-card clickable">
+                    <h3>功能卡片</h3>
+                    <p>动画颜色会根据主题自动调整</p>
+                </div>
+                <div class="demo-card clickable">
+                    <h3>信息卡片</h3>
+                    <p>流畅的动画提升用户体验</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>🔗 链接点击效果</h2>
+            <p>
+                这里有一些演示链接：
+                <a href="#" class="demo-link clickable">首页链接</a>、
+                <a href="#" class="demo-link clickable">文章链接</a>、
+                <a href="#" class="demo-link clickable">分类链接</a>、
+                <a href="#" class="demo-link clickable">关于链接</a>。
+                点击任何链接都会产生波纹效果。
+            </p>
+        </div>
+        
+        <div class="demo-section">
+            <h2>⚙️ 动画特性</h2>
+            <ul>
+                <li>✅ <strong>智能识别：</strong> 自动识别可点击元素</li>
+                <li>✅ <strong>颜色适配：</strong> 根据元素类型和主题调整颜色</li>
+                <li>✅ <strong>性能优化：</strong> 使用高效的CSS动画</li>
+                <li>✅ <strong>响应式：</strong> 在所有设备上都能正常工作</li>
+                <li>✅ <strong>无障碍：</strong> 尊重减少动画的用户偏好</li>
+                <li>✅ <strong>事件委托：</strong> 高效的全局事件处理</li>
+            </ul>
+        </div>
+        
+        <div class="demo-section">
+            <h2>🎨 支持的元素</h2>
+            <div class="demo-grid">
+                <div style="text-align: center;">
+                    <h4>按钮</h4>
+                    <button class="demo-button clickable">Button</button>
+                </div>
+                <div style="text-align: center;">
+                    <h4>链接</h4>
+                    <a href="#" class="demo-link clickable">Link</a>
+                </div>
+                <div style="text-align: center;">
+                    <h4>卡片</h4>
+                    <div class="demo-card clickable" style="margin: 0; padding: 1rem;">Card</div>
+                </div>
+                <div style="text-align: center;">
+                    <h4>自定义</h4>
+                    <div class="clickable" style="padding: 1rem; background: rgba(var(--color-accent), 0.1); border-radius: 4px; cursor: pointer;">Custom</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 主题切换功能
+        function toggleTheme() {
+            const body = document.body;
+            const isDark = body.hasAttribute('data-theme');
+            
+            if (isDark) {
+                body.removeAttribute('data-theme');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+            }
+        }
+        
+        // 动画切换功能
+        let animationsEnabled = true;
+        function toggleAnimations() {
+            animationsEnabled = !animationsEnabled;
+            const style = document.createElement('style');
+            style.id = 'animation-toggle';
+            
+            if (!animationsEnabled) {
+                style.textContent = `
+                    .click-ripple { animation: none !important; }
+                    .click-pulse { animation: none !important; }
+                `;
+            }
+            
+            const existing = document.getElementById('animation-toggle');
+            if (existing) existing.remove();
+            
+            if (!animationsEnabled) {
+                document.head.appendChild(style);
+            }
+        }
+        
+        // 点击动画管理器 (与博客中的相同代码)
+        class ClickAnimationManager {
+            constructor() {
+                this.setupClickAnimations();
+            }
+            
+            setupClickAnimations() {
+                document.addEventListener('click', (e) => {
+                    this.createClickEffect(e);
+                }, { passive: true });
+                
+                document.addEventListener('mousedown', (e) => {
+                    const target = e.target;
+                    if (this.shouldAddPulseEffect(target)) {
+                        target.classList.add('click-pulse');
+                        setTimeout(() => {
+                            target.classList.remove('click-pulse');
+                        }, 300);
+                    }
+                });
+            }
+            
+            createClickEffect(event) {
+                const target = event.target;
+                
+                if (!this.shouldAddRippleEffect(target)) return;
+                
+                const container = this.getClickContainer(target);
+                if (!container) return;
+                
+                this.createRipple(event, container);
+            }
+            
+            shouldAddRippleEffect(element) {
+                if (element.tagName === 'INPUT' && element.type === 'text') return false;
+                if (element.tagName === 'TEXTAREA') return false;
+                if (element.tagName === 'SELECT') return false;
+                if (element.closest('.no-click-animation')) return false;
+                
+                return (
+                    element.tagName === 'BUTTON' ||
+                    element.tagName === 'A' ||
+                    element.closest('button') ||
+                    element.closest('a') ||
+                    element.closest('.demo-card') ||
+                    element.closest('[role="button"]') ||
+                    element.closest('.clickable')
+                );
+            }
+            
+            shouldAddPulseEffect(element) {
+                return (
+                    element.tagName === 'BUTTON' ||
+                    element.closest('button') ||
+                    element.closest('.demo-card') ||
+                    element.closest('.clickable')
+                );
+            }
+            
+            getClickContainer(element) {
+                const button = element.closest('button');
+                if (button) return button;
+                
+                const link = element.closest('a');
+                if (link) return link;
+                
+                const card = element.closest('.demo-card');
+                if (card) return card;
+                
+                const clickable = element.closest('.clickable');
+                if (clickable) return clickable;
+                
+                return element;
+            }
+            
+            createRipple(event, container) {
+                const rect = container.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = event.clientX - rect.left - size / 2;
+                const y = event.clientY - rect.top - size / 2;
+                
+                const ripple = document.createElement('span');
+                ripple.className = 'click-ripple';
+                ripple.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                `;
+                
+                const position = window.getComputedStyle(container).position;
+                if (position === 'static') {
+                    container.style.position = 'relative';
+                }
+                
+                container.appendChild(ripple);
+                
+                setTimeout(() => {
+                    if (ripple.parentNode) {
+                        ripple.parentNode.removeChild(ripple);
+                    }
+                }, 600);
+            }
+        }
+        
+        // 初始化点击动画
+        const clickAnimationManager = new ClickAnimationManager();
+        
+        // 页面加载完成提示
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🎉 点击动画演示页面已加载！尝试点击任何元素查看动画效果。');
+        });
+    </script>
+</body>
+</html>

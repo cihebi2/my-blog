@@ -153,10 +153,434 @@ const structuredData = {
     <ClientRouter />
 
     <script is:inline src="/toggle-theme.js"></script>
+    
+    <!-- 动画系统 -->
+    <script>
+      // 预加载动画关键帧
+      const animationStyles = document.createElement('style');
+      animationStyles.textContent = `
+        @keyframes ripple {
+          to {
+            transform: scale(4);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes shimmer {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+        
+        @keyframes pageLoad {
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .page-enter {
+          animation: pageLoad 0.6s ease-out;
+        }
+        
+        .shimmer-effect {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .shimmer-effect::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+          animation: shimmer 2s infinite;
+        }
+      `;
+      document.head.appendChild(animationStyles);
+    </script>
   </head>
   <body>
     <slot />
     <SpeedInsights />
+    
+    <!-- 全局背景固定系统 -->
+    <script>
+      // 全局背景固定管理
+      class GlobalBackgroundManager {
+        constructor() {
+          this.init();
+        }
+        
+        init() {
+          // 为所有页面添加背景固定支持
+          this.addGlobalBackgroundStyles();
+          // 确保背景固定
+          this.ensureBackgroundFixed();
+        }
+        
+        addGlobalBackgroundStyles() {
+          const style = document.createElement('style');
+          style.textContent = `
+            /* 全局背景固定样式 */
+            .hero-container {
+              background-attachment: fixed !important;
+            }
+            
+            body {
+              background-attachment: fixed !important;
+            }
+            
+            /* 移动设备适配 */
+            @media (max-width: 768px) {
+              .hero-container {
+                background-attachment: scroll !important;
+              }
+              
+              body {
+                background-attachment: scroll !important;
+              }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+        
+        ensureBackgroundFixed() {
+          // 对所有具有背景的元素应用固定设置
+          const elementsWithBackground = document.querySelectorAll('[style*="background-image"], .hero-container');
+          
+          elementsWithBackground.forEach(element => {
+            const isMobile = window.innerWidth <= 768;
+            const attachment = isMobile ? 'scroll' : 'fixed';
+            
+            element.style.backgroundAttachment = attachment;
+            element.style.backgroundSize = 'cover';
+            element.style.backgroundPosition = 'center';
+            element.style.backgroundRepeat = 'no-repeat';
+          });
+        }
+        
+        // 页面导航后重新初始化
+        reinitialize() {
+          this.ensureBackgroundFixed();
+        }
+      }
+      
+      // 鼠标点击动画管理器
+      class ClickAnimationManager {
+        constructor() {
+          this.init();
+        }
+        
+        init() {
+          this.addClickAnimationStyles();
+          this.setupClickAnimations();
+        }
+        
+        addClickAnimationStyles() {
+          const style = document.createElement('style');
+          style.textContent = `
+            /* 点击波纹动画 */
+            @keyframes click-ripple {
+              0% {
+                transform: scale(0) translateZ(0);
+                opacity: 0.8;
+              }
+              50% {
+                opacity: 0.4;
+              }
+              100% {
+                transform: scale(3) translateZ(0);
+                opacity: 0;
+              }
+            }
+            
+            @keyframes click-pulse {
+              0% {
+                transform: scale(1) translateZ(0);
+                opacity: 1;
+              }
+              50% {
+                transform: scale(1.02) translateZ(0);
+                opacity: 0.9;
+              }
+              100% {
+                transform: scale(1) translateZ(0);
+                opacity: 1;
+              }
+            }
+            
+            /* 点击效果基础样式 */
+            .click-ripple {
+              position: absolute;
+              border-radius: 50%;
+              background: rgba(var(--color-accent), 0.3);
+              pointer-events: none;
+              animation: click-ripple 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+              z-index: 1000;
+              will-change: transform, opacity;
+              backface-visibility: hidden;
+            }
+            
+            .click-pulse {
+              animation: click-pulse 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+              will-change: transform;
+            }
+            
+            /* 特殊元素的点击效果 */
+            button .click-ripple {
+              background: rgba(var(--color-accent), 0.4);
+            }
+            
+            a .click-ripple {
+              background: rgba(var(--color-accent), 0.25);
+            }
+            
+            /* 为按钮元素优化性能 */
+            button {
+              will-change: auto;
+            }
+            
+            button:active {
+              will-change: transform;
+            }
+            
+            /* 暗色主题适配 */
+            html[data-theme="dark"] .click-ripple {
+              background: rgba(var(--color-accent), 0.4);
+            }
+            
+            html[data-theme="dark"] button .click-ripple {
+              background: rgba(var(--color-accent), 0.5);
+            }
+            
+            html[data-theme="dark"] a .click-ripple {
+              background: rgba(var(--color-accent), 0.3);
+            }
+            
+            /* View Transition 优化 */
+            @keyframes astro-fade-in {
+              from {
+                opacity: 0;
+              }
+            }
+            
+            @keyframes astro-fade-out {
+              to {
+                opacity: 0;
+              }
+            }
+            
+            @keyframes astro-slide-from-right {
+              from {
+                transform: translateX(30px);
+              }
+            }
+            
+            @keyframes astro-slide-to-left {
+              to {
+                transform: translateX(-30px);
+              }
+            }
+            
+            ::view-transition-old(root) {
+              animation: 180ms cubic-bezier(0.4, 0, 1, 1) both astro-fade-out,
+                         300ms cubic-bezier(0.4, 0, 0.2, 1) both astro-slide-to-left;
+            }
+            
+            ::view-transition-new(root) {
+              animation: 420ms cubic-bezier(0, 0, 0.2, 1) 90ms both astro-fade-in,
+                         300ms cubic-bezier(0.4, 0, 0.2, 1) both astro-slide-from-right;
+            }
+            
+            /* 减少动画偏好设置 */
+            @media (prefers-reduced-motion: reduce) {
+              .click-ripple {
+                animation: none !important;
+              }
+              
+              .click-pulse {
+                animation: none !important;
+              }
+              
+              ::view-transition-old(root),
+              ::view-transition-new(root) {
+                animation: none !important;
+              }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+        
+        setupClickAnimations() {
+          // 为所有可点击元素添加动画
+          document.addEventListener('click', (e) => {
+            this.createClickEffect(e);
+          }, { passive: true });
+          
+          // 为特定元素添加脉冲效果
+          document.addEventListener('mousedown', (e) => {
+            const target = e.target;
+            if (this.shouldAddPulseEffect(target)) {
+              target.classList.add('click-pulse');
+              setTimeout(() => {
+                target.classList.remove('click-pulse');
+              }, 300);
+            }
+          });
+        }
+        
+        createClickEffect(event) {
+          const target = event.target;
+          
+          // 检查是否应该添加效果
+          if (!this.shouldAddRippleEffect(target)) return;
+          
+          // 获取点击容器
+          const container = this.getClickContainer(target);
+          if (!container) return;
+          
+          // 对于链接，延迟创建波纹以避免与页面导航冲突
+          if (target.tagName === 'A' || target.closest('a')) {
+            // 短暂延迟，让view transition有时间启动
+            setTimeout(() => {
+              this.createRipple(event, container);
+            }, 50);
+          } else {
+            // 非链接元素立即创建波纹
+            this.createRipple(event, container);
+          }
+        }
+        
+        shouldAddRippleEffect(element) {
+          // 排除不需要动画的元素
+          if (element.tagName === 'INPUT' && element.type === 'text') return false;
+          if (element.tagName === 'TEXTAREA') return false;
+          if (element.tagName === 'SELECT') return false;
+          if (element.closest('.no-click-animation')) return false;
+          
+          // 特殊处理：如果是文章卡片内的链接，不添加波纹动画
+          const link = element.closest('a');
+          if (link && link.closest('.glass-card')) return false;
+          
+          // 包含需要动画的元素
+          return (
+            element.tagName === 'BUTTON' ||
+            element.tagName === 'A' ||
+            element.closest('button') ||
+            element.closest('a') ||
+            element.closest('[role="button"]') ||
+            element.closest('.clickable')
+          );
+        }
+        
+        shouldAddPulseEffect(element) {
+          // 文章卡片不添加脉冲效果，避免与view transition冲突
+          if (element.closest('.glass-card') && element.closest('a')) return false;
+          
+          return (
+            element.tagName === 'BUTTON' ||
+            element.closest('button')
+          );
+        }
+        
+        getClickContainer(element) {
+          // 获取最适合的容器
+          const button = element.closest('button');
+          if (button) return button;
+          
+          const link = element.closest('a');
+          if (link && !link.closest('.glass-card')) return link;
+          
+          const clickable = element.closest('.clickable');
+          if (clickable && !clickable.closest('.glass-card')) return clickable;
+          
+          return element;
+        }
+        
+        createRipple(event, container) {
+          // 避免在页面导航期间创建波纹
+          if (document.startViewTransition) {
+            const isNavigating = document.documentElement.classList.contains('astro-transitioning');
+            if (isNavigating) return;
+          }
+          
+          const rect = container.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height) * 0.8; // 减小波纹大小
+          const x = event.clientX - rect.left - size / 2;
+          const y = event.clientY - rect.top - size / 2;
+          
+          const ripple = document.createElement('span');
+          ripple.className = 'click-ripple';
+          ripple.style.cssText = `
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}px;
+            top: ${y}px;
+          `;
+          
+          // 确保容器有相对定位
+          const position = window.getComputedStyle(container).position;
+          if (position === 'static') {
+            container.style.position = 'relative';
+          }
+          
+          container.appendChild(ripple);
+          
+          // 动画结束后移除元素
+          setTimeout(() => {
+            if (ripple.parentNode) {
+              ripple.parentNode.removeChild(ripple);
+            }
+          }, 400); // 缩短清理时间
+        }
+        
+        // 页面导航后重新初始化
+        reinitialize() {
+          // 点击动画不需要重新初始化，因为使用了事件委托
+        }
+      }
+      
+      // 初始化管理器
+      const backgroundManager = new GlobalBackgroundManager();
+      const clickAnimationManager = new ClickAnimationManager();
+      
+      // Astro页面导航事件
+      document.addEventListener('astro:before-preparation', () => {
+        // 页面导航开始前清理所有动画
+        document.querySelectorAll('.click-ripple').forEach(ripple => {
+          if (ripple.parentNode) {
+            ripple.parentNode.removeChild(ripple);
+          }
+        });
+        document.querySelectorAll('.click-pulse').forEach(element => {
+          element.classList.remove('click-pulse');
+        });
+      });
+      
+      document.addEventListener('astro:after-swap', () => {
+        backgroundManager.reinitialize();
+        clickAnimationManager.reinitialize();
+      });
+      
+      // 窗口大小变化时重新设置
+      window.addEventListener('resize', () => {
+        backgroundManager.ensureBackgroundFixed();
+      });
+      
+      // 暴露到全局
+      window.GlobalBackgroundManager = backgroundManager;
+      window.ClickAnimationManager = clickAnimationManager;
+    </script>
   </body>
 </html>
 
