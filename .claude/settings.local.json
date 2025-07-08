@@ -28,7 +28,13 @@
       "Bash(kill:*)",
       "Bash(true)",
       "Bash(node:*)",
-      "Bash(timeout 30 npm run build:*)"
+      "Bash(timeout 30 npm run build:*)",
+      "Bash(ssh-keygen:*)",
+      "Bash(cat:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(ssh-add:*)",
+      "Bash(mkdir:*)",
+      "Bash(ssh:*)"
     ],
     "deny": []
   }

@@ -259,13 +259,14 @@ const structuredData = {
           const elementsWithBackground = document.querySelectorAll('[style*="background-image"], .hero-container');
           
           elementsWithBackground.forEach(element => {
+            const htmlElement = element as HTMLElement;
             const isMobile = window.innerWidth <= 768;
             const attachment = isMobile ? 'scroll' : 'fixed';
             
-            element.style.backgroundAttachment = attachment;
-            element.style.backgroundSize = 'cover';
-            element.style.backgroundPosition = 'center';
-            element.style.backgroundRepeat = 'no-repeat';
+            htmlElement.style.backgroundAttachment = attachment;
+            htmlElement.style.backgroundSize = 'cover';
+            htmlElement.style.backgroundPosition = 'center';
+            htmlElement.style.backgroundRepeat = 'no-repeat';
           });
         }
         
@@ -423,24 +424,27 @@ const structuredData = {
         
         setupClickAnimations() {
           // 为所有可点击元素添加动画
-          document.addEventListener('click', (e) => {
+          document.addEventListener('click', (e: Event) => {
             this.createClickEffect(e);
           }, { passive: true });
           
           // 为特定元素添加脉冲效果
-          document.addEventListener('mousedown', (e) => {
-            const target = e.target;
-            if (this.shouldAddPulseEffect(target)) {
+          document.addEventListener('mousedown', (e: Event) => {
+            const target = e.target as HTMLElement;
+            if (target && this.shouldAddPulseEffect(target)) {
               target.classList.add('click-pulse');
               setTimeout(() => {
-                target.classList.remove('click-pulse');
+                if (target) {
+                  target.classList.remove('click-pulse');
+                }
               }, 300);
             }
           });
         }
         
-        createClickEffect(event) {
-          const target = event.target;
+        createClickEffect(event: Event) {
+          const target = event.target as HTMLElement;
+          if (!target) return;
           
           // 检查是否应该添加效果
           if (!this.shouldAddRippleEffect(target)) return;
@@ -461,9 +465,9 @@ const structuredData = {
           }
         }
         
-        shouldAddRippleEffect(element) {
+        shouldAddRippleEffect(element: HTMLElement) {
           // 排除不需要动画的元素
-          if (element.tagName === 'INPUT' && element.type === 'text') return false;
+          if (element.tagName === 'INPUT' && (element as HTMLInputElement).type === 'text') return false;
           if (element.tagName === 'TEXTAREA') return false;
           if (element.tagName === 'SELECT') return false;
           if (element.closest('.no-click-animation')) return false;
@@ -483,7 +487,7 @@ const structuredData = {
           );
         }
         
-        shouldAddPulseEffect(element) {
+        shouldAddPulseEffect(element: HTMLElement) {
           // 文章卡片不添加脉冲效果，避免与view transition冲突
           if (element.closest('.glass-card') && element.closest('a')) return false;
           
@@ -493,31 +497,32 @@ const structuredData = {
           );
         }
         
-        getClickContainer(element) {
+        getClickContainer(element: HTMLElement): HTMLElement {
           // 获取最适合的容器
-          const button = element.closest('button');
+          const button = element.closest('button') as HTMLElement;
           if (button) return button;
           
-          const link = element.closest('a');
+          const link = element.closest('a') as HTMLElement;
           if (link && !link.closest('.glass-card')) return link;
           
-          const clickable = element.closest('.clickable');
+          const clickable = element.closest('.clickable') as HTMLElement;
           if (clickable && !clickable.closest('.glass-card')) return clickable;
           
           return element;
         }
         
-        createRipple(event, container) {
+        createRipple(event: Event, container: HTMLElement) {
           // 避免在页面导航期间创建波纹
-          if (document.startViewTransition) {
+          if (typeof (document as any).startViewTransition === 'function') {
             const isNavigating = document.documentElement.classList.contains('astro-transitioning');
             if (isNavigating) return;
           }
           
+          const mouseEvent = event as MouseEvent;
           const rect = container.getBoundingClientRect();
           const size = Math.max(rect.width, rect.height) * 0.8; // 减小波纹大小
-          const x = event.clientX - rect.left - size / 2;
-          const y = event.clientY - rect.top - size / 2;
+          const x = mouseEvent.clientX - rect.left - size / 2;
+          const y = mouseEvent.clientY - rect.top - size / 2;
           
           const ripple = document.createElement('span');
           ripple.className = 'click-ripple';
@@ -578,8 +583,8 @@ const structuredData = {
       });
       
       // 暴露到全局
-      window.GlobalBackgroundManager = backgroundManager;
-      window.ClickAnimationManager = clickAnimationManager;
+      (window as any).GlobalBackgroundManager = backgroundManager;
+      (window as any).ClickAnimationManager = clickAnimationManager;
     </script>
   </body>
 </html>
