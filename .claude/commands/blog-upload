@@ -1,0 +1,16 @@
+🚀 博客上传工具
+
+使用标准化流程上传博客文章到GitHub。
+
+用法：/blog-upload <文件路径> [提交类型]
+
+示例：
+- /blog-upload src/data/blog/my-article-2025.md
+- /blog-upload src/data/blog/my-article-2025.md feat
+
+执行博客上传脚本: !bash scripts/blog-upload.sh $ARGUMENTS
+
+如果脚本不存在，请先运行以下命令创建：
+!echo "请确保 scripts/blog-upload.sh 文件存在并有执行权限"
+
+遵循的规则文档：@.claude/rules/blog-upload-workflow.md 
