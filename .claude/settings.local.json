@@ -34,7 +34,15 @@
       "Bash(git remote set-url:*)",
       "Bash(ssh-add:*)",
       "Bash(mkdir:*)",
-      "Bash(ssh:*)"
+      "Bash(ssh:*)",
+      "Bash(sudo apt-get:*)",
+      "Bash(sudo apt-get install:*)",
+      "Bash(mv:*)",
+      "WebFetch(domain:worldtimeapi.org)",
+      "WebFetch(domain:timeapi.io)",
+      "Bash(timeout 10 npx @playwright/mcp)",
+      "Bash(dir \"C:\\Users\\ciheb\\AppData\\Local\\ms-playwright\"\")",
+      "Bash(claude --version)"
     ],
     "deny": []
   }

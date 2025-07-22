@@ -160,3 +160,53 @@ Generated X rule files. Review and commit when ready.
 **Pragmatism** : Prioritize actionable and measurable rules  
 **Scalability** : Structure to facilitate future additions and modifications  
 **Clarity** : Write in the project's language (detected via documentation/comments)
+
+# Blog Article Creation Rules
+
+When creating blog articles, ALWAYS use the current Shanghai time (Asia/Shanghai timezone) for the pubDatetime field in the frontmatter. 
+
+IMPORTANT: Before setting the time, use WebFetch to query current time from: https://timeapi.io/api/Time/current/zone?timeZone=Asia/Shanghai
+
+The format should be: `pubDatetime: YYYY-MM-DDTHH:MM:SSZ` (e.g., 2025-07-20T22:03:23Z for Shanghai time).
+
+## Article Annotation Requirements
+
+When writing blog articles, ALWAYS add extensive knowledge point annotations throughout the content to facilitate reader comprehension. Follow these guidelines:
+
+### Annotation Types to Include:
+1. **Numbered References** - Add superscript numbers (¹²³⁴...) to key terms and concepts
+2. **Knowledge Point Boxes** - Use blockquote format for detailed explanations:
+   ```markdown
+   > **💡 知识点N：术语解释**  
+   > 详细解释关键概念、术语定义、背景知识
+   ```
+3. **Comparison Tables** - Provide quantitative data comparisons using markdown tables
+4. **Mechanism Explanations** - Detail biological/technical mechanisms and molecular foundations
+5. **Historical Context** - Include discovery timeline, evolution history, development stages
+6. **Practical Applications** - Show clinical data, industrial applications, real-world examples
+
+### Annotation Content Guidelines:
+- **Technical Terms**: Explain abbreviations, scientific terminology, units of measurement
+- **Quantitative Data**: Provide specific numbers, statistics, comparative metrics
+- **Biological Mechanisms**: Detail molecular processes, cellular functions, biochemical pathways
+- **Historical Background**: Discovery dates, key researchers, evolutionary timelines
+- **Clinical Applications**: Treatment outcomes, diagnostic uses, therapeutic benefits
+- **Industrial Aspects**: Production methods, cost comparisons, manufacturing processes
+
+### Formatting Standards:
+- Use emoji icons to categorize knowledge points (🔬📊🧬⚗️💡🎯📈)
+- Structure annotations hierarchically from basic to advanced concepts
+- Include cross-references to related concepts within the article
+- Provide both qualitative explanations and quantitative data where applicable
+
+### Reader Accessibility:
+- Ensure annotations serve readers with different background levels
+- Progress from fundamental concepts to specialized knowledge
+- Include practical examples and real-world applications
+- Make complex scientific concepts accessible through analogies and simplified explanations
+
+# important-instruction-reminders
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
