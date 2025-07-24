@@ -90,16 +90,15 @@ const nextPost =
   <main
     id="main-content"
     class:list={[
-      "mx-auto w-full max-w-3xl px-4 pb-12",
+      "mx-auto w-full max-w-3xl px-4 pb-12 pt-20",
       "xl:ml-auto xl:mr-auto",
       "2xl:ml-auto 2xl:mr-auto",
-      { "mt-8": !SITE.showBackButton },
     ]}
     data-pagefind-body
   >
     <!-- 封面图片 -->
     {ogImageUrl && (
-      <div class="mb-8 overflow-hidden rounded-lg bg-skin-fill" id="cover-container">
+      <div class="mb-8 overflow-hidden rounded-lg bg-skin-fill cover-container" id="cover-container">
         <img 
           src={ogImageUrl} 
           alt={title}
@@ -262,8 +261,13 @@ const nextPost =
     background-color: rgb(var(--color-card-muted));
   }
 
+  /* 封面图片容器样式 - 已有main padding，只需要少量边距 */
+  .cover-container {
+    margin-top: 0; /* main已有pt-20，不需要额外边距 */
+  }
+  
   /* 当桌面端TOC存在时，调整主内容区域布局 */
-  @media (min-width: 1280px) {
+  @media (min-width: 1024px) {
     #main-content {
       max-width: min(48rem, calc(100vw - 10rem)) !important;
     }

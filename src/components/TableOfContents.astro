@@ -112,7 +112,7 @@
   }
   
   /* 屏幕宽度检测 */
-  @media (min-width: 1280px) and (max-width: 1679px) {
+  @media (min-width: 1024px) and (max-width: 1679px) {
     .toc-container {
       display: block;
       /* 中等屏幕默认收起 */
@@ -207,7 +207,7 @@
     transform: scale(1.1);
   }
   
-  @media (min-width: 1280px) {
+  @media (min-width: 1024px) {
     .toc-mobile-button {
       display: none;
     }
@@ -233,7 +233,7 @@
     display: none;
   }
   
-  @media (min-width: 1280px) {
+  @media (min-width: 1024px) {
     .toc-mobile-panel {
       display: none !important;
     }
@@ -440,7 +440,7 @@
       // 大屏幕：自动展开（移除collapsed，添加visible）
       tocContainer.classList.remove('collapsed');
       tocContainer.classList.add('visible');
-    } else if (screenWidth >= 1280) {
+    } else if (screenWidth >= 1024) {
       // 中等屏幕：只有在没有手动操作时才设置默认状态
       if (!isManuallyExpanded && !isManuallyCollapsed) {
         tocContainer.classList.remove('visible');
@@ -471,7 +471,7 @@
       const screenWidth = window.innerWidth;
       
       // 只在中等屏幕启用点击切换
-      if (screenWidth >= 1280 && screenWidth < 1680) {
+      if (screenWidth >= 1024 && screenWidth < 1680) {
         if (tocContainer.classList.contains('collapsed')) {
           tocContainer.classList.remove('collapsed');
           tocContainer.classList.add('visible');
@@ -490,7 +490,7 @@
     document.addEventListener('click', (e) => {
       const screenWidth = window.innerWidth;
       
-      if (screenWidth >= 1280 && screenWidth < 1680 && isManuallyExpanded) {
+      if (screenWidth >= 1024 && screenWidth < 1680 && isManuallyExpanded) {
         if (!tocContainer.contains(e.target)) {
           tocContainer.classList.remove('visible');
           tocContainer.classList.add('collapsed');
