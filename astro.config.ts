@@ -3,6 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
+import vercel from "@astrojs/vercel";
 import remarkToc from "remark-toc";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -11,6 +12,8 @@ import { SITE } from "./src/config";
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
+  output: "server",
+  adapter: vercel(),
   integrations: [
     react(),
     mdx({
@@ -32,8 +35,10 @@ export default defineConfig({
     }),
   ],
   markdown: {
-    remarkPlugins: [remarkToc, remarkMath],
-    rehypePlugins: [rehypeKatex],
+    // Note: some remark/rehype plugins ship type signatures that are stricter
+    // than Astro's config expects. Cast to keep `astro check` happy.
+    remarkPlugins: [remarkToc, remarkMath as any],
+    rehypePlugins: [rehypeKatex as any],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
       themes: { light: "min-light", dark: "night-owl" },
