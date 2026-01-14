@@ -1,0 +1,978 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>25 岁年度复盘 · 情绪-需求</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Noto+Serif+SC:wght@300;500;700&display=swap");
+
+      :root {
+        --paper: #f7f1e6;
+        --paper-ink: #e7dccb;
+        --ink: #1f1b16;
+        --muted: #6f6459;
+        --accent: #e46b3f;
+        --accent-2: #2d9c7a;
+        --accent-3: #4d63a7;
+        --card: rgba(255, 255, 255, 0.72);
+        --card-strong: rgba(255, 255, 255, 0.9);
+        --shadow: 0 18px 40px rgba(30, 26, 22, 0.12);
+        --shadow-soft: 0 10px 24px rgba(30, 26, 22, 0.12);
+        --border: 1px solid rgba(31, 27, 22, 0.08);
+        --border-strong: 1px solid rgba(31, 27, 22, 0.14);
+        --radius-lg: 26px;
+        --radius-md: 18px;
+        --radius-sm: 12px;
+        --mono: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono",
+          "Courier New", monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Noto Serif SC", "Songti SC", serif;
+        color: var(--ink);
+        background: radial-gradient(circle at 15% 20%, rgba(228, 107, 63, 0.12), transparent 40%),
+          radial-gradient(circle at 80% 10%, rgba(45, 156, 122, 0.12), transparent 35%),
+          radial-gradient(circle at 70% 80%, rgba(77, 99, 167, 0.12), transparent 40%),
+          linear-gradient(135deg, #f7f1e6 0%, #f1e6d6 48%, #f9f6ef 100%);
+        min-height: 100vh;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+        opacity: 0.14;
+        mix-blend-mode: multiply;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+      }
+
+      .page {
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 28px 22px 54px;
+      }
+
+      .top {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      .brand {
+        display: grid;
+        gap: 6px;
+      }
+
+      .brand .eyebrow {
+        font-size: 11px;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        color: var(--accent-3);
+      }
+
+      .brand h1 {
+        margin: 0;
+        font-family: "ZCOOL XiaoWei", serif;
+        font-size: clamp(26px, 3.2vw, 40px);
+        letter-spacing: 0.04em;
+        line-height: 1.1;
+      }
+
+      .brand p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .mono {
+        font-family: var(--mono);
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .btn {
+        appearance: none;
+        border: var(--border);
+        background: var(--card);
+        color: var(--ink);
+        padding: 10px 12px;
+        border-radius: 999px;
+        box-shadow: var(--shadow-soft);
+        cursor: pointer;
+        font-size: 13px;
+        letter-spacing: 0.02em;
+        transition: transform 0.14s ease, background 0.14s ease, border-color 0.14s ease;
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.86);
+        border-color: rgba(31, 27, 22, 0.16);
+        text-decoration: none;
+      }
+
+      .btn--accent {
+        background: linear-gradient(135deg, rgba(228, 107, 63, 0.18), rgba(228, 107, 63, 0.1));
+        border-color: rgba(228, 107, 63, 0.24);
+      }
+
+      .btn--ghost {
+        background: transparent;
+        box-shadow: none;
+        border-color: rgba(31, 27, 22, 0.12);
+      }
+
+      .shell {
+        display: grid;
+        grid-template-columns: 340px 1fr;
+        gap: 16px;
+        align-items: start;
+      }
+
+      .panel {
+        background: var(--card);
+        border: var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(10px);
+        overflow: hidden;
+      }
+
+      .panel__head {
+        padding: 14px 16px;
+        border-bottom: var(--border);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.6));
+        display: grid;
+        gap: 12px;
+      }
+
+      .panel__title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .panel__title h2 {
+        margin: 0;
+        font-size: 15px;
+        letter-spacing: 0.06em;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 999px;
+        padding: 6px 10px;
+        border: var(--border);
+        background: rgba(255, 255, 255, 0.7);
+        font-size: 12px;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .search {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .search input {
+        width: 100%;
+        border-radius: 999px;
+        border: var(--border);
+        padding: 10px 12px;
+        background: rgba(255, 255, 255, 0.82);
+        font-family: inherit;
+        font-size: 13px;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+      }
+
+      .panel__body {
+        padding: 10px 10px 14px;
+      }
+
+      .nav {
+        display: grid;
+        gap: 8px;
+        max-height: 560px;
+        overflow: auto;
+        padding-right: 6px;
+      }
+
+      .nav::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      .nav::-webkit-scrollbar-thumb {
+        background: rgba(31, 27, 22, 0.12);
+        border-radius: 999px;
+        border: 3px solid transparent;
+        background-clip: content-box;
+      }
+
+      .nav-item {
+        width: 100%;
+        text-align: left;
+        border: var(--border);
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: var(--radius-md);
+        padding: 10px 12px;
+        cursor: pointer;
+        transition: transform 0.14s ease, border-color 0.14s ease, background 0.14s ease;
+        display: grid;
+        gap: 6px;
+      }
+
+      .nav-item:hover {
+        transform: translateY(-1px);
+        border-color: rgba(31, 27, 22, 0.16);
+        background: rgba(255, 255, 255, 0.86);
+      }
+
+      .nav-item[aria-current="true"] {
+        border-color: rgba(77, 99, 167, 0.38);
+        background: linear-gradient(135deg, rgba(77, 99, 167, 0.14), rgba(255, 255, 255, 0.86));
+      }
+
+      .nav-item__k {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 12px;
+        color: rgba(31, 27, 22, 0.82);
+      }
+
+      .tag {
+        font-family: var(--mono);
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: var(--border);
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .viewer {
+        min-height: 680px;
+      }
+
+      .statusbar {
+        padding: 12px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border-bottom: var(--border);
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .statusbar__left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .doc {
+        padding: 18px 18px 24px;
+        overflow-wrap: anywhere;
+      }
+
+      .doc h1,
+      .doc h2,
+      .doc h3 {
+        scroll-margin-top: 92px;
+      }
+
+      .doc h2 {
+        font-size: 18px;
+        margin: 22px 0 10px;
+      }
+
+      .doc h3 {
+        font-size: 16px;
+        margin: 18px 0 8px;
+      }
+
+      .doc p,
+      .doc li {
+        line-height: 1.78;
+        font-size: 14px;
+      }
+
+      .doc blockquote {
+        margin: 10px 0 0;
+        padding: 10px 12px;
+        border-left: 3px solid rgba(77, 99, 167, 0.35);
+        background: rgba(255, 255, 255, 0.65);
+        border-radius: 12px;
+        color: rgba(31, 27, 22, 0.86);
+      }
+
+      .doc code {
+        font-family: var(--mono);
+        font-size: 12px;
+        background: rgba(31, 27, 22, 0.06);
+        padding: 2px 6px;
+        border-radius: 8px;
+      }
+
+      .empty {
+        padding: 18px 16px;
+        color: var(--muted);
+        border: var(--border);
+        background: rgba(255, 255, 255, 0.55);
+        border-radius: var(--radius-md);
+      }
+
+      details.source-entry {
+        margin-top: 10px;
+        border: var(--border);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.72);
+        overflow: hidden;
+      }
+
+      details.source-entry summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        user-select: none;
+      }
+
+      details.source-entry summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .stamp {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 8px;
+        border-radius: 999px;
+        border: var(--border);
+        background: rgba(77, 99, 167, 0.12);
+        color: rgba(31, 27, 22, 0.86);
+        font-size: 12px;
+      }
+
+      .hint {
+        color: rgba(31, 27, 22, 0.7);
+        font-size: 12px;
+      }
+
+      .source-entry__body {
+        border-top: var(--border);
+        padding: 12px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .source-entry__body pre {
+        margin: 0;
+        white-space: pre-wrap;
+        word-break: break-word;
+        background: rgba(31, 27, 22, 0.05);
+        border: var(--border);
+        border-radius: 14px;
+        padding: 10px 12px;
+      }
+
+      .toast {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        border: var(--border);
+        background: rgba(255, 255, 255, 0.92);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+        padding: 10px 12px;
+        color: rgba(31, 27, 22, 0.92);
+        font-size: 13px;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 0.18s ease, transform 0.18s ease;
+        pointer-events: none;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 980px) {
+        .shell {
+          grid-template-columns: 1fr;
+        }
+
+        .nav {
+          max-height: 260px;
+        }
+
+        .viewer {
+          min-height: auto;
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="ui_plus.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="top">
+        <div class="brand">
+          <div class="eyebrow">EMOTION MAP · AGE 25</div>
+          <h1>25 岁年度复盘 · 情绪-需求</h1>
+          <p>逐条证据 · 可跳转 · 可展开原文（来自 <span class="mono">age-25-review.md</span>）</p>
+        </div>
+        <div class="actions">
+          <a class="btn btn--accent" href="age_25_review.html">
+            回到手册
+          </a>
+          <a class="btn btn--ghost" href="age_25_desires.html">渴望清单</a>
+          <a class="btn btn--ghost" href="age_25_anti_vision.html">反向愿景</a>
+          <a class="btn btn--ghost" href="age_25_moats.html">护城河</a>
+          <a class="btn btn--ghost" href="age_25_rules.html">底线规则</a>
+          <a class="btn btn--ghost" href="age_25_warnings.html">早期预警</a>
+          <a class="btn btn--ghost" href="age_25_good_day.html">好的一天</a>
+          <a class="btn btn--ghost" href="age_25_boundaries.html">边界脚本</a>
+          <a class="btn btn--ghost" href="../age-25-review.md" target="_blank" rel="noreferrer">
+            打开 Markdown
+          </a>
+          <a class="btn btn--ghost" href="../tag-selected-5.md" target="_blank" rel="noreferrer">
+            打开原始记录
+          </a>
+        </div>
+      </header>
+
+      <main class="shell">
+        <aside class="panel">
+          <div class="panel__head">
+            <div class="panel__title">
+              <h2>情绪条目</h2>
+              <span id="itemCount" class="pill mono">Exx</span>
+            </div>
+            <div class="search">
+              <input id="itemSearch" type="search" placeholder="搜索（Exx / 关键词）" autocomplete="off" />
+              <button id="clearSearch" class="btn btn--ghost" type="button">清空</button>
+            </div>
+          </div>
+          <div class="panel__body">
+            <div id="navList" class="nav" aria-label="情绪条目导航">
+              <div class="empty">正在加载…</div>
+            </div>
+          </div>
+        </aside>
+
+        <section class="panel viewer">
+          <div class="statusbar">
+            <div class="statusbar__left">
+              <span id="docStatus" class="pill">
+                <span class="mono">age-25-review.md</span>
+                <span class="muted">加载中</span>
+              </span>
+              <span id="sourceStatus" class="pill">
+                <span class="mono">原文索引</span>
+                <span class="muted">未加载（展开原文时才会读）</span>
+              </span>
+            </div>
+            <div class="statusbar__right">
+              <span class="pill muted">提示：点击每条证据下的 <span class="mono">原文</span> 可展开完整上下文</span>
+            </div>
+          </div>
+
+          <div id="doc" class="doc">
+            <div class="empty">正在渲染…</div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+      const els = {
+        doc: document.getElementById("doc"),
+        navList: document.getElementById("navList"),
+        itemCount: document.getElementById("itemCount"),
+        itemSearch: document.getElementById("itemSearch"),
+        clearSearch: document.getElementById("clearSearch"),
+        docStatus: document.getElementById("docStatus"),
+        sourceStatus: document.getElementById("sourceStatus"),
+        toast: document.getElementById("toast"),
+      };
+
+      const state = {
+        mdFocus: "",
+        mdEmbeddedSelected5: "",
+        sourceIndexPromise: null,
+        sourceIndex: null,
+        navItems: [],
+      };
+
+      const SELECTED5_BEGIN = "<!-- ORIGINALS_SELECTED5_BEGIN -->";
+      const SELECTED5_END = "<!-- ORIGINALS_SELECTED5_END -->";
+      const EMOTIONS_BEGIN = "<!-- EMOTIONS_SECTION_BEGIN -->";
+      const EMOTIONS_END = "<!-- EMOTIONS_SECTION_END -->";
+
+      function toast(msg) {
+        els.toast.textContent = msg;
+        els.toast.classList.add("show");
+        window.clearTimeout(toast._t);
+        toast._t = window.setTimeout(() => els.toast.classList.remove("show"), 1600);
+      }
+
+      function setDocStatus(ok, detail) {
+        const parts = els.docStatus.querySelectorAll("span");
+        if (parts.length < 2) return;
+        parts[1].textContent = detail || (ok ? "已加载" : "加载失败");
+        parts[1].className = "muted";
+      }
+
+      function setSourceStatus(detail) {
+        const parts = els.sourceStatus.querySelectorAll("span");
+        if (parts.length < 2) return;
+        parts[1].textContent = detail;
+      }
+
+      function escapeHtml(str) {
+        return String(str || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function sliceInside(md, beginMarker, endMarker) {
+        const start = md.indexOf(beginMarker);
+        if (start === -1) return "";
+        const after = start + beginMarker.length;
+        const end = md.indexOf(endMarker, after);
+        return md.slice(after, end === -1 ? md.length : end);
+      }
+
+      function splitEmbeddedSelected5(md) {
+        const beginIdx = md.indexOf(SELECTED5_BEGIN);
+        if (beginIdx === -1) return { mdWithout: md, embedded: "" };
+        const afterBegin = beginIdx + SELECTED5_BEGIN.length;
+        const endIdx = md.indexOf(SELECTED5_END, afterBegin);
+        const embedded = endIdx === -1 ? md.slice(afterBegin) : md.slice(afterBegin, endIdx);
+        const mdWithout =
+          endIdx === -1 ? md.slice(0, beginIdx) : md.slice(0, beginIdx) + md.slice(endIdx + SELECTED5_END.length);
+        return { mdWithout, embedded: embedded.trim() };
+      }
+
+      function baseSlugify(input) {
+        return String(input || "")
+          .trim()
+          .toLowerCase()
+          .replace(/<[^>]+>/g, "")
+          .replace(/[^\u3400-\u9FFF\w\s-]/g, "")
+          .replace(/_/g, "")
+          .replace(/\s+/g, "-")
+          .replace(/-+/g, "-")
+          .replace(/^-|-$/g, "");
+      }
+
+      function uniqueSlug(input, counts) {
+        const base = baseSlugify(input) || "section";
+        const current = counts.get(base) || 0;
+        counts.set(base, current + 1);
+        return current ? `${base}-${current + 1}` : base;
+      }
+
+      function ensureHeadingIds(root) {
+        const counts = new Map();
+        const headings = Array.from(root.querySelectorAll("h1, h2, h3, h4, h5, h6"));
+        headings.forEach((h) => {
+          const text = (h.textContent || "").trim();
+          const emotionHit = text.match(/^E(\d{2})\s*[|｜]/);
+          if (emotionHit) {
+            const id = `E${emotionHit[1]}`;
+            h.id = id;
+            counts.set(id, 1);
+            return;
+          }
+          if (h.id) {
+            counts.set(h.id, (counts.get(h.id) || 0) + 1);
+            return;
+          }
+          h.id = uniqueSlug(text, counts);
+        });
+      }
+
+      function configureMarked() {
+        if (!window.marked) return null;
+        if (configureMarked._configured) return configureMarked._configured;
+        window.marked.setOptions({
+          breaks: true,
+          gfm: true,
+          mangle: false,
+          headerIds: false,
+        });
+        configureMarked._configured = { ok: true };
+        return configureMarked._configured;
+      }
+
+      function renderMarkdown(md) {
+        configureMarked();
+        if (window.marked) return window.marked.parse(String(md || ""));
+        return `<pre><code>${escapeHtml(md || "")}</code></pre>`;
+      }
+
+      function normalizeText(s) {
+        return String(s || "")
+          .replace(/\s+/g, " ")
+          .trim()
+          .toLowerCase();
+      }
+
+      function extractEmotionTitle(text) {
+        return String(text || "").replace(/^E\d{2}\s*[|｜]\s*/, "").trim();
+      }
+
+      function clearNavActive() {
+        state.navItems.forEach((it) => it.button.setAttribute("aria-current", "false"));
+      }
+
+      function setNavActive(id) {
+        state.navItems.forEach((it) => {
+          it.button.setAttribute("aria-current", it.id === id ? "true" : "false");
+        });
+      }
+
+      function scrollToId(id) {
+        const target = document.getElementById(id);
+        if (!target) return;
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function buildNavFromDoc() {
+        const headings = Array.from(els.doc.querySelectorAll("h3[id]")).filter((h) => /^E\d{2}$/.test(h.id));
+        const items = headings.map((h) => {
+          const title = extractEmotionTitle(h.textContent);
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "nav-item";
+          button.setAttribute("aria-current", "false");
+          button.innerHTML = `
+            <div class="nav-item__k">
+              <span class="tag">${h.id}</span>
+              <span class="pill mono" title="跳转">↳</span>
+            </div>
+            <div class="nav-item__title">${escapeHtml(title)}</div>
+          `;
+          button.addEventListener("click", () => {
+            history.replaceState(null, "", `#${h.id}`);
+            scrollToId(h.id);
+            setNavActive(h.id);
+          });
+          return { id: h.id, title, heading: h, button };
+        });
+
+        state.navItems = items;
+        els.itemCount.textContent = `${items.length} 条`;
+        els.navList.innerHTML = "";
+        if (!items.length) {
+          els.navList.innerHTML = "<div class='empty'>未找到情绪条目。</div>";
+          return;
+        }
+        items.forEach((it) => els.navList.appendChild(it.button));
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((e) => e.isIntersecting)
+              .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+            if (!visible) return;
+            setNavActive(visible.target.id);
+          },
+          { root: null, threshold: [0.2, 0.35, 0.5], rootMargin: "-15% 0px -72% 0px" }
+        );
+        items.forEach((it) => observer.observe(it.heading));
+
+        const hash = decodeURIComponent(location.hash || "").replace(/^#/, "");
+        if (hash && /^E\d{2}$/.test(hash)) {
+          setTimeout(() => scrollToId(hash), 0);
+          setNavActive(hash);
+        } else if (items.length) {
+          setNavActive(items[0].id);
+        }
+      }
+
+      function attachSearch() {
+        const applyFilter = () => {
+          const q = normalizeText(els.itemSearch.value);
+          state.navItems.forEach((it) => {
+            const hit = !q || normalizeText(`${it.id} ${it.title}`).includes(q);
+            it.button.style.display = hit ? "" : "none";
+          });
+        };
+        els.itemSearch.addEventListener("input", applyFilter);
+        els.clearSearch.addEventListener("click", () => {
+          els.itemSearch.value = "";
+          els.itemSearch.dispatchEvent(new Event("input"));
+          els.itemSearch.focus();
+        });
+      }
+
+      async function ensureSourceIndex() {
+        if (state.sourceIndex) return state.sourceIndex;
+        if (state.sourceIndexPromise) return state.sourceIndexPromise;
+        setSourceStatus("加载中…");
+        state.sourceIndexPromise = (async () => {
+          let res = null;
+          let text = "";
+          let sourceName = "";
+          if (state.mdEmbeddedSelected5) {
+            text = state.mdEmbeddedSelected5;
+            sourceName = "age-25-review.md（内嵌）";
+          } else {
+            const candidates = [
+              { path: "../tag-selected-5.md", name: "tag-selected-5.md" },
+              { path: "../此和彼的记录.md", name: "此和彼的记录.md" },
+            ];
+            for (const c of candidates) {
+              res = await fetch(c.path, { cache: "no-store" });
+              if (res.ok) {
+                text = await res.text();
+                sourceName = c.name;
+                break;
+              }
+            }
+          }
+          if (!text) {
+            const code = res ? res.status : 0;
+            throw new Error(`无法读取原始记录（HTTP ${code}）`);
+          }
+
+          const pattern = /^##\s+(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2}:\d{2})\s*$/gm;
+          const starts = [];
+          for (let m = pattern.exec(text); m; m = pattern.exec(text)) {
+            starts.push({ idx: m.index, date: m[1], time: m[2] });
+          }
+          const entries = starts.map((s, i) => {
+            const end = i + 1 < starts.length ? starts[i + 1].idx : text.length;
+            const chunk = text.slice(s.idx, end).trim();
+            const tagMatch = chunk.match(/^-\s*标签：([^\n\r]+)$/m);
+            const entry = {
+              id: `${s.date} ${s.time}`,
+              date: s.date,
+              time: s.time,
+              tags: tagMatch ? tagMatch[1].trim() : "",
+              chunk,
+            };
+            return entry;
+          });
+
+          const byDate = new Map();
+          const byId = new Map();
+          for (const e of entries) {
+            if (!byDate.has(e.date)) byDate.set(e.date, []);
+            byDate.get(e.date).push(e);
+            byId.set(e.id, e);
+          }
+
+          state.sourceIndex = { text, entries, byDate, byId, sourceName };
+          setSourceStatus(`已加载（${entries.length} 条，${sourceName}）`);
+          return state.sourceIndex;
+        })().catch((err) => {
+          setSourceStatus("加载失败（请确认通过本地服务器打开）");
+          throw err;
+        });
+        return state.sourceIndexPromise;
+      }
+
+      function findBestEntry(sourceIndex, { date, tag, quote }) {
+        const candidates = sourceIndex.byDate.get(date) || [];
+        if (!candidates.length) return null;
+        const normalize = (s) => (s || "").replace(/\s+/g, " ").trim();
+        const tagClean = (tag || "").trim();
+        const quoteClean = (quote || "").trim();
+
+        const tagNorm = normalize(tagClean);
+        const quoteNorm = normalize(quoteClean);
+        const tagHits = tagNorm ? candidates.filter((e) => normalize(e.chunk).includes(tagNorm)) : [];
+        const tagScope = tagHits.length ? tagHits : candidates;
+        if (tagHits.length === 1) return tagHits[0];
+
+        if (quoteNorm && quoteNorm.length >= 6) {
+          const quoteHits = tagScope.filter((e) => normalize(e.chunk).includes(quoteNorm));
+          if (quoteHits.length) return quoteHits[0];
+        }
+        return tagScope[0];
+      }
+
+      function extractEvidenceInfo(li) {
+        const codes = Array.from(li.querySelectorAll("code"));
+        let createdAt = "";
+        for (const c of codes) {
+          const t = (c.textContent || "").trim();
+          if (/^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}$/.test(t)) {
+            createdAt = t;
+            break;
+          }
+        }
+        const date = createdAt ? createdAt.slice(0, 10) : "";
+        const tag = codes
+          .map((c) => (c.textContent || "").trim())
+          .filter((t) => t && t !== createdAt && t.includes("#"))[0] || "";
+        const blockquote = li.querySelector("blockquote");
+        const quote = blockquote ? (blockquote.textContent || "").trim() : "";
+        return { createdAt, date, tag, quote };
+      }
+
+      function decorateEvidenceEntries(root) {
+        const items = Array.from(root.querySelectorAll("li"));
+        items.forEach((li) => {
+          if (li.querySelector("details.source-entry")) return;
+          if (li.querySelector(":scope > ul, :scope > ol")) return;
+          const info = extractEvidenceInfo(li);
+          if (!info.createdAt) return;
+
+          const details = document.createElement("details");
+          details.className = "source-entry";
+          details.innerHTML = `
+            <summary>
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                <span class="stamp mono">原文</span>
+                <span class="hint">${escapeHtml((info.tag || info.createdAt || "点击展开") + "")}</span>
+              </div>
+              <span class="pill mono">${escapeHtml(info.date || "----")}</span>
+            </summary>
+            <div class="source-entry__body">
+              <div class="empty">展开后将读取完整原文…</div>
+            </div>
+          `;
+
+          details.addEventListener("toggle", async () => {
+            if (!details.open) return;
+            const body = details.querySelector(".source-entry__body");
+            if (!body) return;
+            if (details.dataset.loaded === "true") {
+              details.scrollIntoView({ behavior: "smooth", block: "start" });
+              return;
+            }
+            details.dataset.loaded = "loading";
+            try {
+              const src = await ensureSourceIndex();
+              const entry =
+                (src.byId && info.createdAt ? src.byId.get(info.createdAt) : null) || findBestEntry(src, info);
+              if (!entry) {
+                body.innerHTML = `<div class="empty">未找到对应原文：${escapeHtml(info.createdAt)}</div>`;
+                details.dataset.loaded = "true";
+                return;
+              }
+              body.innerHTML = `
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between">
+                  <span class="pill mono">${escapeHtml(entry.id)}</span>
+                  <span class="pill mono">${escapeHtml(entry.tags || "-")}</span>
+                  <button class="btn btn--ghost" type="button" data-copy>复制原文</button>
+                </div>
+                <pre class="mono">${escapeHtml(entry.chunk)}</pre>
+              `;
+              const copyBtn = body.querySelector("[data-copy]");
+              if (copyBtn) {
+                copyBtn.addEventListener("click", async () => {
+                  try {
+                    await navigator.clipboard.writeText(entry.chunk);
+                    toast("已复制原文");
+                  } catch {
+                    toast("复制失败（浏览器限制）");
+                  }
+                });
+              }
+              details.dataset.loaded = "true";
+              details.scrollIntoView({ behavior: "smooth", block: "start" });
+            } catch (err) {
+              details.dataset.loaded = "true";
+              const msg = err && err.message ? err.message : String(err);
+              body.innerHTML = `<div class="empty">${escapeHtml(msg)}</div>`;
+            }
+          });
+
+          li.appendChild(details);
+        });
+      }
+
+      function renderDoc() {
+        els.doc.innerHTML = renderMarkdown(state.mdFocus || "");
+        ensureHeadingIds(els.doc);
+        decorateEvidenceEntries(els.doc);
+        buildNavFromDoc();
+      }
+
+      async function boot() {
+        attachSearch();
+        try {
+          const res = await fetch("../age-25-review.md", { cache: "no-store" });
+          if (!res.ok) throw new Error(`无法读取 age-25-review.md（HTTP ${res.status}）`);
+          const mdRaw = await res.text();
+          const split = splitEmbeddedSelected5(mdRaw);
+          state.mdEmbeddedSelected5 = split.embedded || "";
+          const md = split.mdWithout || mdRaw;
+          const focus = sliceInside(md, EMOTIONS_BEGIN, EMOTIONS_END).trim();
+          state.mdFocus = focus || md;
+          setDocStatus(true, "已加载");
+          renderDoc();
+        } catch (err) {
+          setDocStatus(false, "加载失败");
+          const msg = err && err.message ? err.message : String(err);
+          els.doc.innerHTML = `
+            <div class="empty">
+              <div class="mono">加载失败：</div>
+              <div style="margin-top:8px">${escapeHtml(msg)}</div>
+              <div style="margin-top:12px" class="muted">请确认通过本地服务器打开：<span class="mono">启动本地服务器.ps1</span> 或 <span class="mono">启动本地服务器.bat</span></div>
+            </div>
+          `;
+          els.navList.innerHTML = "<div class='empty'>无法生成导航</div>";
+        }
+      }
+
+      boot();
+    </script>
+    <script src="ui_plus.js"></script>
+  </body>
+</html>

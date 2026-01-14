@@ -1,0 +1,280 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+---
+
+<Layout
+  title="25岁复盘 · 查询手册"
+  description="25岁（生日到生日）的年度复盘与应对手册：可跳转、可折叠原文。"
+  robots="noindex, nofollow"
+>
+  <Header />
+
+  <main id="main-content">
+    <div class="container">
+      <section class="hero glass-card animate-on-load">
+        <div class="hero__badge">PRIVATE · LIFE REVIEW</div>
+        <h1 class="hero__title">25岁复盘</h1>
+        <p class="hero__desc">
+          一份给未来自己的「查询手册」：按场景卡片、早期预警、好的一天配方、边界脚本、情绪-需求地图等整理，支持跳转与原文折叠。
+        </p>
+        <div class="hero__actions">
+          <a class="hero__btn hero__btn--primary btn-animate" href="/age-25/dashboard/age_25_review.html">
+            打开查询手册
+          </a>
+          <a class="hero__btn btn-animate" href="/age-25/dashboard/age_25_warnings.html">
+            早期预警
+          </a>
+          <a class="hero__btn btn-animate" href="/age-25/dashboard/age_25_boundaries.html">
+            关系与边界
+          </a>
+        </div>
+        <div class="hero__hint">
+          手册页快捷键：<span class="kbd">Ctrl</span>+<span class="kbd">K</span> 快速跳转；右下角「跳转/专注/设置」可切换暗色与字号。
+        </div>
+      </section>
+
+      <section class="grid">
+        <a class="card glass-card interactive-hover" href="/age-25/dashboard/age_25_good_day.html">
+          <div class="card__k">G</div>
+          <div class="card__t">好的一天配方</div>
+          <div class="card__d">起床—环境—输入—输出—休息的共同结构。</div>
+        </a>
+        <a class="card glass-card interactive-hover" href="/age-25/dashboard/age_25_emotions.html">
+          <div class="card__k">E</div>
+          <div class="card__t">情绪-需求地图</div>
+          <div class="card__d">常见情绪背后的真实需要 + 替代满足方式。</div>
+        </a>
+        <a class="card glass-card interactive-hover" href="/age-25/dashboard/age_25_desires.html">
+          <div class="card__k">D</div>
+          <div class="card__t">渴望与追求</div>
+          <div class="card__d">你想要怎样的生活（附原文证据）。</div>
+        </a>
+        <a class="card glass-card interactive-hover" href="/age-25/dashboard/age_25_anti_vision.html">
+          <div class="card__k">A</div>
+          <div class="card__t">反向愿景</div>
+          <div class="card__d">最不想要的生活（附原文证据）。</div>
+        </a>
+      </section>
+
+      <section class="files glass-card">
+        <h2 class="files__title">原始文件</h2>
+        <ul class="files__list">
+          <li>
+            <a class="files__link" href="/age-25/age-25-review.md" target="_blank" rel="noreferrer">
+              age-25-review.md
+            </a>
+            <span class="files__muted">（含嵌入原文段落）</span>
+          </li>
+        </ul>
+        <p class="files__note">
+          说明：为了让手册页能实时读取，Markdown 会作为站点静态文件被访问；已默认设置 <span class="kbd">noindex</span>，并从 sitemap 排除。
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .hero {
+    margin: 46px 0 18px;
+    padding: 26px 22px;
+    border-radius: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: -120px;
+    background: radial-gradient(
+        circle at 20% 25%,
+        color-mix(in srgb, var(--color-accent) 22%, transparent),
+        transparent 55%
+      ),
+      radial-gradient(circle at 80% 15%, rgba(77, 99, 167, 0.16), transparent 52%),
+      radial-gradient(circle at 70% 85%, rgba(45, 156, 122, 0.16), transparent 58%);
+    pointer-events: none;
+    filter: blur(2px);
+  }
+
+  .hero > * {
+    position: relative;
+  }
+
+  .hero__badge {
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    opacity: 0.95;
+    margin-bottom: 10px;
+  }
+
+  .hero__title {
+    margin: 0;
+    font-size: clamp(30px, 4vw, 44px);
+    letter-spacing: 0.04em;
+    line-height: 1.15;
+  }
+
+  .hero__desc {
+    margin: 12px 0 16px;
+    color: var(--color-foreground);
+    opacity: 0.82;
+    line-height: 1.8;
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  .hero__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 24%, transparent);
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(10px);
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .hero__btn:hover {
+    border-color: color-mix(in srgb, var(--color-accent) 34%, transparent);
+    background: rgba(255, 255, 255, 0.32);
+  }
+
+  .hero__btn--primary {
+    border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-accent) 16%, transparent),
+      rgba(255, 255, 255, 0.3)
+    );
+  }
+
+  .hero__hint {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--color-foreground);
+    opacity: 0.72;
+    line-height: 1.6;
+  }
+
+  .kbd {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.18);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin: 18px 0 18px;
+  }
+
+  .card {
+    padding: 16px 16px 14px;
+    border-radius: 18px;
+    text-decoration: none;
+    display: grid;
+    gap: 6px;
+  }
+
+  .card__k {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-accent) 28%, transparent);
+  }
+
+  .card__t {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .card__d {
+    color: var(--color-foreground);
+    opacity: 0.74;
+    line-height: 1.7;
+    font-size: 13px;
+  }
+
+  .files {
+    border-radius: 18px;
+    padding: 16px 16px 14px;
+    margin: 8px 0 46px;
+  }
+
+  .files__title {
+    margin: 0 0 10px;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+  }
+
+  .files__list {
+    margin: 0;
+    padding-left: 18px;
+    line-height: 1.8;
+  }
+
+  .files__link {
+    text-decoration: none;
+    border-bottom: 1px dashed color-mix(in srgb, var(--color-accent) 46%, transparent);
+  }
+
+  .files__link:hover {
+    border-bottom-style: solid;
+  }
+
+  .files__muted {
+    color: var(--color-foreground);
+    opacity: 0.68;
+    margin-left: 6px;
+    font-size: 13px;
+  }
+
+  .files__note {
+    margin: 10px 0 0;
+    color: var(--color-foreground);
+    opacity: 0.68;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 680px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

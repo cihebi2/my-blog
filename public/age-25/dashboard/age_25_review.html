@@ -1,0 +1,1099 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>25 岁年度复盘 · 查询手册</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Noto+Serif+SC:wght@300;500;700&display=swap");
+
+      :root {
+        --paper: #f7f1e6;
+        --paper-ink: #e7dccb;
+        --ink: #1f1b16;
+        --muted: #6f6459;
+        --accent: #e46b3f;
+        --accent-2: #2d9c7a;
+        --accent-3: #4d63a7;
+        --card: rgba(255, 255, 255, 0.72);
+        --card-strong: rgba(255, 255, 255, 0.9);
+        --shadow: 0 18px 40px rgba(30, 26, 22, 0.12);
+        --shadow-soft: 0 10px 24px rgba(30, 26, 22, 0.12);
+        --border: 1px solid rgba(31, 27, 22, 0.08);
+        --border-strong: 1px solid rgba(31, 27, 22, 0.14);
+        --radius-lg: 26px;
+        --radius-md: 18px;
+        --radius-sm: 12px;
+        --mono: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono",
+          "Courier New", monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Noto Serif SC", "Songti SC", serif;
+        color: var(--ink);
+        background: radial-gradient(circle at 15% 20%, rgba(228, 107, 63, 0.12), transparent 40%),
+          radial-gradient(circle at 80% 10%, rgba(45, 156, 122, 0.12), transparent 35%),
+          radial-gradient(circle at 70% 80%, rgba(77, 99, 167, 0.12), transparent 40%),
+          linear-gradient(135deg, #f7f1e6 0%, #f1e6d6 48%, #f9f6ef 100%);
+        min-height: 100vh;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+        opacity: 0.14;
+        mix-blend-mode: multiply;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+      }
+
+      .page {
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 28px 22px 54px;
+      }
+
+      .top {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      .brand {
+        display: grid;
+        gap: 6px;
+      }
+
+      .brand .eyebrow {
+        font-size: 11px;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        color: var(--accent-2);
+      }
+
+      .brand h1 {
+        margin: 0;
+        font-family: "ZCOOL XiaoWei", serif;
+        font-size: clamp(26px, 3.2vw, 40px);
+        letter-spacing: 0.04em;
+        line-height: 1.1;
+      }
+
+      .brand p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .btn {
+        appearance: none;
+        border: var(--border);
+        background: var(--card);
+        color: var(--ink);
+        padding: 10px 12px;
+        border-radius: 999px;
+        box-shadow: var(--shadow-soft);
+        cursor: pointer;
+        font-size: 13px;
+        letter-spacing: 0.02em;
+        transition: transform 0.14s ease, background 0.14s ease, border-color 0.14s ease;
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.86);
+        border-color: rgba(31, 27, 22, 0.16);
+        text-decoration: none;
+      }
+
+      .btn:active {
+        transform: translateY(0);
+      }
+
+      .btn--accent {
+        border-color: rgba(228, 107, 63, 0.28);
+        background: linear-gradient(135deg, rgba(228, 107, 63, 0.22), rgba(255, 255, 255, 0.86));
+      }
+
+      .btn--ghost {
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .btn[aria-pressed="true"] {
+        border-color: rgba(77, 99, 167, 0.35);
+        background: linear-gradient(135deg, rgba(77, 99, 167, 0.14), rgba(255, 255, 255, 0.86));
+      }
+
+      .shell {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 18px;
+      }
+
+      .panel {
+        border: var(--border);
+        background: var(--card);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .panel__head {
+        padding: 16px 16px 12px;
+        border-bottom: var(--border);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.6));
+      }
+
+      .panel__title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .panel__title h2 {
+        font-family: "ZCOOL XiaoWei", serif;
+        font-size: 18px;
+        margin: 0;
+        letter-spacing: 0.06em;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: var(--border);
+        color: var(--muted);
+        font-size: 12px;
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .search {
+        margin-top: 12px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .search input {
+        width: 100%;
+        border: var(--border-strong);
+        background: rgba(255, 255, 255, 0.76);
+        padding: 10px 12px;
+        border-radius: 999px;
+        font-family: inherit;
+        font-size: 13px;
+        outline: none;
+      }
+
+      .search input:focus {
+        border-color: rgba(228, 107, 63, 0.4);
+        box-shadow: 0 0 0 6px rgba(228, 107, 63, 0.12);
+      }
+
+      .panel__body {
+        padding: 12px;
+      }
+
+      .nav {
+        max-height: calc(100vh - 210px);
+        overflow: auto;
+        padding-right: 4px;
+      }
+
+      .nav::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      .nav::-webkit-scrollbar-thumb {
+        background: rgba(31, 27, 22, 0.12);
+        border-radius: 999px;
+        border: 3px solid rgba(255, 255, 255, 0.7);
+      }
+
+      .nav-item {
+        width: 100%;
+        text-align: left;
+        border: var(--border);
+        background: rgba(255, 255, 255, 0.62);
+        padding: 12px 12px;
+        border-radius: 16px;
+        cursor: pointer;
+        transition: transform 0.14s ease, border-color 0.14s ease, background 0.14s ease;
+        display: grid;
+        gap: 6px;
+        margin-bottom: 10px;
+      }
+
+      .nav-item:hover {
+        transform: translateY(-1px);
+        border-color: rgba(31, 27, 22, 0.16);
+        background: rgba(255, 255, 255, 0.82);
+      }
+
+      .nav-item[aria-current="true"] {
+        border-color: rgba(228, 107, 63, 0.38);
+        background: linear-gradient(135deg, rgba(228, 107, 63, 0.14), rgba(255, 255, 255, 0.86));
+      }
+
+      .nav-item__k {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .tag {
+        font-family: var(--mono);
+        letter-spacing: 0.08em;
+        font-size: 12px;
+        color: rgba(31, 27, 22, 0.72);
+      }
+
+      .nav-item__title {
+        font-size: 13px;
+        line-height: 1.3;
+        color: rgba(31, 27, 22, 0.86);
+      }
+
+      .viewer {
+        min-height: calc(100vh - 240px);
+        padding: 16px 18px 22px;
+      }
+
+      .statusbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+      }
+
+      .statusbar__left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .mono {
+        font-family: var(--mono);
+      }
+
+      .doc {
+        background: rgba(255, 255, 255, 0.58);
+        border: var(--border);
+        border-radius: var(--radius-lg);
+        padding: 18px 18px 8px;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .doc :is(h1, h2, h3, h4) {
+        scroll-margin-top: 86px;
+      }
+
+      .doc h2 {
+        font-family: "ZCOOL XiaoWei", serif;
+        letter-spacing: 0.04em;
+        margin: 20px 0 12px;
+      }
+
+      .doc h3 {
+        font-family: "ZCOOL XiaoWei", serif;
+        letter-spacing: 0.04em;
+        margin: 18px 0 10px;
+        position: relative;
+        padding-top: 10px;
+      }
+
+      .doc h3::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 72px;
+        height: 3px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(228, 107, 63, 0.7), rgba(45, 156, 122, 0.4));
+      }
+
+      .doc p {
+        margin: 10px 0;
+        line-height: 1.7;
+      }
+
+      .doc ul,
+      .doc ol {
+        padding-left: 20px;
+        line-height: 1.7;
+      }
+
+      .doc blockquote {
+        margin: 10px 0;
+        padding: 10px 12px;
+        border-left: 3px solid rgba(228, 107, 63, 0.55);
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 12px;
+        color: rgba(31, 27, 22, 0.9);
+      }
+
+      .doc code {
+        font-family: var(--mono);
+        font-size: 0.92em;
+        padding: 0.12em 0.35em;
+        border-radius: 8px;
+        background: rgba(31, 27, 22, 0.06);
+        border: 1px solid rgba(31, 27, 22, 0.08);
+      }
+
+      .doc pre {
+        border-radius: 16px;
+        padding: 12px 12px;
+        overflow: auto;
+        border: 1px solid rgba(31, 27, 22, 0.1);
+        background: rgba(255, 255, 255, 0.78);
+      }
+
+      .doc pre code {
+        background: transparent;
+        border: 0;
+        padding: 0;
+        font-size: 12px;
+      }
+
+      .source-tools {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+
+      details.source-entry {
+        margin-top: 10px;
+        border: 1px dashed rgba(31, 27, 22, 0.18);
+        border-radius: 16px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.66);
+      }
+
+      details.source-entry summary {
+        cursor: pointer;
+        padding: 10px 12px;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        user-select: none;
+      }
+
+      details.source-entry summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .summary-left {
+        display: flex;
+        gap: 10px;
+        align-items: baseline;
+        min-width: 0;
+      }
+
+      .summary-left .stamp {
+        font-family: var(--mono);
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        color: rgba(31, 27, 22, 0.72);
+        flex: none;
+      }
+
+      .summary-left .hint {
+        color: var(--muted);
+        font-size: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .summary-right {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        flex: none;
+      }
+
+      .chip {
+        border: var(--border);
+        background: rgba(255, 255, 255, 0.78);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 12px;
+        color: rgba(31, 27, 22, 0.76);
+      }
+
+      .source-entry__body {
+        border-top: var(--border);
+        padding: 12px 12px 14px;
+      }
+
+      .source-entry__body .meta {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+      }
+
+      .source-entry__body pre {
+        margin: 0;
+        white-space: pre-wrap;
+      }
+
+      .empty {
+        padding: 12px 12px;
+        border: 1px dashed rgba(31, 27, 22, 0.18);
+        border-radius: 16px;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.58);
+      }
+
+      .toast {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        border: var(--border);
+        background: rgba(255, 255, 255, 0.92);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+        padding: 10px 12px;
+        color: rgba(31, 27, 22, 0.92);
+        font-size: 13px;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 0.18s ease, transform 0.18s ease;
+        pointer-events: none;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 980px) {
+        .shell {
+          grid-template-columns: 1fr;
+        }
+
+        .nav {
+          max-height: 260px;
+        }
+
+        .viewer {
+          min-height: auto;
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="ui_plus.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="top">
+        <div class="brand">
+          <div class="eyebrow">FIELD MANUAL · AGE 25</div>
+          <h1>25 岁年度复盘 · 查询手册</h1>
+          <p>折叠原文 · 支持跳转 · 实时读取 <span class="mono">age-25-review.md</span></p>
+        </div>
+        <div class="actions">
+          <button id="tabHandbook" class="btn btn--accent" type="button" aria-pressed="true">
+            手册视图
+          </button>
+          <button id="tabFull" class="btn" type="button" aria-pressed="false">全文视图</button>
+          <a class="btn btn--ghost" href="age_25_desires.html">渴望清单</a>
+          <a class="btn btn--ghost" href="age_25_anti_vision.html">反向愿景</a>
+          <a class="btn btn--ghost" href="age_25_moats.html">护城河</a>
+          <a class="btn btn--ghost" href="age_25_rules.html">底线规则</a>
+          <a class="btn btn--ghost" href="age_25_warnings.html">早期预警</a>
+          <a class="btn btn--ghost" href="age_25_good_day.html">好的一天</a>
+          <a class="btn btn--ghost" href="age_25_boundaries.html">边界脚本</a>
+          <a class="btn btn--ghost" href="age_25_emotions.html">情绪-需求</a>
+          <a class="btn btn--ghost" href="../age-25-review.md" target="_blank" rel="noreferrer">
+            打开 Markdown
+          </a>
+        </div>
+      </header>
+
+      <main class="shell">
+        <aside class="panel">
+          <div class="panel__head">
+            <div class="panel__title">
+              <h2>场景卡片</h2>
+              <span id="cardCount" class="pill mono">Sxx</span>
+            </div>
+            <div class="search">
+              <input id="cardSearch" type="search" placeholder="搜索卡片（Sxx / 关键词）" autocomplete="off" />
+              <button id="clearSearch" class="btn btn--ghost" type="button">清空</button>
+            </div>
+          </div>
+          <div class="panel__body">
+            <div id="navList" class="nav" aria-label="场景卡片导航">
+              <div class="empty">正在加载…</div>
+            </div>
+          </div>
+        </aside>
+
+        <section class="panel viewer">
+          <div class="statusbar">
+            <div class="statusbar__left">
+              <span id="docStatus" class="pill">
+                <span class="mono">age-25-review.md</span>
+                <span class="muted">加载中</span>
+              </span>
+              <span id="sourceStatus" class="pill">
+                <span class="mono">tag-selected-5.md</span>
+                <span class="muted">未加载（点击原文时才会读）</span>     
+              </span>
+            </div>
+            <div class="statusbar__right">
+              <span class="pill muted">提示：可用浏览器 <span class="mono">Ctrl+F</span> 搜索全文</span>
+            </div>
+          </div>
+
+          <div id="doc" class="doc">
+            <div class="empty">正在渲染…</div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+      const els = {
+        doc: document.getElementById("doc"),
+        navList: document.getElementById("navList"),
+        cardCount: document.getElementById("cardCount"),
+        cardSearch: document.getElementById("cardSearch"),
+        clearSearch: document.getElementById("clearSearch"),
+        tabHandbook: document.getElementById("tabHandbook"),
+        tabFull: document.getElementById("tabFull"),
+        docStatus: document.getElementById("docStatus"),
+        sourceStatus: document.getElementById("sourceStatus"),
+        toast: document.getElementById("toast"),
+      };
+
+      const state = {
+        mdFull: "",
+        mdHandbook: "",
+        mdEmbeddedSelected5: "",
+        view: "handbook",
+        sourceIndexPromise: null,
+        sourceIndex: null,
+        navItems: [],
+      };
+
+      function toast(msg) {
+        els.toast.textContent = msg;
+        els.toast.classList.add("show");
+        window.clearTimeout(toast._t);
+        toast._t = window.setTimeout(() => els.toast.classList.remove("show"), 1600);
+      }
+
+      function setDocStatus(ok, detail) {
+        const parts = els.docStatus.querySelectorAll("span");
+        if (parts.length < 2) return;
+        parts[1].textContent = detail || (ok ? "已加载" : "加载失败");
+        parts[1].className = ok ? "muted" : "muted";
+      }
+
+      function setSourceStatus(detail) {
+        const parts = els.sourceStatus.querySelectorAll("span");
+        if (parts.length < 2) return;
+        parts[1].textContent = detail;
+      }
+
+      function escapeHtml(str) {
+        return String(str || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function sliceBetween(md, startMarker, endMarker) {
+        const start = md.indexOf(startMarker);
+        if (start === -1) return "";
+        const end = md.indexOf(endMarker, start);
+        return md.slice(start, end === -1 ? md.length : end);
+      }
+
+      const SELECTED5_BEGIN = "<!-- ORIGINALS_SELECTED5_BEGIN -->";
+      const SELECTED5_END = "<!-- ORIGINALS_SELECTED5_END -->";
+
+      function splitEmbeddedSelected5(md) {
+        const beginIdx = md.indexOf(SELECTED5_BEGIN);
+        if (beginIdx === -1) return { mdWithout: md, embedded: "" };
+        const afterBegin = beginIdx + SELECTED5_BEGIN.length;
+        const endIdx = md.indexOf(SELECTED5_END, afterBegin);
+        const embedded =
+          endIdx === -1 ? md.slice(afterBegin) : md.slice(afterBegin, endIdx);
+        const mdWithout =
+          endIdx === -1
+            ? md.slice(0, beginIdx)
+            : (md.slice(0, beginIdx) + md.slice(endIdx + SELECTED5_END.length));
+        return { mdWithout, embedded: embedded.trim() };
+      }
+
+      function baseSlugify(input) {
+        return String(input || "")
+          .trim()
+          .toLowerCase()
+          .replace(/<[^>]+>/g, "")
+          .replace(/[^\u3400-\u9FFF\w\s-]/g, "")
+          .replace(/_/g, "")
+          .replace(/\s+/g, "-")
+          .replace(/-+/g, "-")
+          .replace(/^-|-$/g, "");
+      }
+
+      function uniqueSlug(input, counts) {
+        const base = baseSlugify(input) || "section";
+        const current = counts.get(base) || 0;
+        counts.set(base, current + 1);
+        return current ? `${base}-${current + 1}` : base;
+      }
+
+       function ensureHeadingIds(root) {
+         const counts = new Map();
+         const headings = Array.from(
+           root.querySelectorAll("h1, h2, h3, h4, h5, h6")
+         );
+         headings.forEach((h) => {
+           const text = (h.textContent || "").trim();
+           const hit = text.match(/^\[S(\d{2})\]\s*/);
+           if (hit) {
+             const id = `S${hit[1]}`;
+             h.id = id;
+             counts.set(id, 1);
+             return;
+           }
+           const alphaHit = text.match(/^([WGBEDAMR])(\d{2})\s*[|｜]/);
+           if (alphaHit) {
+             const id = `${alphaHit[1]}${alphaHit[2]}`;
+             h.id = id;
+             counts.set(id, 1);
+             return;
+           }
+           if (h.id) {
+             counts.set(h.id, (counts.get(h.id) || 0) + 1);
+             return;
+           }
+           h.id = uniqueSlug(text, counts);
+         });
+       }
+
+      function configureMarked() {
+        if (!window.marked) return null;
+        if (configureMarked._configured) return configureMarked._configured;
+        window.marked.setOptions({
+          breaks: true,
+          gfm: true,
+          mangle: false,
+          headerIds: false,
+        });
+        configureMarked._configured = { ok: true };
+        return configureMarked._configured;
+      }
+
+      function renderMarkdown(md) {
+        configureMarked();
+        if (window.marked) {
+          const cleaned = String(md || "").replace(/^\s*<a id="S\d{2}"><\/a>\s*$/gm, "");
+          return window.marked.parse(cleaned);
+        }
+        return `<pre><code>${escapeHtml(md || "")}</code></pre>`;
+      }
+
+      function setActiveTab(view) {
+        state.view = view;
+        els.tabHandbook.setAttribute("aria-pressed", view === "handbook" ? "true" : "false");
+        els.tabFull.setAttribute("aria-pressed", view === "full" ? "true" : "false");
+        renderDoc();
+      }
+
+      function normalizeText(s) {
+        return String(s || "")
+          .replace(/\s+/g, " ")
+          .trim()
+          .toLowerCase();
+      }
+
+      function extractCardTitle(text) {
+        return String(text || "").replace(/^\[S\d{2}\]\s*/, "").trim();
+      }
+
+      function clearNavActive() {
+        state.navItems.forEach((it) => it.button.setAttribute("aria-current", "false"));
+      }
+
+      function setNavActive(id) {
+        state.navItems.forEach((it) => {
+          it.button.setAttribute("aria-current", it.id === id ? "true" : "false");
+        });
+      }
+
+      function scrollToId(id) {
+        const target = document.getElementById(id);
+        if (!target) return;
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function buildNavFromDoc() {
+        const headings = Array.from(els.doc.querySelectorAll("h3[id]")).filter((h) =>
+          /^S\d{2}$/.test(h.id)
+        );
+        const items = headings.map((h) => {
+          const title = extractCardTitle(h.textContent);
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "nav-item";
+          button.setAttribute("aria-current", "false");
+          button.innerHTML = `
+            <div class="nav-item__k">
+              <span class="tag">${h.id}</span>
+              <span class="pill mono" title="跳转">↳</span>
+            </div>
+            <div class="nav-item__title">${escapeHtml(title)}</div>
+          `;
+          button.addEventListener("click", () => {
+            history.replaceState(null, "", `#${h.id}`);
+            scrollToId(h.id);
+            setNavActive(h.id);
+          });
+          return { id: h.id, title, heading: h, button };
+        });
+
+        state.navItems = items;
+        els.cardCount.textContent = `${items.length} 张`;
+        els.navList.innerHTML = "";
+        if (!items.length) {
+          els.navList.innerHTML = "<div class='empty'>未找到场景卡片。</div>";
+          return;
+        }
+        items.forEach((it) => els.navList.appendChild(it.button));
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((e) => e.isIntersecting)
+              .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+            if (!visible) return;
+            setNavActive(visible.target.id);
+          },
+          { root: null, threshold: [0.2, 0.35, 0.5], rootMargin: "-15% 0px -72% 0px" }
+        );
+        items.forEach((it) => observer.observe(it.heading));
+
+        const hash = decodeURIComponent(location.hash || "").replace(/^#/, "");
+        if (hash && /^S\d{2}$/.test(hash)) {
+          setTimeout(() => scrollToId(hash), 0);
+          setNavActive(hash);
+        } else {
+          setNavActive(items[0].id);
+        }
+      }
+
+      function attachSearch() {
+        const applyFilter = () => {
+          const q = normalizeText(els.cardSearch.value);
+          state.navItems.forEach((it) => {
+            const hit = !q || normalizeText(`${it.id} ${it.title}`).includes(q);
+            it.button.style.display = hit ? "" : "none";
+          });
+        };
+        els.cardSearch.addEventListener("input", applyFilter);
+        els.clearSearch.addEventListener("click", () => {
+          els.cardSearch.value = "";
+          els.cardSearch.dispatchEvent(new Event("input"));
+          els.cardSearch.focus();
+        });
+      }
+
+      async function ensureSourceIndex() {
+        if (state.sourceIndex) return state.sourceIndex;
+        if (state.sourceIndexPromise) return state.sourceIndexPromise;
+        setSourceStatus("加载中…");
+        state.sourceIndexPromise = (async () => {
+          let res = null;
+          let text = "";
+          let sourceName = "";
+          if (state.mdEmbeddedSelected5) {
+            text = state.mdEmbeddedSelected5;
+            sourceName = "age-25-review.md（内嵌）";
+          } else {
+            const candidates = [
+              { path: "../tag-selected-5.md", name: "tag-selected-5.md" },
+              { path: "../此和彼的记录.md", name: "此和彼的记录.md" },
+            ];
+            for (const c of candidates) {
+              res = await fetch(c.path, { cache: "no-store" });
+              if (res.ok) {
+                text = await res.text();
+                sourceName = c.name;
+                break;
+              }
+            }
+          }
+          if (!text) {
+            const code = res ? res.status : 0;
+            throw new Error(
+              `无法读取 tag-selected-5.md / 此和彼的记录.md（HTTP ${code}）`
+            );
+          }
+          const pattern = /^##\s+(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2}:\d{2})\s*$/gm;
+          const starts = [];
+          for (let m = pattern.exec(text); m; m = pattern.exec(text)) {
+            starts.push({ idx: m.index, date: m[1], time: m[2] });
+          }
+          const entries = starts.map((s, i) => {
+            const end = i + 1 < starts.length ? starts[i + 1].idx : text.length;
+            const chunk = text.slice(s.idx, end).trim();
+            const tagMatch = chunk.match(/^-\s*标签：([^\n\r]+)$/m);
+            return {
+              id: `${s.date} ${s.time}`,
+              date: s.date,
+              time: s.time,
+              tags: tagMatch ? tagMatch[1].trim() : "",
+              chunk,
+            };
+          });
+          const byDate = new Map();
+          for (const e of entries) {
+            if (!byDate.has(e.date)) byDate.set(e.date, []);
+            byDate.get(e.date).push(e);
+          }
+          state.sourceIndex = { text, entries, byDate, sourceName };
+          setSourceStatus(`已加载（${entries.length} 条，${sourceName}）`);
+          return state.sourceIndex;
+        })().catch((err) => {
+          setSourceStatus(
+            "加载失败（请确认 age-25-review.md 已内嵌原文，或 tag-selected-5.md / 此和彼的记录.md 在根目录）"
+          );
+          throw err;
+        });
+        return state.sourceIndexPromise;
+      }
+
+      function findBestEntry(sourceIndex, { date, tag, quote }) {
+        const candidates = sourceIndex.byDate.get(date) || [];
+        if (!candidates.length) return null;
+        const normalize = (s) => (s || "").replace(/\s+/g, " ").trim();
+        const tagClean = (tag || "").trim();
+        const quoteClean = (quote || "").trim();
+
+        const tagNorm = normalize(tagClean);
+        const quoteNorm = normalize(quoteClean);
+        const tagHits = tagNorm ? candidates.filter((e) => normalize(e.chunk).includes(tagNorm)) : [];
+        const tagScope = tagHits.length ? tagHits : candidates;
+        if (tagHits.length === 1) return tagHits[0];
+
+        if (quoteNorm && quoteNorm.length >= 6) {
+          const quoteHits = tagScope.filter((e) => normalize(e.chunk).includes(quoteNorm));
+          if (quoteHits.length) return quoteHits[0];
+        }
+        return tagScope[0];
+      }
+
+      function extractListItemInfo(li) {
+        const text = li.textContent || "";
+        const dateMatch = text.match(/\b(\d{4}-\d{2}-\d{2})\b/);
+        const date = dateMatch ? dateMatch[1] : "";
+        const tagMatch = text.match(/（([^）]+)）/);
+        const tag = tagMatch ? tagMatch[1].replace(/`/g, "").trim() : "";
+        const blockquote = li.querySelector("blockquote");
+        const quote = blockquote ? (blockquote.textContent || "").trim() : "";
+        return { date, tag, quote };
+      }
+
+      function decorateSourceLists(root) {
+        const strongs = Array.from(root.querySelectorAll("strong"));
+        const markerTexts = new Set([
+          "来自记录（原文片段）",
+          "你当时写下的教训/反思（原文）",
+        ]);
+        const markers = strongs.filter((s) => markerTexts.has(s.textContent.trim()));
+        if (!markers.length) return;
+
+        markers.forEach((marker) => {
+          const p = marker.closest("p");
+          if (!p) return;
+          const ul = p.nextElementSibling && p.nextElementSibling.tagName === "UL" ? p.nextElementSibling : null;
+          if (!ul) return;
+          Array.from(ul.querySelectorAll(":scope > li")).forEach((li) => {
+            if (li.querySelector("details.source-entry")) return;
+            const info = extractListItemInfo(li);
+
+            const details = document.createElement("details");
+            details.className = "source-entry";
+            details.innerHTML = `
+              <summary>
+                <div class="summary-left">
+                  <span class="stamp mono">原文</span>
+                  <span class="hint">${escapeHtml((info.tag || info.date || "点击展开") + "")}</span>
+                </div>
+                <div class="summary-right">
+                  <span class="chip mono">${escapeHtml(info.date || "----")}</span>
+                </div>
+              </summary>
+              <div class="source-entry__body">
+                <div class="meta">
+                  <span class="pill mono">${escapeHtml(info.date || "-")}</span>
+                  <span class="pill mono">${escapeHtml(info.tag || "-")}</span>
+                </div>
+                <div class="empty">展开后将读取对应原文…</div>
+              </div>
+            `;
+            details.addEventListener("toggle", async () => {
+              if (!details.open) return;
+              const body = details.querySelector(".source-entry__body");
+              if (!body) return;
+              if (details.dataset.loaded === "true") {
+                details.scrollIntoView({ behavior: "smooth", block: "start" });
+                return;
+              }
+              details.dataset.loaded = "loading";
+              try {
+                const src = await ensureSourceIndex();
+                if (!info.date) {
+                  body.innerHTML = `<div class="empty">无法解析日期，没法定位原文。</div>`;
+                  details.dataset.loaded = "true";
+                  return;
+                }
+                const entry = findBestEntry(src, info);
+                if (!entry) {
+                  const name = src && src.sourceName ? src.sourceName : "tag-selected-5.md";
+                  body.innerHTML = `<div class="empty">未在 <span class="mono">${escapeHtml(name)}</span> 中找到 ${escapeHtml(info.date)} 的条目。</div>`;
+                  details.dataset.loaded = "true";
+                  return;
+                }
+                body.innerHTML = `
+                  <div class="meta">
+                    <span class="pill mono">${escapeHtml(entry.id)}</span>
+                    <span class="pill mono">${escapeHtml(entry.tags || "-")}</span>
+                    <button class="btn btn--ghost" type="button" data-copy>复制原文</button>
+                  </div>
+                  <pre class="mono">${escapeHtml(entry.chunk)}</pre>
+                `;
+                const copyBtn = body.querySelector("[data-copy]");
+                if (copyBtn) {
+                  copyBtn.addEventListener("click", async () => {
+                    try {
+                      await navigator.clipboard.writeText(entry.chunk);
+                      toast("已复制原文");
+                    } catch {
+                      toast("复制失败（浏览器限制）");
+                    }
+                  });
+                }
+                details.dataset.loaded = "true";
+                details.scrollIntoView({ behavior: "smooth", block: "start" });
+              } catch (err) {
+                details.dataset.loaded = "true";
+                const msg = err && err.message ? err.message : String(err);
+                const body = details.querySelector(".source-entry__body");
+                if (body) body.innerHTML = `<div class="empty">${escapeHtml(msg)}</div>`;
+              }
+            });
+            li.appendChild(details);
+          });
+        });
+      }
+
+      function renderDoc() {
+        const md = state.view === "full" ? state.mdFull : state.mdHandbook;
+        els.doc.innerHTML = renderMarkdown(md || "");
+        ensureHeadingIds(els.doc);
+        decorateSourceLists(els.doc);
+        buildNavFromDoc();
+      }
+
+      async function boot() {
+        attachSearch();
+        els.tabHandbook.addEventListener("click", () => setActiveTab("handbook"));
+        els.tabFull.addEventListener("click", () => setActiveTab("full"));
+        try {
+          const res = await fetch("../age-25-review.md", { cache: "no-store" });
+          if (!res.ok) throw new Error(`无法读取 age-25-review.md（HTTP ${res.status}）`);
+          const mdRaw = await res.text();
+          const split = splitEmbeddedSelected5(mdRaw);
+          state.mdEmbeddedSelected5 = split.embedded || "";
+          const md = split.mdWithout || mdRaw;
+          state.mdFull = md;
+          state.mdHandbook =
+            sliceBetween(md, "## 6）应对手册", "## 7）") ||
+            sliceBetween(md, "## 6) 应对手册", "## 7") ||
+            md;
+          setDocStatus(true, "已加载");
+          renderDoc();
+        } catch (err) {
+          setDocStatus(false, "加载失败");
+          const msg = err && err.message ? err.message : String(err);
+          els.doc.innerHTML = `
+            <div class="empty">
+              <div class="mono">加载失败：</div>
+              <div style="margin-top:8px">${escapeHtml(msg)}</div>
+              <div style="margin-top:12px" class="muted">请确认通过本地服务器打开：<span class="mono">启动本地服务器.ps1</span> 或 <span class="mono">启动本地服务器.bat</span></div>
+            </div>
+          `;
+          els.navList.innerHTML = "<div class='empty'>无法生成导航</div>";
+        }
+      }
+
+      boot();
+    </script>
+    <script src="ui_plus.js"></script>
+  </body>
+</html>

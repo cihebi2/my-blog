@@ -6,6 +6,7 @@ Allow: /
 Disallow: /admin/
 Disallow: /.well-known/
 Disallow: /api/
+Disallow: /age-25/
 
 # 针对主要搜索引擎
 User-agent: Googlebot

@@ -15,6 +15,7 @@ export interface Props {
   canonicalURL?: string;
   pubDatetime?: Date;
   modDatetime?: Date | null;
+  robots?: string;
   scrollSmooth?: boolean;
 }
 
@@ -27,6 +28,7 @@ const {
   canonicalURL = new URL(Astro.url.pathname, Astro.url),
   pubDatetime,
   modDatetime,
+  robots = "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
   scrollSmooth = false,
 } = Astro.props;
 
@@ -61,6 +63,9 @@ const structuredData = {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- KaTeX CSS for math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" crossorigin="anonymous" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- General Meta Tags -->
@@ -145,7 +150,7 @@ const structuredData = {
     <meta name="sogou_site_verification" content="请替换为您的搜狗验证码" />
     
     <!-- SEO优化 -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="robots" content={robots} />
     <meta name="language" content="zh-CN" />
     <meta name="revisit-after" content="1 days" />
     <meta name="rating" content="general" />

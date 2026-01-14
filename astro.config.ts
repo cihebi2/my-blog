@@ -4,6 +4,8 @@ import sitemap from "@astrojs/sitemap";
 import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import remarkToc from "remark-toc";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import { SITE } from "./src/config";
 
 // https://astro.build/config
@@ -18,13 +20,20 @@ export default defineConfig({
         wrap: true,
       },
       remarkPlugins: [remarkToc],
+      rehypePlugins: [],
     }),
     sitemap({
-      filter: page => SITE.showArchives || !page.endsWith("/archives"),
+      filter: (page) => {
+        if (!SITE.showArchives && page.endsWith("/archives")) return false;
+        // Keep private personal pages out of sitemap by default.
+        if (page.startsWith("/age-25")) return false;
+        return true;
+      },
     }),
   ],
   markdown: {
-    remarkPlugins: [remarkToc],
+    remarkPlugins: [remarkToc, remarkMath],
+    rehypePlugins: [rehypeKatex],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
       themes: { light: "min-light", dark: "night-owl" },
